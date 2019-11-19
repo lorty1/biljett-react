@@ -1,0 +1,286 @@
+[
+{
+    "model": "train.departure",
+    "pk": 1,
+    "fields": {
+        "title": "Les \u00c9cluses",
+        "slug": "les-ecluses",
+        "is_active": true,
+        "selected": false
+    }
+},
+{
+    "model": "train.departure",
+    "pk": 2,
+    "fields": {
+        "title": "Paul Riquet",
+        "slug": "paul-riquet",
+        "is_active": true,
+        "selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 1,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "10h30",
+        "title": "10h30",
+        "slug": "10h30",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 2,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "11h00",
+        "title": "11h00",
+        "slug": "11h00",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 3,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "11h50",
+        "title": "11h50",
+        "slug": "11h50",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 4,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "12h20",
+        "title": "12h20",
+        "slug": "12h20",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 5,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "13h30",
+        "title": "13h30",
+        "slug": "13h30",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 6,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "14h00",
+        "title": "14h00",
+        "slug": "14h00",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 7,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "14h50",
+        "title": "14h50",
+        "slug": "14h50",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 8,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "15h20",
+        "title": "15h20",
+        "slug": "15h20",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 9,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "16h10",
+        "title": "16h10",
+        "slug": "16h10",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 10,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "16h40",
+        "title": "16h40",
+        "slug": "16h40",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 11,
+    "fields": {
+        "departure": 1,
+        "departure_hour": "17h30",
+        "title": "17h30",
+        "slug": "17h30",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 12,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "11h00",
+        "title": "11h00",
+        "slug": "11h00",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 13,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "11h30",
+        "title": "11h30",
+        "slug": "11h30",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 14,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "12h20",
+        "title": "12h20",
+        "slug": "12h20",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 15,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "12h50",
+        "title": "12h50",
+        "slug": "12h50",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 16,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "14h00",
+        "title": "14h00",
+        "slug": "14h00",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 17,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "14h30",
+        "title": "14h30",
+        "slug": "14h30",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 18,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "15h20",
+        "title": "15h20",
+        "slug": "15h20",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 19,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "15h50",
+        "title": "15h50",
+        "slug": "15h50",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 20,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "16h40",
+        "title": "16h40",
+        "slug": "16h40",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 21,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "17h10",
+        "title": "17h10",
+        "slug": "17h10",
+        "is_active": true,
+        "is_selected": false
+    }
+},
+{
+    "model": "train.ride",
+    "pk": 22,
+    "fields": {
+        "departure": 2,
+        "departure_hour": "18h00",
+        "title": "18h00",
+        "slug": "18h00",
+        "is_active": true,
+        "is_selected": false
+    }
+}
+]
