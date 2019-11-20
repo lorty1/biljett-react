@@ -31,6 +31,7 @@ const options = {
   // In other words, editing a photo within the assets
   // directory will force the page to reload.
   watchContentBase: true,
+  proxy: { "/api/**": { target: 'http://localhost:8000', secure: false }  },
   after() {
     process.stdout.write(`dev server is running: http://${Host}:${Port}\n`);
   }

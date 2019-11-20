@@ -2,9 +2,12 @@
   "name": "biljett-react",
   "version": "1.0.0",
   "description": "",
-  "main": "./frontend/index.js",
+  "main": "./frontend/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "front": "node config/webpack-dev-server.js",
+    "back": "python ./backend/manage.py runserver localhost:8000",
+    "dev": "npm run back & npm run front"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,7 @@
   },
   "homepage": "https://github.com/lorty1/biljett-react#readme",
   "dependencies": {
+    "axios": "^0.19.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
@@ -32,8 +36,10 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.13.0",
     "path": "^0.12.7",
     "react-hot-loader": "^4.12.18",
+    "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.2",

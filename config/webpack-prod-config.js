@@ -9,7 +9,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const paths = require("./paths");
 const common = require("./webpack-common-config.js");
-
 module.exports = merge(common, {
   entry: {
     // Split vendor code into separate bundles
@@ -63,26 +62,12 @@ module.exports = merge(common, {
           use: [
             {
               loader: "css-loader",
-              options: {
-                discardDuplicates: true,
-                sourceMap: false,
-                // This enables local scoped CSS based in CSS Modules spec
-                modules: true,
-                // generates a unique name for each class (e.g. app__app___2x3cr)
-                localIdentName: "[name]__[local]___[hash:base64:5]"
-              }
+
             },
             // Add additional loaders here. (e.g. sass-loader)
             {
                 loader: "sass-loader",
-                options: {
-                  discardDuplicates: true,
-                  importLoaders: 1,
-                  // This enables local scoped CSS based in CSS Modules spec
-                  modules: true,
-                  // generates a unique name for each class (e.g. app__app___2x3cr)
-                  localIdentName: "[name]__[local]___[hash:base64:5]"
-                }
+
               }
         ]
         })
