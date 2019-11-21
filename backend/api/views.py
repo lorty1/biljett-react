@@ -2,11 +2,13 @@ from django.shortcuts import render
 from train.models import Departure, Ride, Train, Capacity
 from .serializers import DepartureSerializer, TrainSerializer, RideSerializer, CapacitySerializer
 from rest_framework import viewsets
+from pagination import UserListPagination
 
 # Create your views here.
 
 class DepartureList(viewsets.ModelViewSet):
     serializer_class = DepartureSerializer
+    pagination_class = UserListPagination
     queryset = Departure.objects.all()
 
 class TrainList(viewsets.ModelViewSet):
