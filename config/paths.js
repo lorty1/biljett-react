@@ -8,7 +8,7 @@ module.exports = {
   appAssets: resolveApp("frontend/src/assets"), // For images and other assets
   appBuild: resolveApp("frontend/build"), // Prod built files end up here
   appConfig: resolveApp("config"), // App config files
-  appHtml: resolveApp("frontend/src/index.html"),
+  appHtml: resolveApp("frontend/public/index.html"),
   appIndexJs: resolveApp("frontend/src/index.js"), // Main entry point
   appSrc: resolveApp("frontend/src") // App source
 };
