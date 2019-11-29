@@ -24,7 +24,7 @@
         @include shading($dark-violet, $light-violet);
     }
 
-    .departure-station, .ride-item {
+    .departure-station, .train-item {
         @include shading($dark-blue, $light-blue);
     }
     .come-back-station {
@@ -46,7 +46,7 @@
             text-transform: uppercase;
         } 
     }
-    .ride-selection {
+    .train-selection {
         flex: 1 1;
         display: grid;
         grid-template-columns: repeat(6,1fr)

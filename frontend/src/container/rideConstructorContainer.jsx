@@ -41,12 +41,12 @@ class rideConstructorContainer extends Component {
             ticket.departure.station == station.id ?
                 ticket.departure.station = null :
                 ticket.departure.station = station.id
-        } else {
-            ticket.comeBack.station == station.id ?
+            } else {
+                ticket.comeBack.station == station.id ?
                 ticket.comeBack.station = null :
                 ticket.comeBack.station = station.id
-        }
-        this.props.update_ticket(ticket)
+            }
+            this.props.update_ticket(ticket)
     }
 
     get_trains = (direction, station) => {
