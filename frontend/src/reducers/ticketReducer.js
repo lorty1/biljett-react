@@ -2,8 +2,14 @@ import {UPDATE_TICKET} from '../actions/ticketAction';
 
 const initialState = {
     ticket: {
-        departure: {},
-        comeBack: {},
+        departure: {
+            station: null,
+            train: null
+        },
+        comeBack: {
+            station: null,
+            train: null
+        },
         customerType: {}
     }
 }

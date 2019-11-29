@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import '../assets/scss/rideConstructor.scss'
+import RideComponent from '../components/rideComponent'
+import CustomerType from '../components/customerTypeComponent'
 import { update_ticket } from '../actions/ticketAction'
 import { connect } from 'react-redux'
 import Axios from 'axios'
 
 class rideConstructorContainer extends Component {
-    constructor(props) {
-        super(props)
-    }
     state = {
         rides: [],
         trains: {
@@ -34,20 +33,22 @@ class rideConstructorContainer extends Component {
             })
         )
 
-
+            console.log('props',this.props)
     }
     station_selection(direction, station) {
+        const ticket = {...this.props.ticket}
         if (direction == 'one-way') {
-            this.state.departureSelected.id == station.id ?
-                this.setState({ departureSelected: {} }) :
-                this.setState({ departureSelected: station })
+            ticket.departure.station == station.id ?
+                ticket.departure.station = null :
+                ticket.departure.station = station.id
         } else {
-            this.state.comeBackSelected.id == station.id ?
-                this.setState({ comeBackSelected: {} }) :
-                this.setState({ comeBackSelected: station })
+            ticket.comeBack.station == station.id ?
+                ticket.comeBack.station = null :
+                ticket.comeBack.station = station.id
         }
-        this.get_trains(direction, station.id)
+        this.props.update_ticket(ticket)
     }
+
     get_trains = (direction, station) => {
         console.log('dfg', direction)
         const trains = { ...this.state.trains }
@@ -77,91 +78,26 @@ class rideConstructorContainer extends Component {
         })
     }
 
-
-    departure_list = () => {
-        const departureList = this.state.rides.map(ride => {
-            return (
-                <button onClick={() => { this.station_selection('one-way', ride) }}
-                    key={ride.id}
-                    className={
-                        this.state.departureSelected.id == ride.id ? ' w25 flex-container--column departure-station selected' : 'w25 flex-container--column departure-station'
-                    }>
-                    <img src={require('../assets/pictos/departure_picto.png')} alt="" />
-                    <p className="item-center Plight">ALLER</p>
-                    <p>{ride.title}</p>
-                </button>
-            )
-        })
-        return departureList
-    }
-    come_back_list = () => {
-        const comeBackList = this.state.rides.map(ride => {
-            return (
-                <button
-                    onClick={() => { this.station_selection('return', ride) }}
-                    key={ride.id}
-                    className={
-                        this.state.comeBackSelected.id == ride.id ? ' w25 flex-container--column departure-station selected' : 'w25 flex-container--column departure-station'
-                    }>
-                    <img src={require('../assets/pictos/come_back_picto.png')} alt="" />
-                    <p className="item-center Plight">RETOUR</p>
-                    <p>{ride.title}</p>
-                </button>
-            )
-        })
-        return comeBackList
-    }
-    customer_list = () => {
-        const customers = this.state.customers.map(customer => {
-            return (
-                <button className={"flex-container " + (
-                    customer.slug == 'adult' ? 'adult-tarif' :
-                        customer.slug == 'children' ? 'child-tarif' :
-                            customer.slug == 'free' ? 'free-tarif' :
-                                customer.slug == 'adult-voucher' ? 'adult-tarif-voucher' :
-                                    customer.slug == 'children-voucher' ? 'child-tarif-voucher' :
-                                        customer.slug == 'group' ? 'group-tarif' :
-                                            '') + (this.props.ticket.customerType == customer.id ? ' selected' : '')
-                }
-                    key={customer.id}
-                    onClick={() => { this.customer_selection(customer) }}
-                >
-                    <img src={
-                        customer.slug == 'adult' ? require('../assets/pictos/adult_picto.png') :
-                            customer.slug == 'children' ? require('../assets/pictos/children_picto.png') :
-                                customer.slug == 'free' ? require('../assets/pictos/star_picto.png') :
-                                    customer.slug == 'adult-voucher' ? require('../assets/pictos/voucher_adult.png') :
-                                        customer.slug == 'children-voucher' ? require('../assets/pictos/voucher_children.png') :
-                                            customer.slug == 'group' ? require('../assets/pictos/voucher_group.png') : ''
-                    } alt="" />
-                    <div className="item-center flex-container--column">
-                        <p className="item-center u-capitalize"> {customer.title}</p>
-                        <p className="item-center u-uppercase">{customer.information}</p>
-                    </div>
-                </button>
-            )
-        })
-        return customers
-    }
     customer_selection(customer) {
-        console.log('sdfsdf', this.props)
         const ticket = { ...this.props.ticket }
         ticket.customerType !== customer.id ? ticket.customerType = ticket.customerType = customer.id : ticket.customerType = null
         return this.props.update_ticket(ticket)
     }
-
     render() {
         return (
             <div className="ride-constructor-container flex-container--column">
-                <section className="departure-selection flex-container">
-                    {this.departure_list()}
-                </section>
-                <section className="come-back-selection flex-container">
-                    {this.come_back_list()}
-                </section>
-                <section className="grid-3 customer-selection">
-                    {this.customer_list()}
-                </section>
+                <RideComponent 
+                    rides={this.state.rides}
+                    ticket={this.props.ticket}
+                    station_selection={this.station_selection.bind(this)}
+                    trains={this.state.trains}
+                    station_selection={this.station_selection.bind(this)}
+                 ></RideComponent>
+                <CustomerType
+                    customers={this.state.customers}
+                    ticket={this.props.ticket}
+                    customer_selection={this.customer_selection.bind(this)}
+                ></CustomerType>
                 <section className="place-selection" ></section>
                 <button className="violet-bkg add-ticket-button"> Ajouter</button>
 
