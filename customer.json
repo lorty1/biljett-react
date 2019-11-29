@@ -1,0 +1,68 @@
+[
+{
+    "model": "easycheckout.customertype",
+    "pk": 1,
+    "fields": {
+        "title": "adulte",
+        "slug": "adult",
+        "order": 0,
+        "information": "tarif",
+        "selected": false
+    }
+},
+{
+    "model": "easycheckout.customertype",
+    "pk": 2,
+    "fields": {
+        "title": "enfant",
+        "slug": "children",
+        "order": 1,
+        "information": "tarif",
+        "selected": false
+    }
+},
+{
+    "model": "easycheckout.customertype",
+    "pk": 3,
+    "fields": {
+        "title": "tarif",
+        "slug": "free",
+        "order": 2,
+        "information": "gratuit",
+        "selected": false
+    }
+},
+{
+    "model": "easycheckout.customertype",
+    "pk": 4,
+    "fields": {
+        "title": "adulte",
+        "slug": "adult-voucher",
+        "order": 3,
+        "information": "pass voucher",
+        "selected": false
+    }
+},
+{
+    "model": "easycheckout.customertype",
+    "pk": 5,
+    "fields": {
+        "title": "enfant",
+        "slug": "children-voucher",
+        "order": 4,
+        "information": "pass voucher",
+        "selected": false
+    }
+},
+{
+    "model": "easycheckout.customertype",
+    "pk": 6,
+    "fields": {
+        "title": "tarif",
+        "slug": "group",
+        "order": 5,
+        "information": "groupe",
+        "selected": false
+    }
+}
+]

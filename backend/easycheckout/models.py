@@ -82,7 +82,9 @@ class CustomerType(models.Model):
     title = models.CharField(max_length=100, blank=False, verbose_name=_('title'), help_text=_('Service title'))
     slug = models.CharField(max_length=100, blank=False, verbose_name=_('slug'), help_text=_('Slug'))
     order = models.IntegerField('Ordre', blank=True, null=True, default=0)
-
+    information = models.CharField(verbose_name=_(u'Information'), max_length=100, null=True,blank=True)
+    selected = models.BooleanField(_('is active'), default=False)
+    
     class Meta:
         verbose_name = _(u'4 - customer type')
         verbose_name_plural = _(u'4 - customer types')
@@ -99,22 +101,6 @@ class CustomerType(models.Model):
     def get_price(self):
         price = Price.objects.get(customer_type=self)
         return price.price
-
-
-    class Meta:
-        verbose_name = _(u'3 - ride')
-        verbose_name_plural = _(u'3 - rides')
-
-    def __unicode__(self):
-        return self.title
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Ride, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return '/trains/ride/%s/' % self.slug
 
 
 class Price(models.Model):

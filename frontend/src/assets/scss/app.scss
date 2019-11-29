@@ -1,7 +1,10 @@
 html, body, .app-container, #root {
     height: 100%;
 }
-.header-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+.grid-flow-1 {
+    flex-grow: 1;
+}
+.ticket-list {
+    flex: 0.20;
+    background-color: blue;
 }

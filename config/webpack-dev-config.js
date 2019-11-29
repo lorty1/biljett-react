@@ -24,7 +24,7 @@ module.exports = merge(common, {
         }),
         new webpack.ProvidePlugin({
             React: 'react',
-            axios: 'axios',
+            Axios: 'axios',
             ReactDom: 'react-dom'
         })
     ],

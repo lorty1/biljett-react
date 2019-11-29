@@ -1,0 +1,12 @@
+#header-container {
+    border-bottom: 3px solid black;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    flex-grow: 0.2;
+    .date {
+        grid-column: auto/span 2;
+    }
+    .command-number p {
+        margin: auto 0;
+    }
+}

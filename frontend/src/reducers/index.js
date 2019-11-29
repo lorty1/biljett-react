@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
-import OrderList from './userReducer'
+import Orders from './orderReducer'
+import Ticket from './ticketReducer'
+import Calendar from './calendarReducer'
 
 const rootReducer = combineReducers({
-    orderList: OrderList
+    orderStore: Orders,
+    ticketStore: Ticket,
+    dateStore: Calendar
 })
 export default rootReducer

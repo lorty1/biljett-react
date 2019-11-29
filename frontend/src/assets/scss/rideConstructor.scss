@@ -1,0 +1,84 @@
+ @import 'common.scss';
+
+.ride-constructor-container {
+    background-color: red;
+    grid-column: 2/6;
+    .gridc-2 {
+        grid-column: auto/span 2;
+    }
+    .gridc-1 {
+        grid-column: auto/span 1;
+    }
+    .departure-selection,.come-back-selection {
+        flex: 0.25;
+    }
+    .customer-selection {
+        flex: 0.3;
+    }
+    .place-selection {
+        flex: 0.1;
+        background-color: grey;
+    }
+    .add-ticket-button {
+        flex: 0.1;
+        @include shading($dark-violet, $light-violet);
+    }
+
+    .departure-station, .ride-item {
+        @include shading($dark-blue, $light-blue);
+    }
+    .come-back-station {
+        @include shading($dark-green, $light-green);
+
+    }
+    
+    .departure-station, .come-back-station {
+        img {
+            width: max-content;
+            margin: auto auto 0 auto;
+        }
+        p {
+            font-size: 2rem;
+        }
+        p:last-child {
+            margin: 0 auto auto auto;
+            color: $white;
+            text-transform: uppercase;
+        } 
+    }
+    .ride-selection {
+        flex: 1 1;
+        display: grid;
+        grid-template-columns: repeat(6,1fr)
+    }
+    .customer-selection button img {
+        margin: auto 1rem auto auto;
+    }
+    .customer-selection button div {
+        margin: auto auto auto 0
+    }
+    .adult-tarif{
+        background-color: $yellow-strong;
+        height: 100%;
+    }
+    .child-tarif {
+        background-color: $yellow-standard;
+        height: 100%;
+    }
+    .free-tarif {
+        background-color: $yellow-light;
+        height: 100%;
+    }
+    .adult-tarif-voucher{
+        background-color: $dark-blue;
+        height: 100%;
+    }
+    .child-tarif-voucher {
+        background-color: $light-blue;
+        height: 100%;
+    }
+    .group-tarif {
+        background-color: $dark-green;
+        height: 100%;
+    }
+}

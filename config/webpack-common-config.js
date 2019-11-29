@@ -19,6 +19,9 @@ module.exports = {
     alias: {
       Components: path.resolve(paths.appSrc, "components"),
       Containers: path.resolve(paths.appSrc, "containers"),
+      Reducers: path.resolve(paths.appSrc, "reducers"),
+      Pictures: path.resolve(paths.appSrc,'pictos'),
+      Fonts: path.resolve(paths.appSrc,'fonts'),
       Utils: path.resolve(paths.appSrc, "utils")
     }
   },
@@ -27,7 +30,11 @@ module.exports = {
       {
         test: /\.(png|svg|jpg)$/,
         use: ["file-loader"]
-      }
+      },
+      {
+      test: /\.(woff|woff2|ttf)$/,
+      use: 'url-loader'
+    }
     ]
   }
 };

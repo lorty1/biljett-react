@@ -1,0 +1,51 @@
+@import './common.scss';
+#user-list-container {
+    border-right: 3px solid black;
+    flex-grow: 1;
+    .new-command-button {
+        display: flex;
+        flex-direction: column;
+        flex-grow:0.2;
+        text-align: initial;
+        background-color: $violet;
+        border-bottom: 3px solid black;
+
+        p {
+            margin: auto 0;
+            font-size: $f20;
+        }
+    }
+    .order-register {
+        padding: 1rem 1.5rem;
+        line-height: 1;
+        display: flex;
+        flex-direction: column;
+        flex-grow:0.2;
+        text-align: initial;
+        background-color: $white;
+
+        p {
+            margin: auto 0;
+            font-size: $f20;
+            color: $green;
+        }
+    }
+    .users-list {
+        flex-grow: 0.7;
+        display: flex;
+        flex-direction: column;
+    }
+    .users-list-item:nth-child(odd) {
+        background-color: $dark-grey;
+        flex-grow: 0.1
+    }
+    .users-list-item:nth-child(even) {
+        flex-grow: $light-grey;
+        flex-grow: 0.1;
+    }
+    .pagination-arrow {
+        flex-grow: 0.1;
+    }
+
+    
+}

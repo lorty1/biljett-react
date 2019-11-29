@@ -2,7 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from collections import OrderedDict
 from rest_framework.response import Response
 
-class UserListPagination(PageNumberPagination):
+class OrderListPagination(PageNumberPagination):
     page_size = 10
 
     def get_paginated_response(self, data):
