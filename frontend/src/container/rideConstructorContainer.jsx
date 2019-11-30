@@ -14,8 +14,7 @@ class rideConstructorContainer extends Component {
             comeBack: null
         },
         customers: [],
-        departureSelected: {},
-        comeBackSelected: {},
+        dateMirror: '',
         ticket: {
             departure: {},
             comeBack: {},
@@ -34,6 +33,11 @@ class rideConstructorContainer extends Component {
         )
 
             console.log('props',this.props)
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.ticket.departure.station !== prevState.dateMirror){
+            return this.setState({dateMirror:prevProps.ticket.departure.station})
+        }
     }
     station_selection(direction, station) {
         const ticket = {...this.props.ticket}

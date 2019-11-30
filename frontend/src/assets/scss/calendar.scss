@@ -1,0 +1,101 @@
+#calendar-component {
+    width: 288px;
+    background-color: $white;
+    position: absolute;
+    top: 100%;
+      .datepicker {
+      position:absolute;
+      width: 315px;
+      top:13%;
+      left: 45%;
+      z-index:5;
+      background-color: $white;
+      box-shadow:0 14px 45px rgba(0,0,0,0.8), 0 0px;
+      border: 5px solid black;
+    }
+    .datepicker__header{
+      background-color: $violet;
+      color: $white;
+      padding: 10px;
+      font-size:3vh;
+      border-bottom: 4px solid black;
+    }
+    .datepicker__year {
+      opacity: 0.6;
+    }
+    .datepicker__control {
+      font-weight: bold;
+      position: relative;
+      height: 56px;
+      line-height: 56px;
+      text-align:center;
+    }
+    .datepicker__month {
+      position: absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+    }
+    .datepicker button {
+      border: none;
+      background-color: transparent;
+      outline: none;
+      cursor:pointer;
+      user-select: none;
+      height: 56px;
+      width: 56px;
+      line-height: 28px;
+    
+    }
+    .datepicker__next {
+      float:right;
+    }
+    .datepicker__prev {
+      float:left;
+    }
+    .datepicker__week {
+      font-size: 2vh;
+      line-height: 1vh;
+      color: rgba(0,0,0,0.8);
+    }
+    .datepicker__weekday {
+      float: left;
+      width: 41px;
+      text-align:center;
+      padding: 12px;
+      
+    }
+    .datepicker__days {
+      height:242px
+    }
+    .datepicker__day {
+      position: relative;
+      width: 41px;
+      border-radius: 50%;
+      height: 41px;
+      line-height: 41px;
+      cursor: pointer;
+      float:left;
+      text-align: center;
+    }
+    
+    .datepicker__day.selectedDate{
+      color:white;
+      background-color: $dark-green;
+      opacity: 1;
+    }
+    .datepicker__day:hover {
+      color:white;
+      opacity: 0.6;
+      background-color:$dark-green;
+      border-radius: 50%;
+      transition: all 1500ms cubic-bezier(0.23,1,0.32,1) 0ms;
+    }
+    .datepicker__day__text {
+      font-weight:  bold;
+      height: 41px;
+      width: 41px;
+      position: relative;
+    }
+  }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import CalendarContainer from '../container/calendarContainer'
 import Logo from "../assets/pictos/logo_biljett.jpg"
 import Clock from "../assets/pictos/loupe_picto.png"
 
@@ -37,7 +38,7 @@ class HeaderContainer extends Component {
                     {this.props.orderSelected.reference ? <p> N° {this.props.orderSelected.reference}</p> : <p>Aucune Commande</p>}
                 </div>
                 <div className="flex-container date">
-                    <p className="mtauto mlauto mrauto">{this.state.date}</p>
+                    < CalendarContainer/>
                 </div>
                 <div className="flex-container--column">
                     <div className="item-center">

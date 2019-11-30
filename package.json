@@ -21,6 +21,8 @@
   "homepage": "https://github.com/lorty1/biljett-react#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "moment": "^2.24.0",
+    "moment-range": "^4.0.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
