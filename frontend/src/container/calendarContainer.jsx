@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import Calendar from '../components/calendarComponent'
+import Calendar from '../components/calendarComponent';
+import { update_date } from '../actions/calendarAction';
+import { display_date_formatted } from '../selectors/index'
 
 class CalendarContainer extends Component {
     constructor(props) {
@@ -16,12 +18,21 @@ class CalendarContainer extends Component {
         show = true
         this.setState({show})
     }
-
+    send_new_date = date => {
+        this.props.update_date(date)
+        this.setState({show: false})
+    }
     render() {
         return (
             <div className="mtauto mlauto mrauto">
-                <p onClick={this.show_calendar_component}>{ this.props.date }</p>
-                {this.state.show ? <Calendar/> : null}
+                <p onClick={this.show_calendar_component}>{ this.props.dateFormatted }</p>
+                {this.state.show ?
+                 <Calendar 
+                    date={this.props.date}
+                    send_new_date={this.send_new_date}
+                    dateFormatted={this.props.dateFormatted}>
+                </Calendar>
+                  : null}
             </div>
         )
     }
@@ -29,7 +40,11 @@ class CalendarContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        date: store.dateStore.date
+        date: store.dateStore.date,
+        dateFormatted: display_date_formatted(store)
     }
 }
-export default connect(mapStateToProps, null) (CalendarContainer)
+const mapDispatchToProps = {
+    update_date
+}
+export default connect(mapStateToProps, mapDispatchToProps) (CalendarContainer)

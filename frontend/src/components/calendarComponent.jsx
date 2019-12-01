@@ -9,17 +9,15 @@ class CalendarComponent extends Component {
     super(props)
   }
   state = {
-    date: Moment(),
     month: new Month(Moment().month(), Moment().year()),
     days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
   }
   isSelected = (day) => {
-    return this.state.date.unix() == day.unix();
+    return this.props.date.unix() == day.unix();
   }
   selectDate = (day) => {
-    let date = { ...this.state }
-    date = day.clone();
-    this.setState({ date })
+    //this.setState({ date })
+    this.props.send_new_date(day)
     //this.$emit('dateSelect', this.date)
   }
   nextMonth = () => {
@@ -53,20 +51,20 @@ class CalendarComponent extends Component {
   days_number_list = () => {
     const days = this.state.month.getDays().map(day => {
       return (
-        <div className={"datepicker__day" + (this.isSelected(day) ? ' selectedDate' : '') } 
-        onClick={() => { this.selectDate(day) }} >
+        <div 
+        onClick={()=> {this.selectDate(day)}}
+        className={"datepicker__day" + (this.isSelected(day) ? ' selectedDate' : '') } 
+         >
           <span 
-          className="datepicker__day__text" onClick={() => { this.selectDate(day) }} >{day.format('D')}</span>
+          
+          className="datepicker__day__text" >{day.format('D')}</span>
         </div>
       )
     })
     return days
   }
   year = () => {
-    return this.state.date.format('YYYY')
-  }
-  date_formatted = () => {
-    return this.state.date.format('dddd DD MMMM')
+    return this.props.date.format('YYYY')
   }
   render() {
     return (
@@ -77,7 +75,7 @@ class CalendarComponent extends Component {
               {this.year()}
             </div>
             <div className="datepicker__date"></div>
-            <p className="txtcenter">{this.date_formatted()}</p>
+            <p className="txtcenter">{this.props.dateFormatted}</p>
           </div>
           <div className="datepicker__control">
             <div className="datepicker__month">

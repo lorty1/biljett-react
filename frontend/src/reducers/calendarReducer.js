@@ -1,3 +1,5 @@
+import { UPDATE_DATE } from '../actions/calendarAction'
+import Moment from 'moment'
 const initialState = {
     date: null
 }
@@ -7,8 +9,14 @@ export default function(store=initialState, actions) {
         case '@@INIT':
             return {
                 ...store,
-                date: new Date().toISOString().split('T')[0]
-            }    
+                date: Moment()
+            }
+        case UPDATE_DATE:
+            console.log('sdff',actions.payload)
+            return {
+                ...store,
+                date: actions.payload
+            }   
 
         default:
             return store

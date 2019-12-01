@@ -3,6 +3,7 @@ import '../assets/scss/rideConstructor.scss'
 import RideComponent from '../components/rideComponent'
 import CustomerType from '../components/customerTypeComponent'
 import { update_ticket } from '../actions/ticketAction'
+import { display_date_formatted, ticket_date } from '../selectors/index'
 import { connect } from 'react-redux'
 import Axios from 'axios'
 
@@ -14,7 +15,6 @@ class rideConstructorContainer extends Component {
             comeBack: null
         },
         customers: [],
-        dateMirror: '',
         ticket: {
             departure: {},
             comeBack: {},
@@ -31,12 +31,11 @@ class rideConstructorContainer extends Component {
                 this.setState({ rides: rides.data, customers: customerType.data })
             })
         )
-
-            console.log('props',this.props)
     }
-    componentDidUpdate(prevProps, prevState) {
-        if(prevProps.ticket.departure.station !== prevState.dateMirror){
-            return this.setState({dateMirror:prevProps.ticket.departure.station})
+    componentDidUpdate(prevProps, prevState) { 
+        console.log('prev',prevProps.ticketDate)
+        if(prevProps.ticketDate !== this.props.ticketDate && this.props.ticket.departure.station){
+            return this.setState({dateMirror: this.props.ticketDate})
         }
     }
     station_selection(direction, station) {
@@ -70,7 +69,7 @@ class rideConstructorContainer extends Component {
             url: '/api/trains',
             params: {
                 departure: ride,
-                date_on: this.props.date
+                date_on: this.props.ticketDate
             }
         }).then(response => {
             if (direction == 'one-way') {
@@ -112,7 +111,8 @@ class rideConstructorContainer extends Component {
 const mapStateToProps = store => {
     return {
         ticket: store.ticketStore.ticket,
-        date: store.dateStore.date
+        showDate: display_date_formatted(store),
+        ticketDate: ticket_date(store)
     }
 }
 
