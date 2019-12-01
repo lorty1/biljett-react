@@ -1,9 +1,14 @@
+@import './common.scss';
 #calendar-component {
     width: 288px;
     background-color: $white;
     position: absolute;
     top: 100%;
+    left: 0;
       .datepicker {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 1rem;
       position:absolute;
       width: 315px;
       top:13%;
@@ -37,7 +42,7 @@
       left:0;
       right:0;
     }
-    .datepicker button {
+    .button-trans {
       border: none;
       background-color: transparent;
       outline: none;
@@ -47,6 +52,9 @@
       width: 56px;
       line-height: 28px;
     
+    }
+    .action-btn {
+      padding: 1.5rem 0;
     }
     .datepicker__next {
       float:right;
@@ -80,10 +88,11 @@
       text-align: center;
     }
     
-    .datepicker__day.selectedDate{
+    .selectedDate{
       color:white;
       background-color: $dark-green;
-      opacity: 1;
+      opacity: 0.6;
+      border-radius: 50%
     }
     .datepicker__day:hover {
       color:white;

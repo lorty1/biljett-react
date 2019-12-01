@@ -5,6 +5,7 @@
     flex-grow: 0.2;
     .date {
         grid-column: auto/span 2;
+        position: relative;
     }
     .command-number p {
         margin: auto 0;

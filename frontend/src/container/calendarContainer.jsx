@@ -21,7 +21,7 @@ class CalendarContainer extends Component {
         return (
             <div className="mtauto mlauto mrauto">
                 <p onClick={this.show_calendar_component}>{ this.props.date }</p>
-                <Calendar/>
+                {this.state.show ? <Calendar/> : null}
             </div>
         )
     }

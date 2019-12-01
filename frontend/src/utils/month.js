@@ -2,6 +2,7 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
 const moment = extendMoment(Moment)
+moment.locale('fr')
 
 export default class Month {
 
@@ -13,6 +14,7 @@ export default class Month {
   }
 
   getWeekStart (){
+    console.log('wek',this.start.weekday())
     return this.start.weekday();
   }
   getDays(){
