@@ -7,8 +7,8 @@ class rideComponent extends Component {
             return (
                 <button onClick={() => { this.props.station_selection('one-way', ride) }}
                     key={ride.id}
-                    className={
-                        this.props.ticket.departure.station == ride.id ? ' w25 flex-container--column departure-station selected' : 'w25 flex-container--column departure-station'
+                    className={'w25 flex-container--column departure-station'+
+                        (this.props.ticket.departure.station == ride.id ? ' selected' : '')
                     }>
                     <img src={require('../assets/pictos/departure_picto.png')} alt="" />
                     <p className="item-center Plight">ALLER</p>
@@ -25,8 +25,8 @@ class rideComponent extends Component {
                 <button
                     onClick={() => { this.props.station_selection('return', ride) }}
                     key={ride.id}
-                    className={
-                        this.props.ticket.comeBack.station == ride.id ? ' w25 flex-container--column departure-station selected' : 'w25 flex-container--column departure-station'
+                    className={'w25 flex-container--column departure-station' +
+                        (this.props.ticket.comeBack.station == ride.id ? ' selected' : '')
                     }>
                     <img src={require('../assets/pictos/come_back_picto.png')} alt="" />
                     <p className="item-center Plight">RETOUR</p>
@@ -37,17 +37,19 @@ class rideComponent extends Component {
         return comeBackList
     }
     train_departure_list = () => {
-        console.log('pr',this.props)
+        console.log('trainde parture')
         const trains = this.props.trains.departure
-        if(!trains || !this.props.ticket.departure.station) return ''
+        if(!trains) return ''
         for (var i = trains.length;i < 12; i++) {
             trains.push({title: '-'})
         }
-        console.log('trains', trains)
         const trainList = trains.map(train => {
             return (
                 train.title !== '-' ?
-                    <button key={train.id}className="flex-container--column train-item">
+                    <button key={train.id }
+                    className={"flex-container--column train-item" + 
+                    (this.props.trainDepartureSelected == train.id ? ' selected' : '')}
+                    onClick={() => {this.props.train_selection(train.id,'one-way')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         <p className="item-center">{train.total_capacity}</p>
                     </button>
@@ -71,7 +73,11 @@ class rideComponent extends Component {
         const trainList = trains.map(train => {
             return (
                 train.title !== '-' ?
-                    <button key={train.id}className="flex-container--column train-item">
+                    <button 
+                    key={train.id}
+                    className={"flex-container--column train-item" + 
+                    (this.props.ticket.comeBack.train == train.id ? ' selected' : '')}
+                    onClick={() => {this.props.train_selection(train.id,'come-back')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         <p className="item-center">{train.total_capacity}</p>
                     </button>

@@ -3,7 +3,7 @@ export const CREATE_ORDER = 'CREATE_ORDER'
 export const GET_ORDER_LIST = 'GET_ORDER_LIST'
 export const UPDATE_TICKET = 'UPDATE_TICKET'
 
-function get_cookie() {
+export const get_cookie = ()=> {
     return document.cookie.split('=')[1]
 }
 

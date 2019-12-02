@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from train.models import Departure, Ride, Train
-from easycheckout.models import Order, CustomerType
+from easycheckout.models import Order, CustomerType, Ticket
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -26,19 +26,28 @@ class TrainList(viewsets.ModelViewSet):
     serializer_class = TrainSerializer
     queryset = Train.objects.all()
 
+    def retrieve_or_create(self, date, station):
+        trains = self.queryset.filter(date_on=date, ride__departure_id=station)
+        if not trains:
+            trains =  [ 
+                self.queryset.create(date_on=date, ride=ride)
+                for ride in Ride.objects.filter(departure_id=station) 
+            ]
+        return trains
+
     def list(self, request):
         date = request.GET['date_on']
-        departure = request.GET['departure']
-        trains = self.queryset.filter(date_on=date, ride__departure_id=departure)
-        print('trains', trains)
-        if not trains:
-            for ride in Ride.objects.filter(departure_id=departure):
-                trains = [trains] + [self.queryset.create(
-                    date_on=date,
-                    ride=ride,
-                )]
-        serializer = self.serializer_class(trains, many=True)
-        return Response(serializer.data)
+        departure_station = request.GET['departure']
+
+        departure_trains = self.retrieve_or_create(date, departure_station)
+        departure_serializer = self.serializer_class(departure_trains, many=True)
+        if 'comeBack' in request.GET:
+            come_back_station = request.GET['comeBack']
+            come_back_trains = self.retrieve_or_create(date,come_back_station)
+            come_back_serializer = self.serializer_class(come_back_trains, many=True)
+            return Response({'departure':departure_serializer.data, 'comeBack': come_back_serializer.data})
+        
+        return Response({'departure':departure_serializer.data,'comeBack': None})
 
 class RideList(viewsets.ModelViewSet):
     serializer_class = RideSerializer
@@ -62,6 +71,12 @@ class OrderList(viewsets.ModelViewSet):
         orderSelected = self.queryset.create(reference = request.data['reference'])
         return self.list(request)
 
+class TicketList(viewsets.ModelViewSet):
+    serializer_class = TicketSerializer
+    queryset = Ticket.objects.all()
+
+    def create(self, request):
+        print('yeah',request.data)
 
 
 

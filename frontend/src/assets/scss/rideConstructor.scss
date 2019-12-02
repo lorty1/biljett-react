@@ -1,7 +1,7 @@
- @import 'common.scss';
+@import 'common.scss';
 
 .ride-constructor-container {
-    background-color: red;
+    background-color: violet;
     grid-column: 2/6;
     .gridc-2 {
         grid-column: auto/span 2;
@@ -17,13 +17,17 @@
     }
     .place-selection {
         flex: 0.1;
-        background-color: grey;
+        display: grid;
+        grid-template-columns: repeat(8,1fr);
+        button {
+            @include shading($dark-grey-place, $light-grey-place);
+
+        }
     }
     .add-ticket-button {
         flex: 0.1;
         @include shading($dark-violet, $light-violet);
     }
-
     .departure-station, .train-item {
         @include shading($dark-blue, $light-blue);
     }

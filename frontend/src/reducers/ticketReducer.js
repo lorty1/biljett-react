@@ -10,7 +10,10 @@ const initialState = {
             station: null,
             train: null
         },
-        customerType: {}
+        customerType: {
+            id: null,
+            number: null
+        }
     }
 }
 export default function(store = initialState, actions) {
