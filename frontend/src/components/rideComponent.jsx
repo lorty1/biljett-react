@@ -76,7 +76,7 @@ class rideComponent extends Component {
                     <button 
                     key={train.id}
                     className={"flex-container--column train-item" + 
-                    (this.props.ticket.comeBack.train == train.id ? ' selected' : '')}
+                    (this.props.trainComeBackSelected == train.id ? ' selected' : '')}
                     onClick={() => {this.props.train_selection(train.id,'come-back')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         <p className="item-center">{train.total_capacity}</p>

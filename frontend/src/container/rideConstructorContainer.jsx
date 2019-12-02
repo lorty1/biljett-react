@@ -32,14 +32,17 @@ class rideConstructorContainer extends Component {
             })
         )
     }
-/*     componentDidUpdate(prevProps, prevState) { 
+    componentDidUpdate(prevProps, prevState) { 
         const {rides} = this.state
-        console.log('ride',rides)
-        console.log('prev',prevProps.ticketDate)
         if(prevProps.ticketDate !== this.props.ticketDate && this.props.ticket.departure.station){
+            let {trainDepartureSelected, trainComeBackSelected} = this.state
+            console.log('dep', trainDepartureSelected, 'back', trainComeBackSelected)
+            trainDepartureSelected = null;
+            trainComeBackSelected = null;
+            this.setState({trainDepartureSelected, trainComeBackSelected})
             this.get_trains()
         }
-    } */
+    }
     station_selection(direction, station) {
         console.log(this.props.ticket,'=>', {...this.props.ticket})
         const {ticket} = this.props
@@ -57,6 +60,7 @@ class rideConstructorContainer extends Component {
     }
 
     get_trains = () => {
+        console.log('date7987987', this.props.ticketDate)
         let { trains } = this.state
         Axios({
             method: 'get',
