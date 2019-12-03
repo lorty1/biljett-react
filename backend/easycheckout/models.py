@@ -9,7 +9,6 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime
 from django.template.defaultfilters import slugify
-
 from django.utils.translation import ugettext as _
 from django.core.files import File
 from train.models import *
@@ -159,6 +158,12 @@ class Order(models.Model):
         verbose_name = _(u'1 - order')
         verbose_name_plural = _(u'1 - orders')
 
+    def get_tickets(self):
+        tickets = Ticket.objects.filter(order_id=self.pk)
+        if tickets:
+            return tickets
+        else:
+            return ''
 
 class Ticket(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)

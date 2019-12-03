@@ -2,7 +2,7 @@ from django.shortcuts import render
 from train.models import Departure, Ride, Train
 from easycheckout.models import Order, CustomerType, Ticket
 from .serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from pagination import OrderListPagination
 
@@ -76,7 +76,34 @@ class TicketList(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
 
     def create(self, request):
-        print('yeah',request.data)
+        print(request.data['order_id'])
+        ticket_data = {
+            'order_id': request.data['order_id'],
+            'departure_id': request.data['ticket']['departure']['train'],
+            'come_back_id': request.data['ticket']['comeBack']['train'],
+            'customer_id': request.data['ticket']['customerType']['id'],
+            'number': request.data['ticket']['customerType']['number']
+        }
+        serializer = self.serializer_class(data=ticket_data)
 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # ticket: {
+    #     departure: {
+    #         station: null,
+    #         train: null
+    #     },
+    #     comeBack: {
+    #         station: null,
+    #         train: null
+    #     },
+    #     customerType: {
+    #         id: null,
+    #         number: null
+    #     }
+    # }
 
 

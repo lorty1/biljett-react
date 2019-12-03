@@ -131,7 +131,9 @@ class rideConstructorContainer extends Component {
         this.props.update_ticket(ticket)
     }
     new_ticket = () => {
-        this.props.create_ticket(this.props.ticket)
+        const { ticket } = this.props
+        const { id } = this.props.order
+        this.props.create_ticket(id,ticket)
     }
     render() {
         return (
@@ -163,6 +165,7 @@ class rideConstructorContainer extends Component {
 }
 const mapStateToProps = store => {
     return {
+        order: store.orderStore.orderSelected,
         ticket: store.ticketStore.ticket,
         showDate: display_date_formatted(store),
         ticketDate: ticket_date(store)

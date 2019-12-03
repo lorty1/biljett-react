@@ -13,8 +13,8 @@ export const update_ticket = ticket => {
         })
     }
 }
-export const create_ticket = ticket => {
-    console.log('rtrt1', ticket)
+export const create_ticket = (order_id,ticket) => {
+    console.log('rtrt1',order_id, ticket)
     return dispatch => {
         Axios({
             method: 'post',
@@ -23,6 +23,7 @@ export const create_ticket = ticket => {
                 "X-CSRFToken": get_cookie()
             },
             data: {
+                order_id: order_id,
                 ticket: ticket
             }
         }).then(response => {

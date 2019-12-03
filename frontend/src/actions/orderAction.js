@@ -32,6 +32,7 @@ export function get_order_list(index) {
     }
 }
 export function get_order(id) {
+    console.log('orderid', id)
     return dispatch => {
         Axios({
             method: 'get',
