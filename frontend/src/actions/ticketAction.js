@@ -14,7 +14,6 @@ export const update_ticket = ticket => {
     }
 }
 export const create_ticket = (order_id,ticket) => {
-    console.log('rtrt1',order_id, ticket)
     return dispatch => {
         Axios({
             method: 'post',

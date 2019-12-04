@@ -51,7 +51,7 @@ class rideComponent extends Component {
                     (this.props.trainDepartureSelected == train.id ? ' selected' : '')}
                     onClick={() => {this.props.train_selection(train.id,'one-way')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
-                        <p className="item-center">{train.total_capacity}</p>
+                        <p className="item-center">{train.remaining}</p>
                     </button>
                 :<button key={Date.now()}className="flex-container train-item">
                     <p className="item-center">{train.title}</p>
@@ -79,7 +79,7 @@ class rideComponent extends Component {
                     (this.props.trainComeBackSelected == train.id ? ' selected' : '')}
                     onClick={() => {this.props.train_selection(train.id,'come-back')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
-                        <p className="item-center">{train.total_capacity}</p>
+                        <p className="item-center">{train.remaining}</p>
                     </button>
                 :<button key={Date.now()}className="flex-container train-item">
                     <p className="item-center">{train.title}</p>

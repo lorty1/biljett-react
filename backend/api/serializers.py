@@ -14,14 +14,17 @@ class RideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ride
         fields = '__all__'
-
-
+ 
 class TrainSerializer(serializers.ModelSerializer):
     ride = RideSerializer()
+    
+    remaining = serializers.SerializerMethodField('remaining_place')
+    def remaining_place(self, Train):
+        return Train.get_remaining_place()
     class Meta:
         model = Train
-        fields = '__all__'
-        
+        fields = ['id','title','ride','slug','is_active','date_on','remaining', 'total_capacity']
+
 class CustomerTypeSerializer(serializers.ModelSerializer):
 
     class Meta:

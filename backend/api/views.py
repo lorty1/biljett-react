@@ -76,7 +76,6 @@ class TicketList(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
 
     def create(self, request):
-        print(request.data['order_id'])
         ticket_data = {
             'order_id': request.data['order_id'],
             'departure_id': request.data['ticket']['departure']['train'],
@@ -88,22 +87,11 @@ class TicketList(viewsets.ModelViewSet):
 
         if serializer.is_valid():
             serializer.save()
+            departure_train = Train.objects.get(id=ticket_data['departure_id'])
+            departure_train.decrease_capacity(ticket_data['number'])
+
+            if ticket_data['come_back_id']:
+                come_back_train =Train.objects.get(id=ticket_data['come_back_id'])
+                come_back_train.decrease_capacity(ticket_data['number'])
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # ticket: {
-    #     departure: {
-    #         station: null,
-    #         train: null
-    #     },
-    #     comeBack: {
-    #         station: null,
-    #         train: null
-    #     },
-    #     customerType: {
-    #         id: null,
-    #         number: null
-    #     }
-    # }
-
-

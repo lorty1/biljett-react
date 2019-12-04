@@ -1,4 +1,5 @@
 import {GET_ORDER_LIST, GET_ORDER, CREATE_ORDER} from '../actions/orderAction.js'
+import { CREATE_TICKET } from '../actions/ticketAction'
 
 const initialState = {
     orders: [],
@@ -22,6 +23,11 @@ export default function(state=initialState, action) {
                 ...state,
                 orderSelected: action.payload.results[0],
                 orders: action.payload
+            }
+        case CREATE_TICKET:
+            return {
+                ...state,
+                orderSelected: action.payload
             }
         default:
             return state

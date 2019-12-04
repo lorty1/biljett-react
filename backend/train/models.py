@@ -65,6 +65,17 @@ class Train(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Train, self).save(*args, **kwargs)
+    
+    def get_remaining_place(self):
+        return self.total_capacity - self.actual_capacity
+
+    def decrease_capacity(self, number):
+        self.actual_capacity = self.actual_capacity + number
+        self.save()
+
+    def increase_capacity(self, number):
+        self.actual_capacity = self.actual_capacity - number
+        self.save()
 
 # class Capacity(models.Model):
 #     train = models.ForeignKey(Train, verbose_name=_('train'), help_text=_('Choose a train'), on_delete=models.CASCADE)
