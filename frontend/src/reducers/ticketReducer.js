@@ -1,4 +1,4 @@
-import {UPDATE_TICKET} from '../actions/ticketAction';
+import {UPDATE_TICKET, CREATE_TICKET} from '../actions/ticketAction';
 
 const initialState = {
     ticket: {

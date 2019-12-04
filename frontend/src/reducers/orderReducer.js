@@ -25,9 +25,10 @@ export default function(state=initialState, action) {
                 orders: action.payload
             }
         case CREATE_TICKET:
+            console.log('ok create', action.payload)
             return {
                 ...state,
-                orderSelected: action.payload
+                orderSelected: action.payload.order
             }
         default:
             return state

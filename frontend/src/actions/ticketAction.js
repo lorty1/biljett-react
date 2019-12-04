@@ -15,20 +15,25 @@ export const update_ticket = ticket => {
 }
 export const create_ticket = (order_id,ticket) => {
     return dispatch => {
-        Axios({
-            method: 'post',
-            url: '/api/ticket/',
-            headers: {
-                "X-CSRFToken": get_cookie()
-            },
-            data: {
-                order_id: order_id,
-                ticket: ticket
-            }
-        }).then(response => {
-            dispatch({
-                type: CREATE_TICKET,
-                payload: response.data
+        return new Promise((resolve,reject)=> { 
+            Axios({
+                method: 'post',
+                url: '/api/ticket/',
+                headers: {
+                    "X-CSRFToken": get_cookie()
+                },
+                data: {
+                    order_id: order_id,
+                    ticket: ticket
+                }
+            }).then(response => {
+                dispatch({
+                    type: CREATE_TICKET,
+                    payload: response.data
+                })
+                resolve(response)
+            }).catch(error=> {
+                reject(error)
             })
         })
     }

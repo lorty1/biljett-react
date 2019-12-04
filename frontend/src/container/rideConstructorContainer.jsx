@@ -134,6 +134,13 @@ class rideConstructorContainer extends Component {
         const { ticket } = this.props
         const { id } = this.props.order
         this.props.create_ticket(id,ticket)
+            .then(response => {
+                console.log('work', response.status)
+                this.get_trains()
+            })
+            .catch(error=> {
+                console.log('not work')
+            })
     }
     render() {
         return (
