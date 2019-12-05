@@ -7,10 +7,10 @@ class customerTypeComponent extends Component {
             return (
                 <button className={"flex-container " + (
                     customer.slug == 'adult' ? 'adult-tarif' :
-                        customer.slug == 'children' ? 'child-tarif' :
+                        customer.slug == 'children' ? 'border-right child-tarif' :
                             customer.slug == 'free' ? 'free-tarif' :
                                 customer.slug == 'adult-voucher' ? 'adult-tarif-voucher' :
-                                    customer.slug == 'children-voucher' ? 'child-tarif-voucher' :
+                                    customer.slug == 'children-voucher' ? 'border-right child-tarif-voucher' :
                                         customer.slug == 'group' ? 'group-tarif' :
                                             '') + (this.props.ticket.customerType.id == customer.id ? ' selected' : '')
                 }
@@ -37,7 +37,7 @@ class customerTypeComponent extends Component {
     render() {
         return (
             <Fragment>
-                <section className="grid-3 customer-selection">
+                <section className="grid-3 customer-selection border-top border-bottom">
                     {this.customer_list()}
                 </section>
             </Fragment>

@@ -3,14 +3,13 @@ from train.models import Departure, Ride, Train
 from easycheckout.models import Order, CustomerType, Ticket
 
 class DepartureSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Departure
         fields = '__all__'
 
 
 class RideSerializer(serializers.ModelSerializer):
-
+    departure = DepartureSerializer()
     class Meta:
         model = Ride
         fields = '__all__'

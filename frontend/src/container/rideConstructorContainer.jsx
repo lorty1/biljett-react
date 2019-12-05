@@ -101,7 +101,7 @@ class rideConstructorContainer extends Component {
 
             return (
                 <button 
-                className={placeSelected == element ? ' selected' : null}
+                className={this.props.ticket.customerType.number == element ? ' selected' : ''}
                  onClick={()=> {this.place_selected(element)}} key={element}>{element}</button>
             )
         })
@@ -138,8 +138,8 @@ class rideConstructorContainer extends Component {
                 console.log('work', response.status)
                 this.get_trains()
             })
-            .catch(error=> {
-                console.log('not work')
+            .catch(err=> {
+                console.log('not work',err.response)
             })
     }
     render() {
@@ -164,7 +164,7 @@ class rideConstructorContainer extends Component {
                     {this.list_place()}
                     <button  disabled={this.state.placeArray[this.state.placeArray.length - 1] >= 60} onClick={()=> {this.update_index('increment')}}> + </button>
                 </section>
-                <button onClick={()=> this.new_ticket()} className="violet-bkg add-ticket-button"> Ajouter</button>
+                <button onClick={()=> this.new_ticket()} className="border-top violet-bkg add-ticket-button"> Ajouter</button>
 
             </div>
         )

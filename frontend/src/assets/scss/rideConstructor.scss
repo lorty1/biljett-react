@@ -2,7 +2,7 @@
 
 .ride-constructor-container {
     background-color: violet;
-    grid-column: 2/6;
+    flex: 1 1;
     .gridc-2 {
         grid-column: auto/span 2;
     }

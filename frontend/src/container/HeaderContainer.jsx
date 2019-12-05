@@ -29,18 +29,21 @@ class HeaderContainer extends Component {
     render() {
         return (
             <div id="header-container" className="green-bkg">
-                <div></div>
-                <div className="flex-container white-bkg" >
-                    <img className="item-center" src={Logo} alt="biljett-logo" />
+                <div className="w15"></div>
+                <div className=" flex-container w70">
+
+                    <div className="flex-container white-bkg w25" >
+                        <img className="item-center" src={Logo} alt="biljett-logo" />
+                    </div>
+                    <div className="flex-container--column command-number w25">
+                        <p className="Plight"> COMMANDE</p>
+                        {this.props.orderSelected.reference ? <p> N° {this.props.orderSelected.reference}</p> : <p>Aucune Commande</p>}
+                    </div>
+                    <div className="flex-container date">
+                        < CalendarContainer />
+                    </div>
                 </div>
-                <div className="flex-container--column command-number">
-                    <p className="Plight"> COMMANDE</p>
-                    {this.props.orderSelected.reference ? <p> N° {this.props.orderSelected.reference}</p> : <p>Aucune Commande</p>}
-                </div>
-                <div className="flex-container date">
-                    < CalendarContainer/>
-                </div>
-                <div className="flex-container--column">
+                <div className="flex-container--column w15">
                     <div className="item-center">
                         <img src={Clock} alt="" />
                     </div>
@@ -53,7 +56,7 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = store => {
-    console.log('store',store.orderStore.orders)
+    console.log('store', store.orderStore.orders)
     return {
         orderSelected: store.orderStore.orderSelected,
     }

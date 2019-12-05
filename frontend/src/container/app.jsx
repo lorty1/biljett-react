@@ -4,6 +4,7 @@ import '../assets/scss/common.scss'
 import HeaderContainer from './HeaderContainer.jsx'
 import UserListContainer from './userListContainer.jsx'
 import RideConstructorContainer from './rideConstructorContainer.jsx'
+import TicketListContainer from './ticketListContainer.jsx'
 import  "../assets/scss/app.scss";
 import Logo from "../assets/pictos/logo_biljett.jpg"
 
@@ -12,10 +13,10 @@ class App extends Component {
     return (
       <div className="app-container global-container flex-container--column">
         <HeaderContainer />
-        <div className="grid-6 grid-flow-1">
+        <div className="flex-container gridflow-1">
           <UserListContainer />
           <RideConstructorContainer />
-          <div className="ticket-list"></div>
+          <TicketListContainer/>
         </div>
       </div>
     )

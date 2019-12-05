@@ -48,7 +48,7 @@ class rideComponent extends Component {
                 train.title !== '-' ?
                     <button key={train.id }
                     className={"flex-container--column train-item" + 
-                    (this.props.trainDepartureSelected == train.id ? ' selected' : '')}
+                    (this.props.ticket.departure.train == train.id ? ' selected' : '')}
                     onClick={() => {this.props.train_selection(train.id,'one-way')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         <p className="item-center">{train.remaining}</p>
@@ -76,7 +76,7 @@ class rideComponent extends Component {
                     <button 
                     key={train.id}
                     className={"flex-container--column train-item" + 
-                    (this.props.trainComeBackSelected == train.id ? ' selected' : '')}
+                    (this.props.ticket.comeBack.train == train.id ? ' selected' : '')}
                     onClick={() => {this.props.train_selection(train.id,'come-back')}}>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         <p className="item-center">{train.remaining}</p>
@@ -94,13 +94,13 @@ class rideComponent extends Component {
             <Fragment>
                 <section className="departure-selection flex-container">
                     {this.departure_list()}
-                    <div className="train-selection">
+                    <div className="train-selection border-left">
                     {this.train_departure_list()}
                     </div>
                 </section>
                 <section className="come-back-selection flex-container">
                     {this.come_back_list()}
-                    <div className="train-selection">
+                    <div className="train-selection border-left">
                         {this.train_comeBack_list()}
                     </div>
                 </section>
