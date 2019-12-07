@@ -40,7 +40,13 @@ class rideConstructorContainer extends Component {
             trainDepartureSelected = null;
             trainComeBackSelected = null;
             this.setState({trainDepartureSelected, trainComeBackSelected})
-            this.get_trains()
+            this.get_trains().then(r=> {
+                const {ticket} = this.props;
+                let {trainDepartureSelected, trainComeBackSelected} = this.state;
+                trainDepartureSelected = null;
+                trainComeBackSelected = null
+                this.setState({trainDepartureSelected, trainComeBackSelected})
+            })
         }
     }
     station_selection(direction, station) {
@@ -60,20 +66,24 @@ class rideConstructorContainer extends Component {
     }
 
     get_trains = () => {
-        console.log('date7987987', this.props.ticketDate)
-        let { trains } = this.state
-        Axios({
-            method: 'get',
-            url: '/api/trains',
-            params: {
-                departure: this.props.ticket.departure.station,
-                comeBack: this.props.ticket.comeBack.station,
-                date_on: this.props.ticketDate
-            }
-        }).then(response => {
-            trains.departure = response.data.departure
-            trains.comeBack = response.data.comeBack
-            this.setState({ trains })
+        return new Promise((resolve, reject) => {
+            let { trains } = this.state
+            Axios({
+                method: 'get',
+                url: '/api/trains',
+                params: {
+                    departure: this.props.ticket.departure.station,
+                    comeBack: this.props.ticket.comeBack.station,
+                    date_on: this.props.ticketDate
+                }
+            }).then(response => {
+                trains.departure = response.data.departure
+                trains.comeBack = response.data.comeBack
+                this.setState({ trains })
+                resolve('ok')
+            }).catch(error=> {
+                reject(error.response.data[0])
+            })
         })
     }
     train_selection = (train,direction) => {
@@ -149,9 +159,9 @@ class rideConstructorContainer extends Component {
                     rides={this.state.rides}
                     ticket={this.props.ticket}
                     station_selection={this.station_selection.bind(this)}
-                    trains={this.state.trains}
                     trainDepartureSelected={this.state.trainDepartureSelected}
                     trainComeBackSelected={this.state.trainComeBackSelected}
+                    trains={this.state.trains}
                     train_selection = {this.train_selection.bind(this)}
                  ></RideComponent>
                 <CustomerType

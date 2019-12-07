@@ -1,9 +1,18 @@
+@import './common.scss';
 #header-container {
     border-bottom: 3px solid black;
     display: flex;
     flex-grow: 0.2;
+    p{
+        margin: 0;
+    }
     .date {
         position: relative;
+    }
+    .date p:first-child{
+        color: white;
+        font-size: $f20;
+        font-family: 'Plight';
     }
     .command-number p {
         margin: auto 0;

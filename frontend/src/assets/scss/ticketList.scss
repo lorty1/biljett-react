@@ -1,13 +1,13 @@
 @import './common.scss';
 #ticket-list{
-    display: grid;
-    grid-template-rows: 1fr 8fr 1fr;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     .ticket-register {
-        padding: 1rem 1.5rem;
+        padding: 2rem 1.5rem;
         line-height: 1;
         display: flex;
         flex-direction: column;
-        flex-grow:0.2;
         text-align: initial;
         background-color: $white;
     
@@ -17,16 +17,18 @@
         }
     }
     .list-items {
-        grid-template-rows: repeat(6,1fr);
-        display: grid;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 5px;
     }
     .item:first-child {
         border: none;
     }
     .item {
-        border-top: 2px dashed black;
+        height: 20%;
         display: flex;
-        flex-direction: column;
+        padding: 1rem 0;
+        border-top: 2px dashed black;
     }
     .item div {
         margin: auto auto auto 0.3rem;
@@ -34,5 +36,8 @@
     .item p {
         font-size: 0.6em;
         margin: 0;
+    }
+    button {
+        height: 12%;
     }
 }

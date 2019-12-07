@@ -10,13 +10,13 @@
         grid-column: auto/span 1;
     }
     .departure-selection,.come-back-selection {
-        flex: 0.25;
+        height: 23%;
     }
     .customer-selection {
-        flex: 0.3;
+        height: 30%;
     }
     .place-selection {
-        flex: 0.1;
+        height: 12%;
         display: grid;
         grid-template-columns: repeat(8,1fr);
         button {
@@ -25,13 +25,13 @@
         }
     }
     .add-ticket-button {
-        flex: 0.1;
+        height: 12%;
         @include shading($dark-violet, $light-violet);
     }
-    .departure-station, .train-item {
+    .departure-selection, .departure-selection button {
         @include shading($dark-blue, $light-blue);
     }
-    .come-back-station {
+    .come-back-selection , .come-back-selection button {
         @include shading($dark-green, $light-green);
 
     }
@@ -53,7 +53,10 @@
     .train-selection {
         flex: 1 1;
         display: grid;
-        grid-template-columns: repeat(6,1fr)
+        grid-template-columns: repeat(6,1fr);
+        button {
+            padding:0
+        }
     }
     .customer-selection button img {
         margin: auto 1rem auto auto;

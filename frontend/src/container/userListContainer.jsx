@@ -31,12 +31,10 @@ class userListContainer extends Component {
         return (
             <div id="user-list-container" className="flex-container--column border-right w15">
                     <button onClick={this.props.create_order} className="new-command-button Plight txt-white ">
-                       <p>Nouvelle </p>
-                       <p>Commande</p>
+                       <p>Nouvelle <br/>Commande</p>
                     </button>
                 <div className="order-register Plight">
-                    <p>Commande </p>
-                    < p>Enregistrée</p>
+                    <p>Commande <br/>Enregistrée </p>
                 </div>
                 <div className="users-list">
                     {

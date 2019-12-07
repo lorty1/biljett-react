@@ -29,21 +29,23 @@ class HeaderContainer extends Component {
     render() {
         return (
             <div id="header-container" className="green-bkg">
-                <div className="w15"></div>
+                <div className="w15 pas"></div>
                 <div className=" flex-container w70">
 
                     <div className="flex-container white-bkg w25" >
                         <img className="item-center" src={Logo} alt="biljett-logo" />
                     </div>
-                    <div className="flex-container--column command-number w25">
-                        <p className="Plight"> COMMANDE</p>
-                        {this.props.orderSelected.reference ? <p> N° {this.props.orderSelected.reference}</p> : <p>Aucune Commande</p>}
+                    <div className="flex-container--column command-number w25 pas">
+                        <div className="mtauto">
+                            <p className="Plight mb0"> COMMANDE</p>
+                            {this.props.orderSelected.reference ? <p className="mt0"> N° {this.props.orderSelected.reference}</p> : null}
+                        </div>
                     </div>
-                    <div className="flex-container date">
+                    <div className="flex-container date pas">
                         < CalendarContainer />
                     </div>
                 </div>
-                <div className="flex-container--column w15">
+                <div className="flex-container--column w15 pas">
                     <div className="item-center">
                         <img src={Clock} alt="" />
                     </div>

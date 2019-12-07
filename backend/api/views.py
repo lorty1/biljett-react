@@ -75,6 +75,13 @@ class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
 
+    def check_remaining_place(self,id, number):
+        train = Train.objects.get(pk=id)
+        if train.actual_capacity + number > train.total_capacity:
+            raise Exception(
+                'La capacité du train de {0} est dépassé !'.format(train.ride.departure_hour)
+            )
+
     def create(self, request):
         ticket_data = {
             'order_id': request.data['order_id'],
@@ -86,7 +93,13 @@ class TicketList(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=ticket_data)
 
         if serializer.is_valid():
+    
+            self.check_remaining_place(ticket_data['departure_id'], ticket_data['number'])
+            if ticket_data['come_back_id']:
+                self.check_remaining_place(ticket_data['come_back_id'], ticket_data['number'])
+    
             serializer.save()
+
             departure_train = Train.objects.get(id=ticket_data['departure_id'])
             departure_train.decrease_capacity(ticket_data['number'])
 

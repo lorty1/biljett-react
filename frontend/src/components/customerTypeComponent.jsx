@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 
 class customerTypeComponent extends Component {
     customer_list = () => {
-        console.log('yeah',this.props)
         const customers = this.props.customers.map(customer => {
             return (
                 <button className={"flex-container " + (

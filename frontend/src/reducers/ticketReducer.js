@@ -19,6 +19,7 @@ const initialState = {
 export default function(store = initialState, actions) {
     switch(actions.type) {
         case UPDATE_TICKET:
+            console.log('action', actions.payload)
             return {
                 ...store,
                 ticket: actions.payload

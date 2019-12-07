@@ -25,6 +25,7 @@ $light-grey-place: #cececd;
 $light-green: #49b170;
 $dark-blue: #1393b9;
 $light-blue: #10bced;
+$red: #D9534F;
 $white: white;
 $grey: #ececec;
 //taille de police
@@ -53,6 +54,11 @@ Fonts
     background-color: black !important;
     background-image: none !important;
     color: white;
+}
+.error,.completed {
+    background-color: $red !important;
+    background-image: none !important;
+    color: black;
 }
 .pointer {
     cursor: pointer;
