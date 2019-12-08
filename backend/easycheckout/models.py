@@ -164,6 +164,18 @@ class Order(models.Model):
             return tickets
         else:
             return ''
+    
+    def save(self, *args, **kwargs):
+        order_exist = True
+        today = datetime.today()
+        order_count = Order.objects.filter(created_on__year=today.strftime('%Y')).count() + 1
+        while Order.objects.filter(
+            reference='{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)).exists():
+            order_count += 1
+            print('order',order_count)
+        self.reference = '{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)
+        
+        super(Order, self).save(*args, **kwargs)
 
 class Ticket(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)

@@ -174,7 +174,7 @@ class rideConstructorContainer extends Component {
                     {this.list_place()}
                     <button  disabled={this.state.placeArray[this.state.placeArray.length - 1] >= 60} onClick={()=> {this.update_index('increment')}}> + </button>
                 </section>
-                <button onClick={()=> this.new_ticket()} className="border-top violet-bkg add-ticket-button"> Ajouter</button>
+                <button onClick={()=> this.new_ticket()} className="border-top violet-bkg add-ticket-button"> Ajouter un ticket</button>
 
             </div>
         )

@@ -68,7 +68,7 @@ class OrderList(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        orderSelected = self.queryset.create(reference = request.data['reference'])
+        self.queryset.create()
         return self.list(request)
 
 class TicketList(viewsets.ModelViewSet):
@@ -93,13 +93,12 @@ class TicketList(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=ticket_data)
 
         if serializer.is_valid():
-    
+
             self.check_remaining_place(ticket_data['departure_id'], ticket_data['number'])
             if ticket_data['come_back_id']:
                 self.check_remaining_place(ticket_data['come_back_id'], ticket_data['number'])
     
             serializer.save()
-
             departure_train = Train.objects.get(id=ticket_data['departure_id'])
             departure_train.decrease_capacity(ticket_data['number'])
 

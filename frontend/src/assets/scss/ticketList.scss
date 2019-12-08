@@ -24,11 +24,19 @@
     .item:first-child {
         border: none;
     }
+    .item:after {
+        border-bottom: 2px dashed black;
+        width: 50%;
+        left: 0;
+        top: 100%;
+        position: absolute;
+        content: '';
+    }
     .item {
         height: 20%;
         display: flex;
         padding: 1rem 0;
-        border-top: 2px dashed black;
+        position: relative;
     }
     .item div {
         margin: auto auto auto 0.3rem;

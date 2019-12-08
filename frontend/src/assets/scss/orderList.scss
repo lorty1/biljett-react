@@ -6,7 +6,7 @@
     .new-command-button {
         display: flex;
         flex-direction: column;
-        flex-grow:0.2;
+        height: 11.5%;
         text-align: initial;
         background-color: $violet;
         border-bottom: 3px solid black;
@@ -21,7 +21,7 @@
         line-height: 1;
         display: flex;
         flex-direction: column;
-        flex-grow:0.2;
+        height: 11.5%;
         text-align: initial;
         background-color: $white;
 
@@ -32,20 +32,17 @@
         }
     }
     .users-list {
-        flex-grow: 0.7;
+        flex: 1 1 0%;
         display: flex;
         flex-direction: column;
     }
     .users-list-item:nth-child(odd) {
         background-color: $dark-grey;
-        flex-grow: 0.1
+        height: 10%;
     }
     .users-list-item:nth-child(even) {
-        flex-grow: $light-grey;
-        flex-grow: 0.1;
-    }
-    .pagination-arrow {
-        flex-grow: 0.1;
+        background-color: $light-grey;
+        height: 10%;
     }
 
     
