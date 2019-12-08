@@ -20,3 +20,6 @@ def custom_exception_handler(exc, context):
         response.data = customized_response
 
     return response
+
+class CapacityTrainError(Exception):
+    pass
