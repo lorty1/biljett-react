@@ -99,7 +99,7 @@ class TicketList(viewsets.ModelViewSet):
                 if ticket_data['come_back_id']:
                     self.check_remaining_place(ticket_data['come_back_id'], ticket_data['number'])
             except Exception as e:
-                return Response({'capacité': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+                return Response([{'capacité': str(e)}], status=status.HTTP_400_BAD_REQUEST)
     
             serializer.save()
             departure_train = Train.objects.get(id=ticket_data['departure_id'])

@@ -150,6 +150,7 @@ class rideConstructorContainer extends Component {
             })
             .catch(err=> {
                 console.log('not work',err.response)
+                this.props.show_error_messages(err.response.data)
             })
     }
     render() {
