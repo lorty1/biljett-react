@@ -9,7 +9,7 @@ import NextArrow from '../assets/pictos/next_arrow.png'
 class userListContainer extends Component {
     constructor(props) {
         super(props)
-        this.props.get_order_list()
+        this.props.get_order_list(1,null)
     }
     order_list = () => {
         const orders = this.props.orderList.results
@@ -42,10 +42,10 @@ class userListContainer extends Component {
                     }
                 </div>
                 <div className="grid-2 pagination-arrow">
-                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current - 1)} disabled={ !this.props.orderList.previous } className="flex-container green-bkg">
+                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current - 1), this.props.searchFilter} disabled={ !this.props.orderList.previous } className="flex-container green-bkg">
                         <img className="item-center" src={PreviousArrow} alt="previous arrow" />
                     </button>
-                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current + 1)} disabled={ !this.props.orderList.next } className="flex-container green-bkg">
+                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current + 1, this.props.searchFilter)} disabled={ !this.props.orderList.next } className="flex-container green-bkg">
                         <img className="item-center" src={NextArrow} alt="next-arrow" />
                     </button>
                 </div>
@@ -56,6 +56,7 @@ class userListContainer extends Component {
 const mapStateToProps = store => {
     return {
         orderList: store.orderStore.orders,
+        search: store.orderStore.searchFilter
     }
 }
 const mapDispatchToProps = {

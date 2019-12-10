@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { update_search_filter, get_order_list } from '../actions/orderAction'
 import CalendarContainer from '../container/calendarContainer'
 import Logo from "../assets/pictos/logo_biljett.jpg"
 import Clock from "../assets/pictos/loupe_picto.png"
@@ -11,6 +12,7 @@ class HeaderContainer extends Component {
     state = {
         hour: '',
         date: '',
+        search: ''
     }
     componentDidMount() {
         (function() {// function for nav-button
@@ -56,15 +58,35 @@ class HeaderContainer extends Component {
 
 
     }
+    debounce(callback, delay){
+        console.log('iop')
+        var timer;
+        return function(){
+            var args = arguments;
+            var context = this;
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                callback.apply(context, args);
+            }, delay)
+        }
+    }
+    get_value(str) {
+        console.log('get', str)
+    }
+    handle_search = this.debounce((str) => {
+        this.props.update_search_filter(str).then(()=> {
+            this.props.get_order_list(1,str)
+        })
+    },800)
     render() {
         return (
             <div id="header-container" className="green-bkg">
             <div id="search-component" className="flex-container--column w15 pas">
                 <div className="flex-container">
-                    <button class="nav-button" type="button" role="button" aria-label="open/close navigation"><i></i></button>
+                    <button onClick={this.props.full_screen_mode} className="nav-button is-active" type="button" role="button" aria-label="open/close navigation"><i></i></button>
                     <img src={MagnifingGlass} alt="magnifing glass picto"/>
                 </div>
-                <input type="text"/>
+                <input onChange={(event)=> {this.handle_search(event.target.value)}} type="text"/>
             </div>
                 
                 <div className=" flex-container w70">
@@ -98,6 +120,11 @@ const mapStateToProps = store => {
     console.log('store', store.orderStore.orders)
     return {
         orderSelected: store.orderStore.orderSelected,
+        searchFilter: store.orderStore.searchFilter
     }
 }
-export default connect(mapStateToProps, null)(HeaderContainer)
+const mapDispatchToProps = {
+    update_search_filter,
+    get_order_list
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer)

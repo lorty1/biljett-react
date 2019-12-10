@@ -13,6 +13,7 @@ import Logo from "../assets/pictos/logo_biljett.jpg"
 
 class App extends Component {
   state = {
+    fullScreen:true,
     errorModal: false,
     errorMessages: []
   }
@@ -27,12 +28,24 @@ class App extends Component {
     errorModal = false;
     this.setState({errorModal})
   }
+  full_screen_mode = () => {
+    let { fullScreen } = this.state
+    fullScreen = !fullScreen
+    this.setState({fullScreen})
+  }
   render() {
     return (
       <div className="app-container global-container flex-container--column">
-        <HeaderContainer />
+        <HeaderContainer full_screen_mode={this.full_screen_mode} ></HeaderContainer>
         <div className="flex-container gridflow-1">
-          <UserListContainer />
+          <CSSTransition
+            in={this.state.fullScreen}
+            classNames="translate"
+            timeout={1000}
+            unmountOnExit
+          >
+            <UserListContainer />
+          </CSSTransition>
           <RideConstructorContainer
           show_error_messages={this.show_error_messages.bind(this)}
           ></RideConstructorContainer>
