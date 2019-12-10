@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import CalendarContainer from '../container/calendarContainer'
 import Logo from "../assets/pictos/logo_biljett.jpg"
 import Clock from "../assets/pictos/loupe_picto.png"
+import MagnifingGlass from "../assets/pictos/loupe_picto.png"
 
 import '../assets/scss/header.scss'
 
@@ -12,6 +13,33 @@ class HeaderContainer extends Component {
         date: '',
     }
     componentDidMount() {
+        (function() {// function for nav-button
+
+            // old browser or not ?
+        if ( !('querySelector' in document && 'addEventListener' in window) ) {
+            return;
+            }
+            window.document.documentElement.className += ' js-enabled';
+            
+            function toggleNav() {
+            
+            // Define targets by their class or id
+            var button = document.querySelector('.nav-button');
+            var target = document.querySelector('body > nav');
+            
+            // click-touch event
+            if ( button ) {
+              button.addEventListener('click',
+              function (e) {
+                  button.classList.toggle('is-active');
+                target.classList.toggle('is-opened');
+                e.preventDefault();
+              }, false );
+            }
+            } // end toggleNav()
+            
+            toggleNav();
+            }());
         const date = new Date().toLocaleString([], {
             weekday: 'long',
             year: 'numeric',
@@ -25,11 +53,20 @@ class HeaderContainer extends Component {
             const hour = new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
             this.setState({ hour: hour })
         }, 1000)
+
+
     }
     render() {
         return (
             <div id="header-container" className="green-bkg">
-                <div className="w15 pas"></div>
+            <div id="search-component" className="flex-container--column w15 pas">
+                <div className="flex-container">
+                    <button class="nav-button" type="button" role="button" aria-label="open/close navigation"><i></i></button>
+                    <img src={MagnifingGlass} alt="magnifing glass picto"/>
+                </div>
+                <input type="text"/>
+            </div>
+                
                 <div className=" flex-container w70">
 
                     <div className="flex-container white-bkg w25" >

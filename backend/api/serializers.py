@@ -34,12 +34,6 @@ class TicketListSerializer(serializers.ModelSerializer):
     customer_type=CustomerTypeSerializer()
     train_departure= TrainSerializer()
     train_arrival=TrainSerializer()
-    #     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)
-    # customer_type = models.ForeignKey(CustomerType, verbose_name=_('price type'), help_text=_('price customer type'),on_delete=models.CASCADE)
-    # number = models.IntegerField(verbose_name=_(u'number'), null=True, blank=True, help_text=_('Ticket number'))
-    # train_departure = models.ForeignKey(Train, verbose_name=_('train departure'), help_text=_('Choose a train for departure'), related_name="departure", blank=True, null=True,on_delete=models.CASCADE)
-    # train_arrival = models.ForeignKey(Train, verbose_name=_('train go back'), help_text=_('Choose a train for return'), related_name="go_back", blank=True, null=True,on_delete=models.CASCADE)
-    # ticket = models.URLField(verbose_name=_(u'ticket'), null=True, blank=True) 
 
     class Meta:
         model=Ticket
@@ -89,7 +83,10 @@ class TicketSerializer(serializers.ModelSerializer):
     )
     order_id = serializers.IntegerField(
         source='order',
-        write_only=True
+        write_only=True,
+        error_messages={
+            "null": "Une commande est nécessaire avant de créer un nouveaux ticket !"
+        }
     )
     departure_id = serializers.IntegerField(
         source='train_departure',

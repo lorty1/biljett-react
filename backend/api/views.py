@@ -3,7 +3,7 @@ from train.models import Departure, Ride, Train
 from easycheckout.models import Order, CustomerType, Ticket
 from .serializers import *
 from rest_framework import viewsets, status
-from .utils.exceptions import CapacityTrainError
+from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
 from pagination import OrderListPagination
 
@@ -76,12 +76,6 @@ class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
 
-    def check_remaining_place(self,id, number):
-        train = Train.objects.get(pk=id)
-        if train.actual_capacity + number > train.total_capacity:
-            raise CapacityTrainError(
-                'La capacité du train de {0} est dépassé !'.format(train.ride.departure_hour)
-            )
 
     def create(self, request):
         ticket_data = {
@@ -95,18 +89,21 @@ class TicketList(viewsets.ModelViewSet):
 
         if serializer.is_valid():
             try:
-                self.check_remaining_place(ticket_data['departure_id'], ticket_data['number'])
-                if ticket_data['come_back_id']:
-                    self.check_remaining_place(ticket_data['come_back_id'], ticket_data['number'])
+                trains = [ticket_data['departure_id'], ticket_data['come_back_id']]
+                for id in trains:
+                    if id:
+                        train = Train.objects.get(pk=id)
+                        train.check_remaining_place(ticket_data['number'])
+                        train.decrease_capacity(ticket_data['number'])
             except Exception as e:
-                return Response([{'capacité': str(e)}], status=status.HTTP_400_BAD_REQUEST)
+                return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
     
             serializer.save()
-            departure_train = Train.objects.get(id=ticket_data['departure_id'])
-            departure_train.decrease_capacity(ticket_data['number'])
+            # departure_train = Train.objects.get(id=ticket_data['departure_id'])
+            # departure_train.decrease_capacity(ticket_data['number'])
 
-            if ticket_data['come_back_id']:
-                come_back_train =Train.objects.get(id=ticket_data['come_back_id'])
-                come_back_train.decrease_capacity(ticket_data['number'])
+            # if ticket_data['come_back_id']:
+                # come_back_train =Train.objects.get(id=ticket_data['come_back_id'])
+                # come_back_train.decrease_capacity(ticket_data['number'])
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

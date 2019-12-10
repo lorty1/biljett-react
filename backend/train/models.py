@@ -2,6 +2,7 @@ from django.db import models
 
 from django.utils.translation import ugettext as _
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ValidationError 
 
 # Create your models here.
 
@@ -66,6 +67,12 @@ class Train(models.Model):
             self.slug = slugify(self.title)
         super(Train, self).save(*args, **kwargs)
     
+    def check_remaining_place(self, place):
+        if self.actual_capacity + place > self.total_capacity:
+            raise ValidationError(
+                'La capacité du train de {0} est dépassé !'.format(self.ride.departure_hour)
+            )
+
     def get_remaining_place(self):
         return self.total_capacity - self.actual_capacity
 

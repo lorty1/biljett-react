@@ -3,6 +3,25 @@
     border-bottom: 3px solid black;
     display: flex;
     height: 20%;
+
+    #search-component {
+        .nav-button.is-active i {
+            background-color: transparent !important;
+            background-image: none;
+        }
+        
+        .nav-button.is-active i:before, .nav-button.is-active i:after,
+        .nav-button i:before,.nav-button i,.nav-button i:after {
+            @include shading($dark-violet, $light-violet);
+        }
+        input{
+            opacity:0.25;
+            margin-top: auto;
+        }
+        img {
+            margin-left: auto;
+        }
+    }
     p{
         margin: 0;
     }

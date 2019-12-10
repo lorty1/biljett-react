@@ -23,3 +23,9 @@ def custom_exception_handler(exc, context):
 
 class CapacityTrainError(Exception):
     pass
+
+class TicketError(Exception):
+    print('yeah')
+    def __init___(self,dErrorArguments):
+        Exception.__init__(self,"my exception was raised with arguments {0}".format(dErrArguments))
+        self.dErrorArguments = dErrorArguements

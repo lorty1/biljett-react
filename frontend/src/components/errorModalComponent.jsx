@@ -10,6 +10,7 @@ class ErrorModalComponent extends Component {
     
     get_messages = ()=> {
         const { errorMessages } = this.props
+
         if (!errorMessages) return ''
         const messageList = Object
         .keys(errorMessages)
