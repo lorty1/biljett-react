@@ -5,9 +5,10 @@ import '../assets/scss/orderDetail.scss'
 
 class OrderDetailContainer extends Component {
     ticket_list = ()=> {
-        const list = this.props.order.tickets_list.map(ticket=> {
+        const list = this.props.order.tickets_list.map((ticket,index)=> {
             return (
                 <OrderDetailTicketList
+                index={index}
                 ticket={ticket}
                 key={ticket.id}
                 ></OrderDetailTicketList>
@@ -19,10 +20,11 @@ class OrderDetailContainer extends Component {
     render() {
         return (
             <div id="order-detail" className="flex-container item-fluid">
-                <div className="ticket-list grid-6">
+                <div className="ticket-list grid-4 has-gutter">
                     {this.ticket_list()}
                 </div>
-                <p  className="item-center">OrderDetailContainer</p>
+                <div  className="item-center">OrderDetailContainer</div>
+                <button>Imprimer</button>
             </div>
         )
     }
