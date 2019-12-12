@@ -12,7 +12,6 @@ export default function(store=initialState, actions) {
                 date: Moment()
             }
         case UPDATE_DATE:
-            console.log('sdff',actions.payload)
             return {
                 ...store,
                 date: actions.payload

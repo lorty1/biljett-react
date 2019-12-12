@@ -1,0 +1,22 @@
+#order-detail {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+
+    .ticket-list {
+        height: 46%;
+        background-color: chocolate;
+        padding: 2rem;
+    }
+    .ticket-list > div {
+        height: 100%;
+    }
+    .ticket-list > div > img {
+        width: max-content;
+        margin: 0 auto;
+    }
+    .ticket-number {
+        border: 2px solid black;
+        border-radius: 50%;
+    }
+}

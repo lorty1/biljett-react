@@ -137,3 +137,22 @@ input[type=text] {
 .flex-grow-02 {
     flex-grow: 0.2;
 }
+
+.adult-tarif{
+    background-color: $yellow-strong;
+}
+.child-tarif {
+    background-color: $yellow-standard;
+}
+.free-tarif {
+    background-color: $yellow-light;
+}
+.adult-tarif-voucher{
+    background-color: $dark-blue;
+}
+.child-tarif-voucher {
+    background-color: $light-blue;
+}
+.group-tarif {
+    background-color: $dark-green;
+}

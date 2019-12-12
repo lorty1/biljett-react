@@ -14,7 +14,6 @@ export default class Month {
   }
 
   getWeekStart (){
-    console.log('wek',this.start.weekday())
     return this.start.weekday();
   }
   getDays(){
@@ -22,7 +21,6 @@ export default class Month {
     return Array.from(ranges.by('days'));
   }
   getFormatted () {
-    console.log(this.start.format('MMMM YYYY').toUpperCase())
     return this.start.format('MMMM YYYY').toUpperCase()
   }
 }

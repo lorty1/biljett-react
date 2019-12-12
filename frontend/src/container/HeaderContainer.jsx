@@ -59,7 +59,6 @@ class HeaderContainer extends Component {
 
     }
     debounce(callback, delay){
-        console.log('iop')
         var timer;
         return function(){
             var args = arguments;
@@ -71,7 +70,6 @@ class HeaderContainer extends Component {
         }
     }
     get_value(str) {
-        console.log('get', str)
     }
     handle_search = this.debounce((str) => {
         this.props.update_search_filter(str).then(()=> {
@@ -117,7 +115,6 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = store => {
-    console.log('store', store.orderStore.orders)
     return {
         orderSelected: store.orderStore.orderSelected,
         searchFilter: store.orderStore.searchFilter

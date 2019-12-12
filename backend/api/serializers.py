@@ -37,7 +37,7 @@ class TicketListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Ticket
-        fields= ['train_departure','train_arrival','customer_type','number']
+        fields= ['id','train_departure','train_arrival','customer_type','number']
 
 class OrderSerializer(serializers.ModelSerializer):
     tickets_list = serializers.SerializerMethodField('get_all_tickets')
@@ -109,7 +109,7 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = [
-            'order','order_id', 'train_departure','departure_id','train_arrival','come_back_id','customer_type','customer_id','number','ticket']
+            'id','order','order_id', 'train_departure','departure_id','train_arrival','come_back_id','customer_type','customer_id','number','ticket']
 
     def create(self, validated_data):
         print('validated', validated_data)

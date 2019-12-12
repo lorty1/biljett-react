@@ -37,7 +37,7 @@ class rideComponent extends Component {
         return comeBackList
     }
     train_departure_list = () => {
-        console.log('trainde parture')
+        
         const trains = this.props.trains.departure
         if(!trains) return ''
         for (var i = trains.length;i < 12; i++) {
@@ -63,13 +63,13 @@ class rideComponent extends Component {
     }
     train_comeBack_list = () => {
 
-        console.log('pr',this.props)
+        
         const trains = this.props.trains.comeBack
         if(!trains || !this.props.ticket.comeBack.station) return ''
         for (var i = trains.length;i < 12; i++) {
             trains.push({title: '-'})
         }
-        console.log('trains', trains)
+        
         const trainList = trains.map(train => {
             return (
                 train.title !== '-' ?

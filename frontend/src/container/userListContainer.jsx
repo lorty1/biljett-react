@@ -42,10 +42,10 @@ class userListContainer extends Component {
                     }
                 </div>
                 <div className="grid-2 pagination-arrow">
-                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current - 1), this.props.searchFilter} disabled={ !this.props.orderList.previous } className="flex-container green-bkg">
+                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current - 1, this.props.search)} disabled={ !this.props.orderList.previous } className="flex-container green-bkg">
                         <img className="item-center" src={PreviousArrow} alt="previous arrow" />
                     </button>
-                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current + 1, this.props.searchFilter)} disabled={ !this.props.orderList.next } className="flex-container green-bkg">
+                    <button onClick={()=> this.props.get_order_list(this.props.orderList.current + 1, this.props.search)} disabled={ !this.props.orderList.next } className="flex-container green-bkg">
                         <img className="item-center" src={NextArrow} alt="next-arrow" />
                     </button>
                 </div>

@@ -7,7 +7,7 @@ class TicketListContainer extends Component {
     list = () => {
         const ticketIteration = this.props.order.tickets_list.map((ticket, index) => {
             return (
-                <TicketList ticket={ticket} index={index}></TicketList>
+                <TicketList key={ticket.id} ticket={ticket} index={index}></TicketList>
             )
 
         })
@@ -24,7 +24,9 @@ class TicketListContainer extends Component {
                     <div className="list-items ">
                         {this.props.order.tickets_list ? this.list() : null}
                     </div>
-                <button id="ticket-list-button" className="border-top Plight btn--success">Valider</button>
+                <button onClick={ ()=> this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
+                    {this.props.ridePanel ? 'Valider': 'Ajouter'}
+                    </button>
             </div>
         )
     }

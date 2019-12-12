@@ -60,6 +60,7 @@ class OrderList(viewsets.ModelViewSet):
     pagination_class = OrderListPagination
 
     def list(self, request):
+        print('yeahlist')
         if 'search' in request.GET:
             search = request.GET['search']
             self.queryset = self.queryset.filter(reference__contains=search)

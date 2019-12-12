@@ -64,32 +64,9 @@
     }
     .customer-selection button img {
         margin: auto 1rem auto auto;
+        height: 100%;
     }
     .customer-selection button div {
         margin: auto auto auto 0
-    }
-    .adult-tarif{
-        background-color: $yellow-strong;
-        height: 100%;
-    }
-    .child-tarif {
-        background-color: $yellow-standard;
-        height: 100%;
-    }
-    .free-tarif {
-        background-color: $yellow-light;
-        height: 100%;
-    }
-    .adult-tarif-voucher{
-        background-color: $dark-blue;
-        height: 100%;
-    }
-    .child-tarif-voucher {
-        background-color: $light-blue;
-        height: 100%;
-    }
-    .group-tarif {
-        background-color: $dark-green;
-        height: 100%;
     }
 }

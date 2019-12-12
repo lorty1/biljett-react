@@ -14,7 +14,6 @@ class CalendarContainer extends Component {
     }
     show_calendar_component = () => {
         var show = {...this.state}
-        console.log(show)
         show = true
         this.setState({show})
     }
