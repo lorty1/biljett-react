@@ -1,3 +1,4 @@
+@import './common.scss';
 #order-detail {
     display: flex;
     flex-direction: column;
@@ -24,5 +25,74 @@
             margin: auto;
         }
     }
-    
+    .print-button {
+        height: 12%;
+        padding: 0;
+        font-size: 2.5rem;
+        color: white;
+        font-family: 'Plight';
+        @include shading($dark-violet, $light-violet);      
+    }
+    .status-panel {
+        height:  11.5%;
+        button{
+            font-family: 'Plight';
+        }
+    }
+    .payment-resume {
+        background-color: $dark-green
+    }
+    .registration-resume {
+        background-color: $dark-blue
+    }
+    .payment-list {
+        height: 30%;
+    }
+    .payment-button {
+        font-size: 2rem;
+        border-right: 2px solid black;
+        background-color: $dark-green;
+    }
+    .register-button {
+        font-size: 2rem;
+        background-color: $dark-blue;
+    }
+    .delete-button {
+        border-left: 2px solid black;
+        font-size: 2rem;
+    }
+    .border-panel {
+        border-bottom: 2px solid black;
+    }
+    .cash-button {
+        background-color: $yellow-strong;
+    }
+    .cheque-button {
+        background-color: $yellow-standard;
+    }
+    .cb-button{
+        background-color: $yellow-light;
+    }
+    .pass-voucher-button{
+        background-color: $dark-blue;
+    }
+    .holiday-cheque{
+        background-color: $mix-blue;
+    } 
+    .turist-office-button {
+        background-color: $light-blue;
+    }
+    .total-section {
+        color: white;
+        font-size: 1.7;
+        font-family: 'Plight';
+        div { 
+            p:first-child {
+                margin: auto 0;
+            }
+            p:last-child {
+                margin: auto;
+            }
+        }
+    }
 }

@@ -83,6 +83,7 @@ class CustomerType(models.Model):
     order = models.IntegerField('Ordre', blank=True, null=True, default=0)
     information = models.CharField(verbose_name=_(u'Information'), max_length=100, null=True,blank=True)
     selected = models.BooleanField(_('is active'), default=False)
+    price = models.FloatField(verbose_name=_(u'price'), null=True, blank=True, help_text=_('Price'))
     
     class Meta:
         verbose_name = _(u'4 - customer type')
@@ -92,42 +93,41 @@ class CustomerType(models.Model):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super(CustomerType, self).save(*args, **kwargs)
 
-    def get_price(self):
-        price = Price.objects.get(customer_type=self)
-        return price.price
 
+# class Price(models.Model):
+    # #ride = models.ForeignKey(Ride, verbose_name=_('ride'), help_text=_('Choose a ride'))
+    # customer_type = models.ForeignKey(CustomerType, verbose_name=_('price type'), help_text=_('price customer type'), on_delete=models.CASCADE)
+    # price = models.FloatField(verbose_name=_(u'price'), null=True, blank=True, help_text=_('Price'))
+    # tax = models.FloatField(verbose_name=_(u'tax'), null=True, blank=True, help_text=_('Tax'))
+    # is_active = models.BooleanField(_('is active'), default=True)
 
-class Price(models.Model):
-    #ride = models.ForeignKey(Ride, verbose_name=_('ride'), help_text=_('Choose a ride'))
-    customer_type = models.ForeignKey(CustomerType, verbose_name=_('price type'), help_text=_('price customer type'), on_delete=models.CASCADE)
-    price = models.FloatField(verbose_name=_(u'price'), null=True, blank=True, help_text=_('Price'))
-    tax = models.FloatField(verbose_name=_(u'tax'), null=True, blank=True, help_text=_('Tax'))
-    is_active = models.BooleanField(_('is active'), default=True)
+    # class Meta:
+        # verbose_name = _(u'5 - price')
+        # verbose_name_plural = _(u'5 - prices')
 
-    class Meta:
-        verbose_name = _(u'5 - price')
-        verbose_name_plural = _(u'5 - prices')
+    # def __unicode__(self):
+        # return (u'Tarif %s : %s TTC') % (self.customer_type, str(self.price))
 
-    def __unicode__(self):
-        return (u'Tarif %s : %s TTC') % (self.customer_type, str(self.price))
+    # def save(self, *args, **kwargs):
+        # self.get_tax_price()
+        # super(Price, self).save(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        self.get_tax_price()
-        super(Price, self).save(*args, **kwargs)
-
-    def get_tax_price(self):
-        """
-        Render tax from price
-        """
-        if self.price != 0.0:
-            self.tax = float(self.price) - (float(self.price) / 1.1)
-        else:
-            self.tax = 0.0
+    # def get_tax_price(self):
+        # """
+        # Render tax from price
+        # """
+        # if self.price != 0.0:
+            # self.tax = float(self.price) - (float(self.price) / 1.1)
+        # else:
+            # self.tax = 0.0
 
 
 
@@ -164,6 +164,13 @@ class Order(models.Model):
             return tickets
         else:
             return ''
+            
+    def get_avoir(self):
+        avoir = Avoir.objects.filter(order_id=self.pk)
+        if avoir:
+            return avoir
+        else:
+            return None
     
     def save(self, *args, **kwargs):
         order_exist = True

@@ -4,6 +4,8 @@ import RideComponent from '../components/rideComponent';
 import CustomerType from '../components/customerTypeComponent';
 import { update_ticket, create_ticket } from '../actions/ticketAction';
 import { display_date_formatted, ticket_date } from '../selectors/index';
+import increment from '../assets/pictos/increment_picto.png';
+import decrement from '../assets/pictos/decrement_picto.png';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 
@@ -171,9 +173,13 @@ class rideConstructorContainer extends Component {
                     customer_selection={this.customer_selection.bind(this)}
                 ></CustomerType>
                 <section className="place-selection" >
-                    <button disabled={this.state.placeArray[0] < 2} onClick={() => { this.update_index('decrement') }}>-</button>
+                    <button disabled={this.state.placeArray[0] < 2} onClick={() => { this.update_index('decrement') }}>
+                        <img src={decrement} width="48px" alt="decrement picto"/>
+                    </button>
                     {this.list_place()}
-                    <button disabled={this.state.placeArray[this.state.placeArray.length - 1] >= 60} onClick={() => { this.update_index('increment') }}> + </button>
+                    <button disabled={this.state.placeArray[this.state.placeArray.length - 1] >= 60} onClick={() => { this.update_index('increment') }}>
+                        <img src={increment} width="48px" alt="increment_logo"/>
+                    </button>
                 </section>
                 <button onClick={() => this.new_ticket()} className="border-top violet-bkg add-ticket-button"> Ajouter un ticket</button>
 

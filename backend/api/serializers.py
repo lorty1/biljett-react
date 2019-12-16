@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from train.models import Departure, Ride, Train
-from easycheckout.models import Order, CustomerType, Ticket
+from easycheckout.models import Order, CustomerType, Ticket, Avoir
 
 class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departure
         fields = '__all__'
+
+class AvoirSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Avoir
+        fields= '__all__'
 
 
 class RideSerializer(serializers.ModelSerializer):
@@ -41,6 +46,11 @@ class TicketListSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     tickets_list = serializers.SerializerMethodField('get_all_tickets')
+    avoirs_list = serializers.SerializerMethodField('get_all_avoir')
+
+    def get_all_avoir(self, Order):
+        avoirs = Order.get_avoir()
+        serializer = AvoirSerializer(avoirs, many=True)
 
     def get_all_tickets(self, Order):
         tickets = Order.get_tickets()
@@ -68,7 +78,8 @@ class OrderSerializer(serializers.ModelSerializer):
             'is_cancelled',
             'moderated',
             'generated',
-            'tickets_list'
+            'tickets_list',
+            'avoirs_list'
         ]
         
 class TicketSerializer(serializers.ModelSerializer):

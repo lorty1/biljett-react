@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { update_search_filter, get_order_list } from '../actions/orderAction'
 import CalendarContainer from '../container/calendarContainer'
 import Logo from "../assets/pictos/logo_biljett.jpg"
-import Clock from "../assets/pictos/loupe_picto.png"
+import Clock from "../assets/pictos/timer.png"
 import MagnifingGlass from "../assets/pictos/loupe_picto.png"
 
 import '../assets/scss/header.scss'
@@ -104,9 +104,9 @@ class HeaderContainer extends Component {
                 </div>
                 <div className="flex-container--column w15 pas">
                     <div className="item-center">
-                        <img src={Clock} alt="" />
+                        <img src={Clock} width="70px" alt="timer" />
                     </div>
-                    <p className="item-center">{this.state.hour}</p>
+                    <p className="item-center txtcenter">{this.state.hour}</p>
 
                 </div>
             </div>
