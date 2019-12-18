@@ -1,4 +1,4 @@
-import {GET_ORDER_LIST, GET_ORDER, CREATE_ORDER, UPDATE_FILTER} from '../actions/orderAction.js'
+import {GET_ORDER_LIST, GET_ORDER, CREATE_ORDER,UPDATE_ORDER, UPDATE_FILTER} from '../actions/orderAction.js'
 import { CREATE_TICKET } from '../actions/ticketAction'
 
 const initialState = {
@@ -33,6 +33,11 @@ export default function(state=initialState, action) {
             return {
                 ...state,
                 searchFilter: action.payload || initialState.searchFilter
+            }
+        case UPDATE_ORDER:
+            return {
+                ...state,
+                orderSelected: action.payload
             }
         default:
             return state

@@ -61,8 +61,9 @@ class App extends Component {
             <RideConstructorContainer
             show_error_messages={this.show_error_messages.bind(this)}
             ></RideConstructorContainer>:
-            <OrderDetailContainer>
-
+            <OrderDetailContainer
+              show_error_messages={message=> this.show_error_messages(message)}
+            >
             </OrderDetailContainer>
           }
           <TicketListContainer

@@ -12,6 +12,7 @@ const initialState = {
         },
         customerType: {
             id: null,
+            price: null,
             number: null
         }
     }

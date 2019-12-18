@@ -39,7 +39,7 @@
             font-family: 'Plight';
         }
     }
-    .payment-resume {
+    .payment-resume  {
         background-color: $dark-green
     }
     .registration-resume {
@@ -94,5 +94,21 @@
                 margin: auto;
             }
         }
+    }
+    .registration-info {
+        height: 30%;
+        background-color: $dark-green;
+        div:first-child {
+            border-right: 2px solid black;
+        }
+        label {
+            margin: auto auto 0 auto;
+            font-family: 'Plight';
+            color: white;
+        }
+        input {
+            margin: 1rem auto auto auto;
+        }
+
     }
 }

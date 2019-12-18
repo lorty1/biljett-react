@@ -3,6 +3,7 @@ export const CREATE_ORDER = 'CREATE_ORDER'
 export const GET_ORDER_LIST = 'GET_ORDER_LIST'
 export const UPDATE_TICKET = 'UPDATE_TICKET'
 export const UPDATE_FILTER = 'UPDATE_FILTER'
+export const UPDATE_ORDER = 'UPDATE_ORDER'
 
 export const get_cookie = ()=> {
     return document.cookie.split('=')[1]
@@ -73,6 +74,29 @@ export function create_order(reference) {
             dispatch({
                 type: CREATE_ORDER,
                 payload: response.data
+            })
+        })
+    }
+}
+export const order_update = data => {
+    console.log('ok ca passe')
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            Axios({
+                method: 'patch',
+                url: 'api/order/',
+                headers: {
+                    "X-CSRFToken": get_cookie()
+                },
+                data: data,
+            }).then(response=> {
+                dispatch({
+                    type: UPDATE_ORDER,
+                    payload: response.data
+                })
+                resolve()
+            }).catch(error=> {
+                reject(error)
             })
         })
     }

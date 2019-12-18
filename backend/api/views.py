@@ -2,6 +2,7 @@ from django.shortcuts import render
 from train.models import Departure, Ride, Train
 from easycheckout.models import Order, CustomerType, Ticket
 from .serializers import *
+from django.http import Http404
 from rest_framework import viewsets, status
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
@@ -58,7 +59,13 @@ class OrderList(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('-id')
     pagination_class = OrderListPagination
-
+    
+    def retrieve_object(self, id):
+        try:
+            return self.queryset.get(pk=id)
+        except:
+            raise Http404
+    
     def list(self, request):
         print('yeahlist')
         if 'search' in request.GET:
@@ -76,6 +83,15 @@ class OrderList(viewsets.ModelViewSet):
     def create(self, request):
         self.queryset.create()
         return self.list(request)
+    
+    def patch(self, request):
+        id= request.data['id']
+        order = self.retrieve_object(id)
+        serializer = OrderSerializer(order, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
@@ -83,6 +99,7 @@ class TicketList(viewsets.ModelViewSet):
 
 
     def create(self, request):
+        print(request.data)
         ticket_data = {
             'order_id': request.data['order_id'],
             'departure_id': request.data['ticket']['departure']['train'],
@@ -102,7 +119,9 @@ class TicketList(viewsets.ModelViewSet):
                         train.decrease_capacity(ticket_data['number'])
             except Exception as e:
                 return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
-    
+            order = Order.objects.get(pk=ticket_data['order_id'])
+            order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
+            order.save()
             serializer.save()
             # departure_train = Train.objects.get(id=ticket_data['departure_id'])
             # departure_train.decrease_capacity(ticket_data['number'])

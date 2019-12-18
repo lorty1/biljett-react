@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { update_search_filter, get_order_list } from '../actions/orderAction'
+import { debounce } from '../utils/index'
 import CalendarContainer from '../container/calendarContainer'
 import Logo from "../assets/pictos/logo_biljett.jpg"
 import Clock from "../assets/pictos/timer.png"
@@ -58,20 +59,8 @@ class HeaderContainer extends Component {
 
 
     }
-    debounce(callback, delay){
-        var timer;
-        return function(){
-            var args = arguments;
-            var context = this;
-            clearTimeout(timer);
-            timer = setTimeout(function(){
-                callback.apply(context, args);
-            }, delay)
-        }
-    }
-    get_value(str) {
-    }
-    handle_search = this.debounce((str) => {
+
+    handle_search = debounce((str) => {
         this.props.update_search_filter(str).then(()=> {
             this.props.get_order_list(1,str)
         })

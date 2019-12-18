@@ -106,7 +106,13 @@ class rideConstructorContainer extends Component {
     }
     customer_selection(customer) {
         const ticket = { ...this.props.ticket }
-        ticket.customerType.id !== customer.id ? ticket.customerType.id = customer.id : ticket.customerType.id = null
+        if(ticket.customerType.id !== customer.id) {
+            ticket.customerType.id = customer.id
+            ticket.customerType.price = customer.price
+        }else {
+            ticket.customerType.id = null
+            ticket.customerType.price = null
+        }
         return this.props.update_ticket(ticket)
     }
     list_place = () => {

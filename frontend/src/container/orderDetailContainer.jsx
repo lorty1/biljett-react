@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import jsPDF from 'jspdf'
-
+import { order_update } from '../actions/orderAction'
+import { debounce } from '../utils/index'
 import { backData } from '../utils/ticketB64.js';
 import OrderDetailTicketList from '../components/orderDetailTicketListComponent.jsx';
 import OrderResumeComponent from '../components/orderResumeComponent'
@@ -17,6 +18,8 @@ class OrderDetailContainer extends Component {
     state = {
         ticketsSorted: null,
         total: null,
+        email: null,
+        name: null,
         panelChoice: 'payment',
         paymentChoice: [
             { title: 'Espèce', paymentType: 'cash payment' },
@@ -26,10 +29,7 @@ class OrderDetailContainer extends Component {
             { title: 'Pass Voucher', paymentType: 'voucher-pass tourisme' },
             { title: 'Office de tourisme', paymentType: 'office de tourisme' }
         ],
-        paymentData: {
-            payment_type: null,
-            total: null
-        }
+        paymentType: null,
     }
     total_price = () => {
         let total = this.props.order.tickets_list.reduce((accumulator, currentValue) => {
@@ -68,12 +68,13 @@ class OrderDetailContainer extends Component {
             return (
                 <button
                     key={item.title}
-                    className={
+                    className={(
                         item.title == 'Espèce' ? ' cash-button' :
                             item.title == 'Chèque' ? ' cheque-button' :
                                 item.title == 'CB' ? ' cb-button' :
                                     item.title == 'Pass-voucher' ? ' pass-voucher-button' :
-                                        item.title == 'Cheques vacance' ? ' holiday-cheque' : ' turist-office-button'
+                                        item.title == 'Cheques vacance' ? ' holiday-cheque' : ' turist-office-button')
+                    + (item.paymentType == this.state.paymentType ? ' selected' : '')
                     }
                     onClick={() => { this.payment_selection(item) }}
                 >{item.title}</button>
@@ -82,10 +83,14 @@ class OrderDetailContainer extends Component {
         return paymentList
     }
     payment_selection = payment => {
-        console.log(payment)
-        let { paymentData } = this.state
-        paymentData.payment_type = payment;
-        this.setState({ paymentData })
+        console.log(payment, this.state.paymentType)
+        let { paymentType } = this.state
+        if(paymentType && paymentType == payment.paymentType) {
+            paymentType = null;
+        }else {
+            paymentType = payment.paymentType;
+        }
+        this.setState({ paymentType })
     }
     select_panel = panel => {
         console.log('panel', panel)
@@ -97,7 +102,6 @@ class OrderDetailContainer extends Component {
         let { tickets_list } = this.props.order;
         var img = backData
         var doc = new jsPDF('p', 'mm', [54,86.1])
-        console.log('t', doc.internal.getCurrentPageInfo())
         let imgHeight = 86.1;
         let imgWidth = 54;
 
@@ -144,7 +148,66 @@ class OrderDetailContainer extends Component {
     }
     //doc.save('tickets.pdf')
     //doc.autoPrint();
+    handle_name = debounce(event=> {
+        let { name } = this.state;
+        name = event;
+        this.setState({ name })
+    },150)
+    
+    handle_email = debounce(event=> {
+        let { email } = this.state;
+        email = event;
+        this.setState({ email })
+        console.log('t', this.state)
+    },150)
 
+    check_reservation_info = ()=> {
+        let errors_message = {};
+        let { name, email } = this.state;
+        let emailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return new Promise((resolve,reject) => {
+            if (name && emailRegex.test(email)) {
+                resolve()
+            }
+            if (!name) {
+                errors_message.name = ['Un nom est requis !']
+            }
+            if(!email || !emailRegex.test(email)) {
+                errors_message.email= ['Un email valide est requis']
+            }
+            reject(errors_message)
+        })
+    }
+    order_registered = ()=> {
+        this.check_reservation_info()
+        .then(()=> {
+            let { name, email } = this.state;
+            let data = {
+                id: this.props.order.id,
+                name: name,
+                email: email
+            }
+            this.props.order_update(data).then(response=> {
+                console.log('orde ok', response)
+            })
+        })
+        .catch(errors => {
+            this.props.show_error_messages(errors)
+        })
+    }
+    order_booked = ()=> {
+        let { paymentType } = this.state;
+        if(!paymentType) {
+            return this.props.show_error_messages({paiement:['Aucun paiement n\'est sélectionné']})
+        }
+        let data = {
+            id: this.props.order.id,
+            is_booked: true,
+            payment: paymentType
+        }
+        this.props.order_update(data)
+        .then(this.print_ticket())
+    }
     render() {
         return (
             <div id="order-detail" className="flex-container item-fluid">
@@ -167,11 +230,30 @@ class OrderDetailContainer extends Component {
                     total={this.state.total}
                     ticketsSorted={this.state.ticketsSorted}
                 ></OrderResumeComponent>
-                <div className="grid-3 payment-list border-top">
-                    {this.payment_list()}
+                {this.state.panelChoice == 'payment' ?
+                    <div className="grid-3 payment-list border-top">
+                        {this.payment_list()}
+                    </div>
+                :
+                    <div className="grid-2 registration-info border-top">
+                        <div className="flex-container--column">
+                            <label htmlFor="name">Nom</label>
+                            <input onChange={event=>this.handle_name(event.target.value)} name="name" type="text"/>
+                        </div>
+                        <div className="flex-container--column">
+                            <label htmlFor="email">Nom</label>
+                            <input onChange={event=>this.handle_email(event.target.value)} name="email" type="email"/>
+                        </div>
+                    </div>
+                }
+                {this.state.panelChoice == 'payment' ?
+                    <button onClick={() => this.order_booked()} className="print-button border-top">Imprimer</button>
+                : this.state.panelChoice == 'registration' ?
+                    <button onClick={() => this.order_registered()} className="print-button border-top">Réserver</button>
+                :
+                    <button onClick={() => this.ticket_deleted()} className="print-button border-top">Supprimer</button>
+                }
                 </div>
-                <button onClick={() => this.print_ticket()} className="print-button border-top">Imprimer</button>
-            </div>
         )
     }
 }
@@ -181,6 +263,9 @@ const mapStateToProps = store => {
         order: store.orderStore.orderSelected
     }
 }
+const mapDispatchToProps = {
+    order_update
+}
 
 
-export default connect(mapStateToProps, null)(OrderDetailContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderDetailContainer)
