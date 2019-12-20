@@ -109,6 +109,13 @@
         input {
             margin: 1rem auto auto auto;
         }
-
+    }
+    .ticket-deleted:nth-child(odd) {
+        background-color: $dark-green;
+        height: 50%;
+    }
+    .ticket-deleted:nth-child(even) {
+        background-color: $dark-blue;
+        height: 50%;
     }
 }

@@ -6,10 +6,28 @@ import '../assets/scss/ticketList.scss'
 class TicketListContainer extends Component {
     list = () => {
         const ticketIteration = this.props.order.tickets_list.map((ticket, index) => {
-            return (
-                <TicketList key={ticket.id} ticket={ticket} index={index}></TicketList>
-            )
-
+                return (
+                    <div 
+                    className={
+                        this.props.deleteTicketMode == false ? 'item' : 'item-deleted'    
+                    }
+                    onClick={
+                    this.props.deleteTicketMode == true ?
+                        ()=>this.props.delete_items_list(index, ticket):
+                        ''
+                    }>
+                        <div>
+                            <p>Ticket n° {index + 1}</p>
+                            <p>{ticket.train_departure.ride.departure.title} : {ticket.train_departure.ride.departure_hour}</p>
+                            {ticket.train_arrival ?
+                                <p>{ticket.train_arrival.ride.departure.title} : {ticket.train_arrival.ride.departure_hour}</p>
+                                :
+                                null
+                            }
+                            <p>{ticket.customer_type.title}: {ticket.number}</p>
+                        </div>
+                    </div>
+                )
         })
         return ticketIteration.reverse()
     }
@@ -21,12 +39,12 @@ class TicketListContainer extends Component {
                 <div className="ticket-register Plight">
                     <p>Récapitulatif <br />ticket</p>
                 </div>
-                    <div className="list-items ">
-                        {this.props.order.tickets_list ? this.list() : null}
-                    </div>
-                <button onClick={ ()=> this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
-                    {this.props.ridePanel ? 'Valider': 'Ajouter'}
-                    </button>
+                <div className="list-items ">
+                    {this.props.order.tickets_list ? this.list() : null}
+                </div>
+                <button onClick={() => this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
+                    {this.props.ridePanel ? 'Valider' : 'Ajouter'}
+                </button>
             </div>
         )
     }

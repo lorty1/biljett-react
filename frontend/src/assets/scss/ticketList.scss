@@ -22,12 +22,17 @@
         overflow-y: auto;
         height: 5px;
     }
-    .item:first-child {
-        border: none;
-    }
     .item:after {
         border-bottom: 2px dashed black;
         width: 50%;
+        left: 0;
+        top: 100%;
+        position: absolute;
+        content: '';
+    }
+    .item-deleted:after {
+        border-bottom: 2px solid black;
+        width: 100%;
         left: 0;
         top: 100%;
         position: absolute;
@@ -53,5 +58,20 @@
         color: white;
         font-family: 'Plight';
         @include shading($dark-green, $light-green);
+    }
+    .item-deleted {
+        cursor: pointer;
+        height: 20%;
+        display: flex;
+        padding: 1rem 0;
+        position: relative;
+        div {
+            margin: auto;
+        }
+        p {
+            font-size: 0.6em;
+            margin:0;
+            text-align: center;
+        }
     }
 }

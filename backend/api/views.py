@@ -7,7 +7,7 @@ from rest_framework import viewsets, status
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
 from pagination import OrderListPagination
-
+import json
 # Create your views here.
 
 class CustomerList(viewsets.ModelViewSet):
@@ -97,6 +97,17 @@ class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
 
+    def retrieve_object(self, id):
+        try:
+            return self.queryset.get(pk=id)
+        except:
+            raise Http404
+
+    def retrieve_order(self, id):
+        try:
+            return Order.objects.get(pk=id)
+        except:
+            raise Http404
 
     def create(self, request):
         print(request.data)
@@ -123,11 +134,25 @@ class TicketList(viewsets.ModelViewSet):
             order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
             order.save()
             serializer.save()
-            # departure_train = Train.objects.get(id=ticket_data['departure_id'])
-            # departure_train.decrease_capacity(ticket_data['number'])
-
-            # if ticket_data['come_back_id']:
-                # come_back_train =Train.objects.get(id=ticket_data['come_back_id'])
-                # come_back_train.decrease_capacity(ticket_data['number'])
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk=None):
+
+        req = request.body.decode('utf-8')
+        data = json.loads(req)
+        order = self.retrieve_order(id=data[0]['order_id'])
+        #supression total ou partiel du ticket
+        for item in data:
+            ticket = self.retrieve_object(id=item['id'])
+            #si 'placeDeleted est égale au total du nombre de place:
+            if ticket.number == item['placeDeleted']:
+                ticket.delete()
+            #sinon on déduit puis recalcule le total de la commande
+            else:
+                ticket.number -= item['placeDeleted']
+                order.total -= ticket.customer_type.price * item['placeDeleted']
+                ticket.save()
+                order.save()
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)

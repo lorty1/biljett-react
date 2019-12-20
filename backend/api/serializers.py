@@ -42,7 +42,7 @@ class TicketListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Ticket
-        fields= ['id','train_departure','train_arrival','customer_type','number']
+        fields= ['id','order','train_departure','train_arrival','customer_type','number']
 
 class OrderSerializer(serializers.ModelSerializer):
     tickets_list = serializers.SerializerMethodField('get_all_tickets')

@@ -2,6 +2,7 @@ import Axios from "axios"
 
 export const UPDATE_TICKET = 'UPDATE_TICKET'
 export const CREATE_TICKET = 'CREATE_TICKET'
+export const DELETE_TICKET = 'DELETE_TICKET'
 
 import { get_cookie } from './orderAction'
 
@@ -10,6 +11,28 @@ export const update_ticket = ticket => {
         dispatch({
             type: UPDATE_TICKET,
             payload: ticket
+        })
+    }
+}
+export const delete_ticket = tickets=> {
+    return dispatch => {
+        return new Promise((resolve, reject)=> {
+            Axios({
+                method: 'DELETE',
+                url: 'api/ticket/',
+                headers: {
+                   'X-CSRFToken': get_cookie() 
+                },
+                data: tickets
+            }).then(response=> {
+                dispatch({
+                    type: DELETE_TICKET,
+                    payload: response.data
+                })
+                resolve()
+            }).catch(err=> {
+                reject(err)
+            })
         })
     }
 }

@@ -1,6 +1,7 @@
 import {UPDATE_TICKET, CREATE_TICKET} from '../actions/ticketAction';
 
 const initialState = {
+    itemToDeleted: null,
     ticket: {
         departure: {
             station: null,
