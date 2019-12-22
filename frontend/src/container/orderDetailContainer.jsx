@@ -253,6 +253,7 @@ class OrderDetailContainer extends Component {
         return (
             <div className="flex-container--column item-fluid">
                 <OrderResumeComponent
+                    avoir={this.props.order.avoir}
                     panelChoice={this.state.panelChoice}
                     total={this.props.order.total}
                     ticketsSorted={this.state.ticketsSorted}

@@ -46,11 +46,11 @@ class TicketListSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     tickets_list = serializers.SerializerMethodField('get_all_tickets')
-    avoirs_list = serializers.SerializerMethodField('get_all_avoir')
+    avoir = serializers.SerializerMethodField('get_total_avoir')
 
-    def get_all_avoir(self, Order):
-        avoirs = Order.get_avoir()
-        serializer = AvoirSerializer(avoirs, many=True)
+    def get_total_avoir(self, Order):
+        return Order.get_avoir()
+        
 
     def get_all_tickets(self, Order):
         tickets = Order.get_tickets()
@@ -79,7 +79,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'moderated',
             'generated',
             'tickets_list',
-            'avoirs_list'
+            'avoir'
         ]
         
 class TicketSerializer(serializers.ModelSerializer):

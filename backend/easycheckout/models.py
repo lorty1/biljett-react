@@ -157,6 +157,12 @@ class Order(models.Model):
     class Meta:
         verbose_name = _(u'1 - order')
         verbose_name_plural = _(u'1 - orders')
+    
+    def __str__(self):
+        return self.reference
+    
+    def __unicode__(self):
+        return self.reference
 
     def get_tickets(self):
         tickets = Ticket.objects.filter(order_id=self.pk)
@@ -168,9 +174,13 @@ class Order(models.Model):
     def get_avoir(self):
         avoir = Avoir.objects.filter(order_id=self.pk)
         if avoir:
-            return avoir
+            print('avoir: ',avoir.__dict__)
+            total = 0
+            for item in avoir:
+                total += item.total
+            return total
         else:
-            return None
+            return 0.00
     
     def save(self, *args, **kwargs):
         order_exist = True
@@ -202,7 +212,7 @@ class Avoir(models.Model):
     created_on = models.DateField(auto_now=True)
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
     cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
-
+    total = models.DecimalField(verbose_name=_(u'total'), null=True, blank=True, default=0.00, max_digits=5, decimal_places=2, help_text=_('Total'))
     class Meta:
         verbose_name = _(u'11 - Avoir')
         verbose_name_plural = _(u'6 - Avoirs')

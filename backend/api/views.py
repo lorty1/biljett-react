@@ -142,14 +142,14 @@ class TicketList(viewsets.ModelViewSet):
         req = request.body.decode('utf-8')
         data = json.loads(req)
         order = self.retrieve_order(id=data[0]['order_id'])
+        if order.generated == True:
+            avoir, created = Avoir.objects.get_or_create(
+                order_id=order.pk,
+                created_on=datetime.datetime.now().date()
+            )
         #supression total ou partiel du ticket
         for item in data:
             ticket = self.retrieve_object(id=item['id'])
-            if ticket.generated == True:
-                avoir, created = Avoir.objects.get_or_create(
-                    order_id=order.pk,
-                    created_on=datetime.datetime.now().date
-                )
             #si 'placeDeleted est égale au total du nombre de place:
             if ticket.number == item['placeDeleted']:
                 order.total -= ticket.customer_type.price * ticket.number
@@ -161,5 +161,9 @@ class TicketList(viewsets.ModelViewSet):
                 order.total -= ticket.customer_type.price * item['placeDeleted']
                 ticket.save()
                 order.save()
+            if avoir:
+                avoir.total = ticket.customer_type.price * item['placeDeleted']
+                avoir.cancelled += item['placeDeleted']
+                avoir.save()
         serializer = OrderSerializer(order)
         return Response(serializer.data)
