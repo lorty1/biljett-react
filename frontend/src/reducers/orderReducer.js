@@ -9,11 +9,13 @@ const initialState = {
 export default function(state=initialState, action) {
     switch(action.type) {
         case GET_ORDER_LIST:
+            console.log('order', initialState)
             return {
                 ...state,
                 orders: action.payload
             }
         case GET_ORDER:
+            console.log('order', initialState)
             return {
                 ...state,
                 orderSelected: action.payload

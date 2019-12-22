@@ -199,7 +199,7 @@ class Ticket(models.Model):
 
 class Avoir(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    created_on = models.DateField(auto_now=True)
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
     cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
 

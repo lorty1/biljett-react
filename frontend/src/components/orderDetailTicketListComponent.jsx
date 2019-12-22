@@ -2,7 +2,7 @@ import React from 'react'
 import decrementArrow from '../assets/pictos/previous_arrow.png';
 import incrementArrow from '../assets/pictos/next_arrow.png';
 
-export default function orderDetailTicketListComponent({ ticket,placeDeleted, index, place_to_deleted }) {
+export default function orderDetailTicketListComponent({ ticket,placeDeleted, index, place_to_deleted}) {
     return (
         <div className="ticket-deleted">
             <div>

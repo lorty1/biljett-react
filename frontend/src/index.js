@@ -9,7 +9,8 @@ import './assets/sass/knacss.scss';
 import App from "./container/app";
 import reducers from "./reducers";
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const invariant = require('redux-immutable-state-invariant').default()
+const createStoreWithMiddleware = applyMiddleware(thunk, invariant)(createStore);
 
 ReactDOM.render(
   <Provider

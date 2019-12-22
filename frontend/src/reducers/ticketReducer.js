@@ -1,7 +1,12 @@
-import {UPDATE_TICKET, CREATE_TICKET} from '../actions/ticketAction';
+import {
+    UPDATE_TRAIN_TICKET,
+    UPDATE_STATION_TICKET,
+    UPDATE_CUSTOMER_TICKET,
+    UPDATE_PLACE_TICKET
+} from '../actions/ticketAction';
+import { CREATE_ORDER } from '../actions/orderAction'
 
 const initialState = {
-    itemToDeleted: null,
     ticket: {
         departure: {
             station: null,
@@ -18,14 +23,57 @@ const initialState = {
         }
     }
 }
-export default function(store = initialState, actions) {
-    switch(actions.type) {
-        case UPDATE_TICKET:
+export default function(state=initialState, action) {
+    switch(action.type) {
+        case UPDATE_STATION_TICKET:
             return {
-                ...store,
-                ticket: actions.payload
+                ...state,
+                ticket: {
+                    ...state.ticket,
+                    [action.payload.direction]: {
+                        ...state.ticket[action.payload.direction],
+                        station: action.payload.station
+                    }
+                }
             }
+        case UPDATE_TRAIN_TICKET:
+            return {
+                ...state,
+                ticket: {
+                    ...state.ticket,
+                    [action.payload.direction]: {
+                        ...state.ticket[action.payload.direction],
+                        train: action.payload.train
+                    }
+                }
+            }
+        case UPDATE_CUSTOMER_TICKET:
+            return {
+                ...state,
+                ticket: {
+                    ...state.ticket,
+                    customerType: {
+                        ...state.ticket.customerType,
+                        id: action.payload.id,
+                        price: action.payload.price
+                    }
+                }
+            }
+        case UPDATE_PLACE_TICKET:
+            return {
+                ...state,
+                ticket:{
+                    ...state.ticket,
+                    customerType: {
+                        ...state.ticket.customerType,
+                        number: action.payload
+                    }
+                }
+            }
+        case CREATE_ORDER:
+            return initialState
+        
         default:
-            return store
+            return state
     }
 }

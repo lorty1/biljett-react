@@ -19,7 +19,7 @@ class App extends Component {
     fullScreen: true,
     errorModal: false,
     errorMessages: [],
-    ridePanel: true,
+    ridePanel: 'ride',
     deleteTicketMode: false,
     deleteItems: []
   }
@@ -50,9 +50,14 @@ class App extends Component {
     fullScreen = !fullScreen
     this.setState({ fullScreen })
   }
+  switch_order_panel = () => {
+    let { ridePanel } = this.state
+    ridePanel = 'order'
+    this.setState({ ridePanel })
+  }
   switch_ride_panel = () => {
     let { ridePanel } = this.state
-    ridePanel = !ridePanel
+    ridePanel = 'ride'
     this.setState({ ridePanel })
   }
   delete_items_list = (index, item) => {
@@ -102,15 +107,17 @@ class App extends Component {
             timeout={1000}
             unmountOnExit
           >
-            <UserListContainer />
+            <UserListContainer
+            switch_ride_panel={()=>this.switch_ride_panel}
+            ></UserListContainer>
           </CSSTransition>
-          {this.state.ridePanel ?
+          {this.state.ridePanel == 'ride' ?
             <RideConstructorContainer
               show_error_messages={this.show_error_messages.bind(this)}
             ></RideConstructorContainer> :
             <OrderDetailContainer
-            clear_itemsDeleted={()=>this.clear_itemsDeleted()}  
-            update_deleteItems={item=>this.update_deleteItems(item)}
+              clear_itemsDeleted={()=>this.clear_itemsDeleted()}  
+              update_deleteItems={item=>this.update_deleteItems(item)}
               deleteItems={this.state.deleteItems}
               switch_delete_ticket_mode={mode => this.switch_delete_ticket_mode(mode)}
               show_error_messages={message => this.show_error_messages(message)}
@@ -121,6 +128,7 @@ class App extends Component {
             deleteTicketMode={this.state.deleteTicketMode}
             delete_items_list={(index, item) => { this.delete_items_list(index, item) }}
             ridePanel={this.state.ridePanel}
+            switch_order_panel={this.switch_order_panel}
             switch_ride_panel={this.switch_ride_panel}
           ></TicketListContainer>
         </div>

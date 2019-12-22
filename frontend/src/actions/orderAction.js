@@ -79,7 +79,7 @@ export function create_order(reference) {
     }
 }
 export const order_update = data => {
-    console.log('ok ca passe')
+    console.log('ok ca passe', data)
     return dispatch => {
         return new Promise((resolve, reject) => {
             Axios({
@@ -96,6 +96,7 @@ export const order_update = data => {
                 })
                 resolve()
             }).catch(error=> {
+                console.log('update',error.response)
                 reject(error)
             })
         })

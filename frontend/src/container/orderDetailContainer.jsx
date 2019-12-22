@@ -16,9 +16,12 @@ class OrderDetailContainer extends Component {
         this.total_price()
         this.ticket_sorted_by_customer()
     }
+    componentDidUpdate(nextProps, nextState) {
+
+    }
     state = {
         ticketsSorted: null,
-        total: null,
+        total: this.props.order.total,
         email: null,
         name: null,
         panelChoice: 'payment',
@@ -190,15 +193,18 @@ class OrderDetailContainer extends Component {
         let emailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return new Promise((resolve, reject) => {
             if (name && emailRegex.test(email)) {
+                console.log('conforme')
                 resolve()
+            }else {
+                if (!name) {
+                    errors_message.name = ['Un nom est requis !']
+                }
+                if (!email || !emailRegex.test(email)) {
+                    errors_message.email = ['Un email valide est requis']
+                }
+                console.log('non conforme', errors_message)
+                reject(errors_message)
             }
-            if (!name) {
-                errors_message.name = ['Un nom est requis !']
-            }
-            if (!email || !emailRegex.test(email)) {
-                errors_message.email = ['Un email valide est requis']
-            }
-            reject(errors_message)
         })
     }
     // reservation function
@@ -209,13 +215,15 @@ class OrderDetailContainer extends Component {
                 let data = {
                     id: this.props.order.id,
                     name: name,
-                    email: email
+                    email: email,
+                    is_booked: true,
+                    generated: false,
+                    book_to: new Date(this.props.order.tickets_list[0].train_departure.date_on)
                 }
-                this.props.order_update(data).then(response => {
-                    console.log('orde ok', response)
-                })
+                this.props.order_update(data)
             })
             .catch(errors => {
+                console.log(errors)
                 this.props.show_error_messages(errors)
             })
     }
@@ -228,6 +236,7 @@ class OrderDetailContainer extends Component {
         let data = {
             id: this.props.order.id,
             is_booked: true,
+            generated: true,
             payment: paymentType
         }
         this.props.order_update(data)
@@ -276,10 +285,11 @@ class OrderDetailContainer extends Component {
                 order_id:this.props.order.id
             }
         })
-        console.log('list',list)
-        this.props.delete_ticket(list)
+        this.props.delete_ticket(list) //MAJ BDD
         .then(()=> {
-            this.props.clear_itemsDeleted()
+            this.props.clear_itemsDeleted() //clear deleted tickets panel
+        }).then(()=> {
+            this.ticket_sorted_by_customer() // refresh the list of ticket for resume panel
         })
     }
     render() {

@@ -4,6 +4,7 @@ from easycheckout.models import Order, CustomerType, Ticket
 from .serializers import *
 from django.http import Http404
 from rest_framework import viewsets, status
+import datetime
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
 from pagination import OrderListPagination
@@ -67,7 +68,6 @@ class OrderList(viewsets.ModelViewSet):
             raise Http404
     
     def list(self, request):
-        print('yeahlist')
         if 'search' in request.GET:
             search = request.GET['search']
             self.queryset = self.queryset.filter(reference__contains=search)
@@ -145,8 +145,15 @@ class TicketList(viewsets.ModelViewSet):
         #supression total ou partiel du ticket
         for item in data:
             ticket = self.retrieve_object(id=item['id'])
+            if ticket.generated == True:
+                avoir, created = Avoir.objects.get_or_create(
+                    order_id=order.pk,
+                    created_on=datetime.datetime.now().date
+                )
             #si 'placeDeleted est égale au total du nombre de place:
             if ticket.number == item['placeDeleted']:
+                order.total -= ticket.customer_type.price * ticket.number
+                order.save()
                 ticket.delete()
             #sinon on déduit puis recalcule le total de la commande
             else:

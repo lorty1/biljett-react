@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../assets/scss/rideConstructor.scss';
 import RideComponent from '../components/rideComponent';
 import CustomerType from '../components/customerTypeComponent';
-import { update_ticket, create_ticket } from '../actions/ticketAction';
+import { update_place_ticket, update_customer_ticket, update_train_ticket, update_station_ticket, create_ticket } from '../actions/ticketAction';
 import { display_date_formatted, ticket_date } from '../selectors/index';
 import increment from '../assets/pictos/increment_picto.png';
 import decrement from '../assets/pictos/decrement_picto.png';
@@ -30,6 +30,7 @@ class rideConstructorContainer extends Component {
             comeBack: null
         },
         customers: [],
+        customerChoosen: null,
         trainDepartureSelected: null,
         trainComeBackSelected: null,
         placeArray: [1, 2, 3, 4, 5, 6],
@@ -58,19 +59,33 @@ class rideConstructorContainer extends Component {
     station_selection(direction, station) {
         const { ticket } = this.props
         if (direction == 'one-way') {
+            let departureStation;
             ticket.departure.station == station.id ?
-                ticket.departure.station = null :
-                ticket.departure.station = station.id
+            departureStation = null :
+            departureStation = station.id
+            this.props.update_station_ticket({
+                direction: 'departure',
+                station: departureStation
+            }).then(response=> {
+                console.log('res', response)
+                this.get_trains()
+            })
         } else {
+            let comeBackStation;
             ticket.comeBack.station == station.id ?
-                ticket.comeBack.station = null :
-                ticket.comeBack.station = station.id
+                comeBackStation = null :
+                comeBackStation = station.id
+                this.props.update_station_ticket({
+                    direction: 'comeBack',
+                    station: comeBackStation
+                }).then(()=> {
+                    this.get_trains()
+                })
         }
-        this.props.update_ticket(ticket)
-        this.get_trains()
     }
 
     get_trains = () => {
+        console.log('get props',this.props.ticket.departure.station)
         return new Promise((resolve, reject) => {
             let { trains } = this.state
             Axios({
@@ -92,28 +107,48 @@ class rideConstructorContainer extends Component {
         })
     }
     train_selection = (train, direction) => {
-        const { ticket } = this.props
+        const { ticket } = this.props;
         if (direction == 'one-way') {
-            ticket.departure.train == train ?
-                (ticket.departure.train = null, this.setState({ trainDepartureSelected: null })) :
-                (ticket.departure.train = train, this.setState({ trainDepartureSelected: train }))
+            var departureTrain;
+            if(ticket.departure.train == train) {
+                departureTrain = null;
+                this.setState({ trainDepartureSelected: null })
+            }else {
+                departureTrain = train;
+                this.setState({ trainDepartureSelected: train });
+            }
+            this.props.update_train_ticket({
+                direction: 'departure',
+                train: departureTrain
+            })
         } else {
-            ticket.comeBack.train == train ?
-                (ticket.comeBack.train = null, this.setState({ trainComeBackSelected: null })) :
-                (ticket.comeBack.train = train, this.setState({ trainComeBackSelected: train }))
+            var comeBackTrain;
+            if(ticket.comeBack.train == train) {
+                comeBackTrain = null;
+                this.setState({ trainDepartureSelected: null })
+            }else {
+                comeBackTrain = train;
+                this.setState({ trainDepartureSelected: train });
+            }
+            this.props.update_train_ticket({
+                direction: 'comeBack',
+                train: comeBackTrain
+            })
         }
-        this.props.update_ticket(ticket)
     }
     customer_selection(customer) {
-        const ticket = { ...this.props.ticket }
+        var customerSelected = {}
+        let { ticket } = this.props
+        let { customerChoosen } = this.state
         if(ticket.customerType.id !== customer.id) {
-            ticket.customerType.id = customer.id
-            ticket.customerType.price = customer.price
+            customerSelected.id = customerChoosen = customer.id
+            customerSelected.price = customer.price
         }else {
-            ticket.customerType.id = null
-            ticket.customerType.price = null
+            customerSelected.id = customerChoosen = null
+            customerSelected.price = null
         }
-        return this.props.update_ticket(ticket)
+        this.setState({ customerChoosen })
+        return this.props.update_customer_ticket(customerSelected)
     }
     list_place = () => {
         let { placeArray, placeSelected } = this.state
@@ -137,18 +172,16 @@ class rideConstructorContainer extends Component {
         return this.setState({ placeArray })
     }
     place_selected = place => {
-        let { ticket } = this.props
-        let { placeSelected } = this.state
+        var numberPlace;
+        var { placeSelected } = this.state;
         if (place == placeSelected) {
-            placeSelected = null;
-            ticket.customerType.number = null;
+            placeSelected = numberPlace = null;
         } else {
-            placeSelected = place;
-            ticket.customerType.number = place
+            placeSelected = numberPlace = place;
         }
 
         this.setState({ placeSelected });
-        this.props.update_ticket(ticket)
+        this.props.update_place_ticket(numberPlace)
     }
     new_ticket = () => {
         const { ticket } = this.props
@@ -167,16 +200,17 @@ class rideConstructorContainer extends Component {
                 <RideComponent
                     rides={this.state.rides}
                     ticket={this.props.ticket}
-                    station_selection={this.station_selection.bind(this)}
+                    station_selection={(direction,station)=>this.station_selection(direction, station)}
                     trainDepartureSelected={this.state.trainDepartureSelected}
                     trainComeBackSelected={this.state.trainComeBackSelected}
                     trains={this.state.trains}
-                    train_selection={this.train_selection.bind(this)}
+                    train_selection={(train, direction)=>this.train_selection(train, direction)}
                 ></RideComponent>
                 <CustomerType
+                    customerChoosen={this.state.customerChoosen}
                     customers={this.state.customers}
                     ticket={this.props.ticket}
-                    customer_selection={this.customer_selection.bind(this)}
+                    customer_selection={ customer => this.customer_selection(customer) }
                 ></CustomerType>
                 <section className="place-selection" >
                     <button disabled={this.state.placeArray[0] < 2} onClick={() => { this.update_index('decrement') }}>
@@ -203,7 +237,10 @@ const mapStateToProps = store => {
 }
 
 const mapDispatchToProps = {
-    update_ticket,
-    create_ticket
+    create_ticket,
+    update_station_ticket,
+    update_train_ticket,
+    update_customer_ticket,
+    update_place_ticket
 }
 export default connect(mapStateToProps, mapDispatchToProps)(rideConstructorContainer)

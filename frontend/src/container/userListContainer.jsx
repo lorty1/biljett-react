@@ -27,10 +27,14 @@ class userListContainer extends Component {
         })
         return list
     }
+    add_order = ()=> {
+        this.props.create_order();
+        this.props.switch_ride_panel()
+    }
     render() {
         return (
             <div id="user-list-container" className="flex-container--column border-right w15">
-                    <button onClick={this.props.create_order} className="new-command-button Plight txt-white ">
+                    <button onClick={()=>this.add_order()} className="new-command-button Plight txt-white ">
                        <p>Nouvelle <br/>Commande</p>
                     </button>
                 <div className="order-register Plight">

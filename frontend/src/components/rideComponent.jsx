@@ -39,7 +39,7 @@ class rideComponent extends Component {
     train_departure_list = () => {
         
         const trains = this.props.trains.departure
-        if(!trains) return ''
+        if(!trains || !this.props.ticket.departure.station) return ''
         for (var i = trains.length;i < 12; i++) {
             trains.push({title: '-'})
         }

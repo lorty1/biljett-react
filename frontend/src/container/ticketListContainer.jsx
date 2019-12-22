@@ -42,9 +42,25 @@ class TicketListContainer extends Component {
                 <div className="list-items ">
                     {this.props.order.tickets_list ? this.list() : null}
                 </div>
-                <button onClick={() => this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
-                    {this.props.ridePanel ? 'Valider' : 'Ajouter'}
-                </button>
+                {(()=> {
+                    switch(this.props.ridePanel) {
+                        case 'ride':
+                            return (
+                                <button onClick={
+                                    () => this.props.switch_order_panel()} id="ticket-list-button" className="border-top Plight btn--success">
+                                    Valider
+                                </button>                                
+                            )
+                        case 'order':
+                            return (
+
+                                <button onClick={
+                                    () => this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
+                                    Ajouter
+                                </button> 
+                                )
+                    }
+                })()}
             </div>
         )
     }
