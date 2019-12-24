@@ -39,9 +39,11 @@ class CalendarComponent extends Component {
     this.setState({ month: new Month(month, year) });
   }
   days_list = () => {
-    const weekDay = this.state.days.map(day => {
+    const weekDay = this.state.days.map((day,index) => {
       return (
-        <div className="datepicker__weekday">
+        <div 
+        key={index}
+        className="datepicker__weekday">
           {day}
         </div>
       )
@@ -49,9 +51,10 @@ class CalendarComponent extends Component {
     return weekDay
   }
   days_number_list = () => {
-    const days = this.state.month.getDays().map(day => {
+    const days = this.state.month.getDays().map((day,index) => {
       return (
-        <div 
+        <div
+        key={index}
         onClick={()=> {this.selectDate(day)}}
         className={"datepicker__day" + (this.isSelected(day) ? ' selectedDate' : '') } 
          >
@@ -75,7 +78,7 @@ class CalendarComponent extends Component {
               {this.year()}
             </div>
             <div className="datepicker__date"></div>
-            <p className="txtcenter">{this.props.dateFormatted}</p>
+            <p className="txtcenter">{this.props.dateFormattedCalendar}</p>
           </div>
           <div className="datepicker__control">
             <div className="datepicker__month">
@@ -91,10 +94,6 @@ class CalendarComponent extends Component {
             <div className="datepicker__day" style={{ width: (this.state.month.getWeekStart() * 41) + 'px' }}>
             </div>
             {this.days_number_list()}
-          </div>
-          <div className="grid-2 has-gutter mtm pls prs">
-            <button className="btn--danger action-btn">Annuler</button>
-            <button className="btn--success action-btn">Valider</button>
           </div>
         </div>
       </div>

@@ -24,6 +24,7 @@ module.exports = merge(common, {
         }),
         new webpack.ProvidePlugin({
             React: 'react',
+            Equal: 'fast-deep-equal/react',
             Axios: 'axios',
             ReactDom: 'react-dom'
         })

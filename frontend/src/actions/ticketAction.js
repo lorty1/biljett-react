@@ -102,7 +102,7 @@ export const create_ticket = (order_id,ticket) => {
                     "X-CSRFToken": get_cookie()
                 },
                 data: {
-                    order_id: order_id || null,
+                    order_id: order_id,
                     ticket: ticket
                 }
             }).then(response => {

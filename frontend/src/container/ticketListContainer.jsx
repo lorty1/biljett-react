@@ -14,7 +14,7 @@ class TicketListContainer extends Component {
                     onClick={
                     this.props.deleteTicketMode == true ?
                         ()=>this.props.delete_items_list(index, ticket):
-                        ''
+                        null
                     }>
                         <div>
                             <p>Ticket n° {index + 1}</p>

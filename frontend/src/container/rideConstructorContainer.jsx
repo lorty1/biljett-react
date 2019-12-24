@@ -8,7 +8,7 @@ import increment from '../assets/pictos/increment_picto.png';
 import decrement from '../assets/pictos/decrement_picto.png';
 import { connect } from 'react-redux';
 import Axios from 'axios';
-
+import equal from 'fast-deep-equal/react'
 class rideConstructorContainer extends Component {
     constructor(props) {
         console.log('init')
@@ -37,11 +37,7 @@ class rideConstructorContainer extends Component {
         placeSelected: null,
         placesIndex: 1
     }
-    componentDidMount() {
-        console.log(('mount'))
-    }
     componentDidUpdate(prevProps, prevState) {
-        const { rides } = this.state
         if (prevProps.ticketDate !== this.props.ticketDate && this.props.ticket.departure.station) {
             let { trainDepartureSelected, trainComeBackSelected } = this.state
             trainDepartureSelected = null;

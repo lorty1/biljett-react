@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { get_order_list, create_order, get_order } from '../actions/orderAction'
 
@@ -20,8 +20,11 @@ class userListContainer extends Component {
         const list = orders.map(order => {
             
             return (
-                <div key={order.reference}className="users-list-item">
-                    <p className="pointer" onClick={()=> this.props.get_order(order.id) }>{order.reference}</p>
+                <div key={order.reference} onClick={()=> this.props.get_order(order.id) } className="pointer users-list-item">
+                    <p >{order.reference}</p>
+                    <Fragment>
+                        <p>{order.name}</p>
+                    </Fragment>
                 </div>
             )
         })

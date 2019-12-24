@@ -269,7 +269,7 @@ class OrderDetailContainer extends Component {
                             <input onChange={event => this.handle_name(event.target.value)} name="name" type="text" />
                         </div>
                         <div className="flex-container--column">
-                            <label htmlFor="email">Nom</label>
+                            <label htmlFor="email">Email</label>
                             <input onChange={event => this.handle_email(event.target.value)} name="email" type="email" />
                         </div>
                     </div>

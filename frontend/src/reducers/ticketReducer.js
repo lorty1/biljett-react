@@ -23,37 +23,37 @@ const initialState = {
         }
     }
 }
-export default function(state=initialState, action) {
+export default function(store=initialState, action) {
     switch(action.type) {
         case UPDATE_STATION_TICKET:
             return {
-                ...state,
+                ...store,
                 ticket: {
-                    ...state.ticket,
+                    ...store.ticket,
                     [action.payload.direction]: {
-                        ...state.ticket[action.payload.direction],
+                        ...store.ticket[action.payload.direction],
                         station: action.payload.station
                     }
                 }
             }
         case UPDATE_TRAIN_TICKET:
             return {
-                ...state,
+                ...store,
                 ticket: {
-                    ...state.ticket,
+                    ...store.ticket,
                     [action.payload.direction]: {
-                        ...state.ticket[action.payload.direction],
+                        ...store.ticket[action.payload.direction],
                         train: action.payload.train
                     }
                 }
             }
         case UPDATE_CUSTOMER_TICKET:
             return {
-                ...state,
+                ...store,
                 ticket: {
-                    ...state.ticket,
+                    ...store.ticket,
                     customerType: {
-                        ...state.ticket.customerType,
+                        ...store.ticket.customerType,
                         id: action.payload.id,
                         price: action.payload.price
                     }
@@ -61,11 +61,11 @@ export default function(state=initialState, action) {
             }
         case UPDATE_PLACE_TICKET:
             return {
-                ...state,
+                ...store,
                 ticket:{
-                    ...state.ticket,
+                    ...store.ticket,
                     customerType: {
-                        ...state.ticket.customerType,
+                        ...store.ticket.customerType,
                         number: action.payload
                     }
                 }
@@ -74,6 +74,6 @@ export default function(state=initialState, action) {
             return initialState
         
         default:
-            return state
+            return store
     }
 }

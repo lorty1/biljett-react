@@ -6,47 +6,48 @@ const initialState = {
     orders: [],
     orderSelected: {}
 }
-export default function(state=initialState, action) {
+export default function(store=initialState, action) {
     switch(action.type) {
         case GET_ORDER_LIST:
             console.log('order', initialState)
             return {
-                ...state,
+                ...store,
                 orders: action.payload
             }
         case GET_ORDER:
             console.log('order', initialState)
             return {
-                ...state,
+                ...store,
                 orderSelected: action.payload
             }
         case CREATE_ORDER:
             return {
-                ...state,
+                ...store,
                 orderSelected: action.payload.results[0],
                 orders: action.payload
             }
         case CREATE_TICKET:
+            console.log('ac', action.payload)
             return {
-                ...state,
+                ...store,
                 orderSelected: action.payload.order
             }
         case UPDATE_FILTER:
             return {
-                ...state,
+                ...store,
                 searchFilter: action.payload || initialState.searchFilter
             }
         case UPDATE_ORDER:
             return {
-                ...state,
+                ...store,
                 orderSelected: action.payload
             }
         case DELETE_TICKET:
             return {
-                ...state,
+                ...store,
                 orderSelected: action.payload
             }
         default:
-            return state
+            return store
     }
 }

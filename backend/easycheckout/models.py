@@ -174,7 +174,6 @@ class Order(models.Model):
     def get_avoir(self):
         avoir = Avoir.objects.filter(order_id=self.pk)
         if avoir:
-            print('avoir: ',avoir.__dict__)
             total = 0
             for item in avoir:
                 total += item.total
@@ -183,14 +182,13 @@ class Order(models.Model):
             return 0.00
     
     def save(self, *args, **kwargs):
-        order_exist = True
-        today = datetime.today()
-        order_count = Order.objects.filter(created_on__year=today.strftime('%Y')).count() + 1
-        while Order.objects.filter(
-            reference='{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)).exists():
-            order_count += 1
-            print('order',order_count)
-        self.reference = '{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)
+        if self.reference is None:
+            today = datetime.today()
+            order_count = Order.objects.filter(created_on__year=today.strftime('%Y')).count() + 1
+            while Order.objects.filter(
+                reference='{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)).exists():
+                order_count += 1
+            self.reference = '{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)
         
         super(Order, self).save(*args, **kwargs)
 

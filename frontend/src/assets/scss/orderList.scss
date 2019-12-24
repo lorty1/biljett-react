@@ -35,14 +35,20 @@
         flex: 1 1 0%;
         display: flex;
         flex-direction: column;
+        p:first-child{
+            margin: auto 0 auto 0;
+        }
+        p:last-child {
+            margin: 0 0 auto 0;
+        }
     }
     .users-list-item:nth-child(odd) {
         background-color: $dark-grey;
-        height: 10%;
+        height: 12.5%;
     }
     .users-list-item:nth-child(even) {
         background-color: $light-grey;
-        height: 10%;
+        height: 12.5%;
     }
 
     

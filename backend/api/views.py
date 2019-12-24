@@ -85,8 +85,9 @@ class OrderList(viewsets.ModelViewSet):
         return self.list(request)
     
     def patch(self, request):
-        id= request.data['id']
-        order = self.retrieve_object(id)
+
+        pk = request.data['id']
+        order = self.retrieve_object(pk)
         serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -97,20 +98,19 @@ class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
 
-    def retrieve_object(self, id):
+    def retrieve_object(self, pk):
         try:
-            return self.queryset.get(pk=id)
+            return self.queryset.get(pk=pk)
         except:
             raise Http404
 
-    def retrieve_order(self, id):
+    def retrieve_order(self, pk):
         try:
-            return Order.objects.get(pk=id)
+            return Order.objects.get(pk=pk)
         except:
             raise Http404
 
     def create(self, request):
-        print(request.data)
         ticket_data = {
             'order_id': request.data['order_id'],
             'departure_id': request.data['ticket']['departure']['train'],
@@ -123,14 +123,14 @@ class TicketList(viewsets.ModelViewSet):
         if serializer.is_valid():
             try:
                 trains = [ticket_data['departure_id'], ticket_data['come_back_id']]
-                for id in trains:
-                    if id:
-                        train = Train.objects.get(pk=id)
+                for pk in trains: # check train's capacity
+                    if pk:
+                        train = Train.objects.get(pk=pk)
                         train.check_remaining_place(ticket_data['number'])
                         train.decrease_capacity(ticket_data['number'])
             except Exception as e:
                 return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
-            order = Order.objects.get(pk=ticket_data['order_id'])
+            order = self.retrieve_order(ticket_data['order_id'])
             order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
             order.save()
             serializer.save()
@@ -142,7 +142,7 @@ class TicketList(viewsets.ModelViewSet):
         req = request.body.decode('utf-8')
         data = json.loads(req)
         order = self.retrieve_order(id=data[0]['order_id'])
-        if order.generated == True:
+        if order.generated == True: # if payment done, avoir created
             avoir, created = Avoir.objects.get_or_create(
                 order_id=order.pk,
                 created_on=datetime.datetime.now().date()
@@ -150,12 +150,11 @@ class TicketList(viewsets.ModelViewSet):
         #supression total ou partiel du ticket
         for item in data:
             ticket = self.retrieve_object(id=item['id'])
-            #si 'placeDeleted est égale au total du nombre de place:
+            #ticket deleted if placeDeleted == ticket.number:
             if ticket.number == item['placeDeleted']:
                 order.total -= ticket.customer_type.price * ticket.number
                 order.save()
                 ticket.delete()
-            #sinon on déduit puis recalcule le total de la commande
             else:
                 ticket.number -= item['placeDeleted']
                 order.total -= ticket.customer_type.price * item['placeDeleted']
