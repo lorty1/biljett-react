@@ -96,7 +96,7 @@ class OrderList(viewsets.ModelViewSet):
 
 class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
-    queryset = Ticket.objects.all()
+    queryset = Ticket.objects.filter(is_cancelled=False)
 
     def retrieve_object(self, pk):
         try:
@@ -138,10 +138,8 @@ class TicketList(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk=None):
-
-        req = request.body.decode('utf-8')
-        data = json.loads(req)
-        order = self.retrieve_order(id=data[0]['order_id'])
+        data = request.data
+        order = self.retrieve_order(data[0]['order_id'])
         if order.generated == True: # if payment done, avoir created
             avoir, created = Avoir.objects.get_or_create(
                 order_id=order.pk,
@@ -149,20 +147,23 @@ class TicketList(viewsets.ModelViewSet):
             )
         #supression total ou partiel du ticket
         for item in data:
-            ticket = self.retrieve_object(id=item['id'])
+            ticket = self.retrieve_object(item['id'])
             #ticket deleted if placeDeleted == ticket.number:
             if ticket.number == item['placeDeleted']:
                 order.total -= ticket.customer_type.price * ticket.number
-                order.save()
-                ticket.delete()
+                ticket.is_cancelled = True
             else:
                 ticket.number -= item['placeDeleted']
                 order.total -= ticket.customer_type.price * item['placeDeleted']
-                ticket.save()
-                order.save()
-            if avoir:
+
+            ticket.save()
+            order.save()
+
+            try:
                 avoir.total = ticket.customer_type.price * item['placeDeleted']
                 avoir.cancelled += item['placeDeleted']
                 avoir.save()
+            except:
+                pass
         serializer = OrderSerializer(order)
         return Response(serializer.data)

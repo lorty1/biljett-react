@@ -11,7 +11,7 @@ class customerTypeComponent extends Component {
                                 customer.slug == 'adult-voucher' ? 'adult-tarif-voucher' :
                                     customer.slug == 'children-voucher' ? 'border-right child-tarif-voucher' :
                                         customer.slug == 'group' ? 'group-tarif' :
-                                            '') + (this.props.customerChoosen == customer.id ? ' selected' : '')
+                                            '') + (this.props.ticket.customerType.id == customer.id ? ' selected' : '')
                 }
                     key={customer.id}
                     onClick={()=> {this.props.customer_selection(customer)}}

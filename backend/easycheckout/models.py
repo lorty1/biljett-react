@@ -165,7 +165,7 @@ class Order(models.Model):
         return self.reference
 
     def get_tickets(self):
-        tickets = Ticket.objects.filter(order_id=self.pk)
+        tickets = Ticket.objects.filter(order_id=self.pk,is_cancelled=False)
         if tickets:
             return tickets
         else:
@@ -182,7 +182,9 @@ class Order(models.Model):
             return 0.00
     
     def save(self, *args, **kwargs):
-        if self.reference is None:
+        if not self.pk:
+            print('new order')
+        if self.pk is None:
             today = datetime.today()
             order_count = Order.objects.filter(created_on__year=today.strftime('%Y')).count() + 1
             while Order.objects.filter(
@@ -199,7 +201,8 @@ class Ticket(models.Model):
     train_departure = models.ForeignKey(Train, verbose_name=_('train departure'), help_text=_('Choose a train for departure'), related_name="departure", blank=True, null=True,on_delete=models.CASCADE)
     train_arrival = models.ForeignKey(Train, verbose_name=_('train go back'), help_text=_('Choose a train for return'), related_name="go_back", blank=True, null=True,on_delete=models.CASCADE)
     ticket = models.URLField(verbose_name=_(u'ticket'), null=True, blank=True) 
- 
+    is_cancelled = models.BooleanField(u'is_cancelled', default=False)
+    
     class Meta:
         verbose_name = _(u'6 - ticket')
         verbose_name_plural = _(u'6 - tickets')
@@ -207,13 +210,12 @@ class Ticket(models.Model):
 
 class Avoir(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now=True)
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
     cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
     total = models.DecimalField(verbose_name=_(u'total'), null=True, blank=True, default=0.00, max_digits=5, decimal_places=2, help_text=_('Total'))
     class Meta:
-        verbose_name = _(u'11 - Avoir')
-        verbose_name_plural = _(u'6 - Avoirs')
+        verbose_name = _(u'Avoir')
+        verbose_name_plural = _(u'Avoirs')
 
 
     def __unicode__(self):
