@@ -66,18 +66,18 @@ class Checkout(models.Model):
         return self.created_on.strftime('%d-%m-%y')
 
     # def update_checkout(self, ticket):
-        # if ticket.customer_type.title is 'adult':
-
-        # if tikcket.customer_type is 'children':
-
-        # if ticket.customer_type is 'adult-voucher'
-
-        # if ticket.customer_type is 'children-voucher'
-
-        # if ticket.customer_type is 'group'
-        
-        # if ticket.customer_type is 'free'
-
+        # if ticket.customer_type.id is 1:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
+        # if tikcket.customer_type.id is 2:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
+        # if ticket.customer_type.id is 3:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
+        # if ticket.customer_type.id is 4:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
+        # if ticket.customer_type.id is 5:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
+        # if ticket.customer_type.id is 6:
+            # print(ticket.customer_type.title, ticket.customer_type.id)
 
 class TicketSettings(models.Model):
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
@@ -196,7 +196,13 @@ class Order(models.Model):
             return total
         else:
             return 0.00
-    
+
+    def check_is_printed(self):
+        if self.generated is True:
+            raise ValidationError(
+            'Cette commande a déjà été enregistrée, veuillez créer une nouvelle commande'
+        )
+
     def save(self, *args, **kwargs):
         if not self.pk:
             print('new order')

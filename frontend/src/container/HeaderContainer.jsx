@@ -60,7 +60,7 @@ class HeaderContainer extends Component {
 
     }
 
-    handle_search = debounce((str) => {
+    handle_search = debounce((str) => { 
         this.props.update_search_filter(str).then(()=> {
             this.props.get_order_list(1,str)
         })

@@ -31,8 +31,6 @@ class TicketListContainer extends Component {
         })
         return ticketIteration.reverse()
     }
-    componentDidMount() {
-    }
     render() {
         return (
             <div id="ticket-list" className="border-left grey-bkg w15">
@@ -53,7 +51,6 @@ class TicketListContainer extends Component {
                             )
                         case 'order':
                             return (
-
                                 <button onClick={
                                     () => this.props.switch_ride_panel()} id="ticket-list-button" className="border-top Plight btn--success">
                                     Ajouter

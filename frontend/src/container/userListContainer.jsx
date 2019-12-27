@@ -13,12 +13,7 @@ class userListContainer extends Component {
     }
     order_list = () => {
         const orders = this.props.orderList.results
-
-        // for (var i = orders.length; i < 10; i++) {
-        //     orders.push({ reference: `po-${i}` })
-        // }
         const list = orders.map(order => {
-            
             return (
                 <div key={order.reference} onClick={()=> this.props.get_order(order.id) } className="pointer users-list-item">
                     <p >{order.reference}</p>
@@ -60,13 +55,13 @@ class userListContainer extends Component {
         )
     }
 }
-const mapStateToProps = store => {
+const mapStateToProps = store => { // data from redux store
     return {
         orderList: store.orderStore.orders,
         search: store.orderStore.searchFilter
     }
 }
-const mapDispatchToProps = {
+const mapDispatchToProps = { // function from actions
     get_order_list,
     create_order,
     get_order

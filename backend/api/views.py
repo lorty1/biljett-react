@@ -85,7 +85,6 @@ class OrderList(viewsets.ModelViewSet):
         return self.list(request)
     
     def patch(self, request):
-
         pk = request.data['id']
         order = self.retrieve_object(pk)
         serializer = OrderSerializer(order, data=request.data)
@@ -131,8 +130,12 @@ class TicketList(viewsets.ModelViewSet):
             except Exception as e:
                 return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
             order = self.retrieve_order(ticket_data['order_id'])
-            order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
-            order.save()
+            try: # check if order has been already print
+                order.check_is_printed() 
+                order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
+                order.save()
+            except Exception as e:
+                return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -154,7 +157,6 @@ class TicketList(viewsets.ModelViewSet):
             else:
                 ticket.number -= item['placeDeleted']
                 order.total -= ticket.customer_type.price * item['placeDeleted']
-
             ticket.save()
             order.save()
             if avoir:

@@ -17,7 +17,8 @@ class CalendarContainer extends Component {
         show = true
         this.setState({show})
     }
-    send_new_date = date => {
+    
+    send_new_date = date => { // send new date to props
         this.props.update_date(date)
         this.setState({show: false})
     }
@@ -38,7 +39,7 @@ class CalendarContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = store => { // data from redux store
     return {
         date: store.dateStore.date,
         dateFormatted: display_date_formatted(store),
