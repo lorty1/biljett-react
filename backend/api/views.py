@@ -143,7 +143,6 @@ class TicketList(viewsets.ModelViewSet):
         if order.generated == True: # if payment done, avoir created
             avoir, created = Avoir.objects.get_or_create(
                 order_id=order.pk,
-                created_on=datetime.datetime.now().date()
             )
         #supression total ou partiel du ticket
         for item in data:
@@ -158,12 +157,9 @@ class TicketList(viewsets.ModelViewSet):
 
             ticket.save()
             order.save()
-
-            try:
+            if avoir:
                 avoir.total = ticket.customer_type.price * item['placeDeleted']
                 avoir.cancelled += item['placeDeleted']
                 avoir.save()
-            except:
-                pass
         serializer = OrderSerializer(order)
         return Response(serializer.data)

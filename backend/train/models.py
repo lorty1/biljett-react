@@ -36,6 +36,12 @@ class Ride(models.Model):
         verbose_name =_(u'Heure de départ')
         verbose_name_plural =_(u'Heure de départ')
     
+    def __str__(self):
+        return '{0}: {1}'.format(self.departure.title, self.departure_hour)
+    
+    def __unicode__(self):
+        return '{0}: {1}'.format(self.departure.title, self.departure_hour)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

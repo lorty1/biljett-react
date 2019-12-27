@@ -60,7 +60,23 @@ class Checkout(models.Model):
         verbose_name_plural = _(u'Caisse')
 
     def __unicode__(self):
-        return str(self.created_on)
+        return self.created_on.strftime('%d-%m-%y')
+    
+    def __str__(self):
+        return self.created_on.strftime('%d-%m-%y')
+
+    # def update_checkout(self, ticket):
+        # if ticket.customer_type.title is 'adult':
+
+        # if tikcket.customer_type is 'children':
+
+        # if ticket.customer_type is 'adult-voucher'
+
+        # if ticket.customer_type is 'children-voucher'
+
+        # if ticket.customer_type is 'group'
+        
+        # if ticket.customer_type is 'free'
 
 
 class TicketSettings(models.Model):
@@ -217,7 +233,8 @@ class Avoir(models.Model):
         verbose_name = _(u'Avoir')
         verbose_name_plural = _(u'Avoirs')
 
-
+    def __str__(self):
+        return self.order.reference
     def __unicode__(self):
         return str(self.order)
 
