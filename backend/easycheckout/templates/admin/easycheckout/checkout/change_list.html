@@ -1,0 +1,167 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+<!-- Override extrahead to add Chart.js -->
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
+<script>
+
+document.addEventListener('DOMContentLoaded', async() => {
+  ///admin/web/emailsubscriber/chart_data/
+    var dataOrder = []; // Checkout total fields
+    var dataAvoir = []; // Checkout total_avoir fields
+    var chartitData = [];
+    var chart;
+    var dataTicketCount = [];
+    var time = {};
+    var params;
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  let load_data = (paramsSelected)=> {
+    dataOrder = []
+    dataAvoir = []
+    if(!paramsSelected) {
+      params = {
+        'period':'month_actual'
+      }
+      time = {
+        unit: 'day',
+        round: 'day',
+        displayFormats: {
+          day: 'MMM D',
+        },
+        tooltipFormat: 'DD/MM/YY',
+      }
+    }else {
+      params = {
+        'period': paramsSelected
+      }
+    }
+    if (paramsSelected == 'year') {
+      console.log('year')
+      time = {
+        unit: 'year',
+        round: 'year'
+      }
+    }else if (paramsSelected == 'month') {
+      console.log('month')
+      time = {
+        displayFormats: {'day': 'MM/YY'},
+        tooltipFormat: '/MM/YY',
+        unit: 'month',
+      }
+    }else {
+      time = {
+        unit: 'day',
+        round: 'day',
+        displayFormats: {
+          day: 'MMM D',
+        },
+        tooltipFormat: 'DD/MM/YY',
+      }
+    }
+    let query = Object.keys(params) // list query params for fetch
+             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+             .join('&');
+
+    fetch(`/admin/easycheckout/checkout/chartit_data/?${query}`,{
+      method: 'GET',
+    }).then(response=> {
+      return response.json() //transform response to Json format
+    }).then(data=> {
+      console.log('data',data)
+      chartitData = data
+      chartitData.forEach((d) => {
+          dataOrder.push({ // first dataset
+            'x':d.date,
+            'y': d.total
+        })
+        dataAvoir.push({ //second dataset
+            'x':d.date,
+            'y': parseFloat(d.avoir)
+        })
+        dataTicketCount.push({
+          'x': d.date,
+          'y': d.tickets_count
+        })
+      })
+    }).then(()=> {
+      chart_constructor()
+    })
+  }
+  const chart_constructor = function() { // load chart with two dataset
+    if(chart) {
+      chart.destroy()
+    }
+    chart = new Chart(ctx, {
+      
+    type: 'bar',
+    data: {
+      datasets: [
+        {
+          label: 'Avoir',
+          data: dataAvoir,
+          backgroundColor: 'rgba(220,20,20,0.5)',
+        },
+         {
+          label: 'Recette',
+          data: dataOrder,
+          backgroundColor: '#3b8d5a',
+        },
+        {
+          label: 'Ticket imprimé',
+          data: dataTicketCount,
+          backgroundColor: '#7e4070',
+        } 
+      ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            offset:true,
+            time: time
+          },
+        ],
+        yAxes: [
+          {
+            barThickness:'30',
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+}
+load_data()
+var handle_select = ()=> { // load data with select value for params('month_actual', 'year' or 'month')
+  load_data(event.target.value)
+}
+document.getElementById('select-period').onchange = handle_select;
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Render our chart -->
+<select id="select-period">
+  <option value="month_actual">Mois actuel</option>
+  <option value="month">Par mois</option>
+  <option value="year">Par année</option>
+</select>
+<div style="width: 80%;">
+  <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="myChart"></canvas>
+</div>
+<!-- Render the rest of the ChangeList view -->
+{{ block.super }}
+{% endblock %}

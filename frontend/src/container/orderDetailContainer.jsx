@@ -127,7 +127,7 @@ class OrderDetailContainer extends Component {
 
     */
     print_ticket = function () {
-        let { tickets_list } = this.props.order;
+        let { tickets_list, reference } = this.props.order;
         var img = backData
         var doc = new jsPDF('p', 'mm', [54, 86.1])
         let imgHeight = 86.1;
@@ -144,12 +144,14 @@ class OrderDetailContainer extends Component {
                         doc.addPage();
                     }
                     doc.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    doc.text(reference, 27, 50, 'center')
                     doc.text(tickets_list[i].customer_type.title, 27, 79, 0, 0, 'center');
                     doc.text(tickets_list[i].train_departure.ride.departure_hour, 27, 67, 'center');
                     doc.text(datePrint, 27, 58, 'center');
                     if (tickets_list[i].train_arrival) {
                         doc.addPage();
                         doc.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        doc.text(reference, 27, 50, 'center')
                         doc.text(tickets_list[i].customer_type.title, 27, 79, 0, 0, 'center');
                         doc.text(tickets_list[i].train_arrival.ride.departure_hour, 27, 67, 'center');
                         doc.text(datePrint, 27, 58, 'center');
@@ -157,12 +159,14 @@ class OrderDetailContainer extends Component {
                 } else if (i > 0) {
                     doc.addPage();
                     doc.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    doc.text(reference, 27, 50, 'center')
                     doc.text(tickets_list[i].customer_type.title, 27, 79, 0, 0, 'center');
                     doc.text(tickets_list[i].train_departure.ride.departure_hour, 27, 67, 'center');
                     doc.text(datePrint, 27, 58, 'center');
                     if (tickets_list[i].train_arrival) {
                         doc.addPage();
                         doc.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        doc.text(reference, 27, 50, 'center')
                         doc.text(tickets_list[i].customer_type.title, 27, 79, 0, 0, 'center');
                         doc.text(tickets_list[i].train_arrival.ride.departure_hour, 27, 67, 'center');
                         doc.text(datePrint, 27, 58, 'center');
@@ -217,7 +221,6 @@ class OrderDetailContainer extends Component {
                     name: name,
                     email: email,
                     is_booked: true,
-                    generated: false,
                     book_to: new Date(this.props.order.tickets_list[0].train_departure.date_on)
                 }
                 this.props.order_update(data)
@@ -239,8 +242,12 @@ class OrderDetailContainer extends Component {
             generated: true,
             payment: paymentType
         }
-        this.props.order_update(data)
+        if(this.props.order.generate == true) { // if order has already printed just print tickets
+            return this.print_ticket()
+        }else {// else order is updated in BDD and tickets are printed
+            this.props.order_update(data)
             .then(this.print_ticket())
+        }
     }
     panel_render = () => {
             return (

@@ -56,6 +56,7 @@ class App extends Component {
     this.setState({ ridePanel })
   }
   switch_ride_panel = () => {
+    console.log('ride panel')
     let { ridePanel } = this.state
     ridePanel = 'ride'
     this.setState({ ridePanel })
@@ -108,7 +109,7 @@ class App extends Component {
             unmountOnExit
           >
             <UserListContainer
-            switch_ride_panel={()=>this.switch_ride_panel}
+            switch_ride_panel={()=>this.switch_ride_panel()}
             ></UserListContainer>
           </CSSTransition>
           {this.state.ridePanel == 'ride' ?

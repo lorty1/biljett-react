@@ -1,0 +1,143 @@
+{% extends "admin/change_form.html" %}
+{% load static i18n admin_urls%}
+
+<!-- Override extrahead to add Chart.js -->
+{% block extrahead %}
+<!--Hidden history button-->
+{% block object-tools-items %} 
+    <li style="display:none">
+        <a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="historylink">{% trans "History" %}</a>
+    </li>
+    <li style="display:none">
+        <a href="mylink/" class="historylink">My Link</a>
+    </li>
+    {% if has_absolute_url %}
+        <li style="display:none">
+            <a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="viewsitelink">{% trans "View on site" %}</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async() => {
+  var chartData = []
+  var chartAdult = [];
+  var chartAdultVoucher = [];
+  var chartChild = [];
+  var chartChildVoucher = []
+  var chartGroup = []
+  var chartAvoir = [];
+
+  var url = document.location.pathname.split('/'); // get id of checkout
+  var checkout_id = url[url.length - 3];
+  console.log(checkout_id)
+  const doughnut = document.getElementById('myChart').getContext('2d');
+  const bar = document.getElementById('myChartBar').getContext('2d');
+  //admin url for get data in easycheckout admin
+  fetch(`/admin/easycheckout/checkout/chartit_data/${checkout_id}`, {
+    method: 'GET'
+  }).then(response => {
+    return response.json() // transform data in json
+  }).then(data=> { // set data in corresponding table
+    chartDataPie = [data.total_A, data.total_B]
+    chartAdult.push({'x':new Date(data.created_on), 'y': data.adults_tickets_A + data.adults_tickets_B})
+    chartChild.push({'x':new Date(data.created_on), 'y':  data.childs_tickets_A + data.childs_tickets_B})
+    chartAdultVoucher.push({'x':new Date(data.created_on), 'y': data.adults_tickets_voucher_A + data.adults_tickets_voucher_B})
+    chartChildVoucher.push({'x':new Date(data.created_on), 'y': data.childs_tickets_voucher_A + data.childs_tickets_voucher_B})
+  }).then(()=> { // charge different chart
+    console.log(chartAdult, chartAdultVoucher, chartChild, chartChildVoucher)
+    chart_doughnut()
+    chart_bar()
+  })
+
+  // Render the chart doughnut
+  const chart_doughnut = ()=> {
+    new Chart(doughnut, {
+  type: 'pie',
+  data: {
+    labels: ['Total Riquet', 'Total Ecluse'],
+    datasets: [{
+      data: chartDataPie,
+      backgroundColor: [
+        '#7e4070',
+        '#1393b9',
+      ],
+      borderColor: [
+        '#000000',
+        '#000000',
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+   	cutoutPercentage: 10,
+    responsive: true,
+
+  }
+})
+}
+
+  // Parse the dates to JS
+
+
+  // Render the chart
+  const chart_bar = ()=> {new Chart(bar, {
+    type: 'bar',
+    data: {
+      datasets: [
+        {
+          label: 'Adulte',
+          data: chartAdult,
+          backgroundColor: '#7e4070',
+        },
+        {
+          label: 'Enfant',
+          data: chartChild,
+          backgroundColor: '#feca0a',
+        },
+        {
+          label: 'Voucher adulte',
+          data: chartAdultVoucher,
+          backgroundColor: '#1393b9',
+        },
+        {
+          label: 'Voucher enfant',
+          data: chartChildVoucher,
+          backgroundColor: '#feca0a',
+        },
+      ]
+    },
+    options: {
+      
+      responsive: true,
+      scales: {
+        xAxes: [{
+         // barThickness: 60,
+        }],
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  })
+}
+});
+</script>
+{% endblock %}
+
+{% block content %}
+  <canvas style="margin-bottom: 30px; width: 100%; height: 50%;" id="myChartBar"></canvas>
+<div style="display:flex">
+  
+  <div style="width: 70%;">
+    {{ block.super }}
+  </div>
+  <canvas style="max-width:608px !important;max-height:334px !important; width: 30%; margin: 0 0 0 auto; height: 50%" id="myChart"></canvas>
+</div>
+{% endblock %}

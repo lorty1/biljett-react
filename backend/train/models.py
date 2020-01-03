@@ -89,19 +89,3 @@ class Train(models.Model):
     def increase_capacity(self, number):
         self.actual_capacity = self.actual_capacity - number
         self.save()
-
-# class Capacity(models.Model):
-#     train = models.ForeignKey(Train, verbose_name=_('train'), help_text=_('Choose a train'), on_delete=models.CASCADE)
-
-
-#     class Meta:
-#         ordering = ['date_on']
-#         verbose_name = _(u'7 - capacity')
-#         verbose_name_plural = _(u'7 - capacities')
-
-#     def __unicode__(self):
-#         return str('%s - %s') % (self.train.slug, str(self.date_on))
-
-#     def save(self, *args, **kwargs):
-#         total_capacity = self.train.total_capacity
-#         super(Capacity, self).save(*args, **kwargs)

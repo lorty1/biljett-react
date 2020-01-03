@@ -1,11 +1,23 @@
 from rest_framework import serializers
 from train.models import Departure, Ride, Train
-from easycheckout.models import Order, CustomerType, Ticket, Avoir
+from easycheckout.models import Order, CustomerType, Ticket, Avoir, Checkout
 
 class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departure
         fields = '__all__'
+
+class CheckoutSerializer(serializers.ModelSerializer):
+    # chart_total = serializers.SerializerMethodField('get_checkout_total')
+    # chart_avoir = serializers.SerializerMethodField('get_checkout_avoir')
+
+    # def get_checkout_avoir(self, Checkout):
+    #    return  Checkout.get_avoir() 
+    # def get_checkout_total(self, Checkout):
+    #    return  Checkout.get_total()
+    class Meta:
+        model = Checkout
+        fields = ['created_on','total', 'total_avoir']
 
 class AvoirSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.db.models import Q
 from train.models import Departure, Ride, Train
-from easycheckout.models import Order, CustomerType, Ticket
+from easycheckout.models import Order, CustomerType, Ticket, Checkout
 from .serializers import *
 from django.http import Http404
 from rest_framework import viewsets, status
@@ -70,7 +71,9 @@ class OrderList(viewsets.ModelViewSet):
     def list(self, request):
         if 'search' in request.GET:
             search = request.GET['search']
-            self.queryset = self.queryset.filter(reference__contains=search)
+            filter_name = Q(name__contains=search)
+            filter_reference= Q(reference__contains=search)
+            self.queryset = self.queryset.filter(filter_name | filter_reference)
 
         page = self.paginate_queryset(self.queryset)
         if page is not None:
@@ -90,6 +93,9 @@ class OrderList(viewsets.ModelViewSet):
         serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            if 'generated' in request.data:
+                checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
+                checkout.update_order_checkout(order.id)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -163,5 +169,15 @@ class TicketList(viewsets.ModelViewSet):
                 avoir.total = ticket.customer_type.price * item['placeDeleted']
                 avoir.cancelled += item['placeDeleted']
                 avoir.save()
+                checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
+                checkout.avoir_checkout(avoir.total)
         serializer = OrderSerializer(order)
+        return Response(serializer.data)
+
+class CheckoutList(viewsets.ModelViewSet):
+    serializer_class = CheckoutSerializer
+    queryset = Checkout.objects.all()
+
+    def list(self, request):
+        serializer = CheckoutSerializer(self.queryset,many=True)
         return Response(serializer.data)

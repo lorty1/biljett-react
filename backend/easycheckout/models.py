@@ -12,6 +12,7 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.core.files import File
 from train.models import *
+import decimal
 from django.utils import timezone
 from datetime import datetime, timedelta, time
 import locale
@@ -26,7 +27,7 @@ PAYMENT_TYPE = (
 )
 
 class Checkout(models.Model):
-    created_on = models.DateTimeField(verbose_name=u"Date de clôture")
+    created_on = models.DateField(verbose_name=u"Date de clôture")
     start = models.IntegerField(verbose_name=_(u'Caisse au départ'), default=0, null=True, blank=True, help_text="Total en euros")
     adults_tickets_A = models.IntegerField(verbose_name=_(u'Adulte 7 euros Riquet'), default=0, null=True, blank=True)
     adults_tickets_5_A = models.IntegerField(verbose_name=_(u'Adulte 6 euros Riquet'), default=0, null=True, blank=True)
@@ -53,32 +54,94 @@ class Checkout(models.Model):
     total_voucher = models.IntegerField(verbose_name=_(u'Total vouchers'), default=0, null=True, blank=True, help_text="Total en euros")
     office_payment = models.IntegerField(verbose_name=_(u'Paiements Office de tourisme'), default=0, null=True, blank=True)
     total_office = models.IntegerField(verbose_name=_(u'Total office'), default=0, null=True, blank=True, help_text="Total en euros")
+    avoir = models.IntegerField(verbose_name=_(u'Nombre d\'avoir'), default=0, null=True, blank=True)
+    total_avoir = models.DecimalField(verbose_name=_(u'Total avoir'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     is_closed = models.BooleanField(_(u'Caisse fermée'), default=False)
 
     class Meta:
+        app_label="easycheckout"
         verbose_name = _(u'Caisse')
         verbose_name_plural = _(u'Caisse')
 
     def __unicode__(self):
-        return self.created_on.strftime('%d-%m-%y')
+        return self.created_on.strftime('%Y-%m-%d')
     
     def __str__(self):
-        return self.created_on.strftime('%d-%m-%y')
+        return self.created_on.strftime('%Y-%m-%d')
 
-    # def update_checkout(self, ticket):
-        # if ticket.customer_type.id is 1:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
-        # if tikcket.customer_type.id is 2:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
-        # if ticket.customer_type.id is 3:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
-        # if ticket.customer_type.id is 4:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
-        # if ticket.customer_type.id is 5:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
-        # if ticket.customer_type.id is 6:
-            # print(ticket.customer_type.title, ticket.customer_type.id)
+    def get_total(self):
+        return {
+            'x':self.created_on,
+            'y': self.total
+        }
+    def get_avoir(self):
+        return {
+            'x':self.created_on,
+            'y': self.total_avoir
+        }
+    def avoir_checkout(self, price):
+        print(type(self.total_avoir), type(price))
+        self.avoir += 1
+        self.total_avoir += decimal.Decimal(price)
+        self.save()
 
+    def ticket_checkout(self, ticket):
+        '''
+        Update checkout for ticket in order
+        '''
+        if ticket.train_departure.ride.departure.id is 2: # if departure is Ecluse
+            if ticket.customer_type.slug == 'adult':
+                self.adults_tickets_A += ticket.number
+            elif ticket.customer_type.slug == 'children':
+                self.childs_tickets_A += ticket.number
+            elif ticket.customer_type.slug == 'adult-voucher':
+                self.adults_tickets_voucher_A += ticket.number
+            elif ticket.customer_type.slug == 'children-voucher':
+                self.childs_tickets_voucher_A += ticket.number
+            elif ticket.customer_type.slug == 'group':
+                self.adults_tickets_5_A +=ticket.number
+            self.total_A += ticket.number * ticket.customer_type.price
+        else:
+            if ticket.customer_type.slug == 'adult':
+                self.adults_tickets_B += ticket.number
+            elif ticket.customer_type.slug == 'children':
+                self.childs_tickets_B += ticket.number
+            elif ticket.customer_type.slug == 'adult-voucher':
+                self.adults_tickets_voucher_B += ticket.number
+            elif ticket.customer_type.slug == 'children-voucher':
+                self.childs_tickets_voucher_B += ticket.number
+            elif ticket.customer_type.slug == 'group':
+                self.adults_tickets_5_B +=ticket.number
+            self.total_B += ticket.number * ticket.customer_type.price
+            self.save()
+
+    def update_order_checkout(self, id):
+        
+        '''
+        MAJ checkout if order.generated is True
+        '''
+        order = Order.objects.get(id=id)
+        tickets = Ticket.objects.filter(order=order,is_cancelled=False)
+        for ticket in tickets:
+            self.ticket_checkout(ticket)
+        if order.payment == 'cash payment':
+            self.cash_payment += 1
+            self.total_cash += order.total
+        elif order.payment == 'check payment':
+            self.check_payment += 1
+            self.total_check += order.total
+        elif order.payment == 'CB payment':
+            self.cb_payment += 1
+            self.total_cb += order.total
+        elif order.payment == 'chèque vacances':
+            self.tourism_payment += 1
+            self.total_tourism += order.total
+        else:
+            self.office_payment += 1
+            self.total_office += order.total
+        self.total += order.total
+        self.save()
+                
 class TicketSettings(models.Model):
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
     tickets = models.IntegerField(verbose_name=_(u'Nombre de tickets vendus'), default=0, null=True, blank=True)
