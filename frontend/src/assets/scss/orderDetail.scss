@@ -113,12 +113,17 @@
             margin: 1rem auto auto auto;
         }
     }
-    .ticket-deleted:nth-child(odd) {
-        background-color: $dark-green;
+    .ticket-deleted {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
         height: 50%;
+        border: 2px solid black;
+    }
+    .ticket-deleted:nth-child(odd) {
+        background-color: $dark-blue;
     }
     .ticket-deleted:nth-child(even) {
-        background-color: $dark-blue;
-        height: 50%;
+        background-color: $dark-green;
     }
 }

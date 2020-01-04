@@ -94,6 +94,7 @@ class OrderList(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             if 'generated' in request.data:
+                print('ok')
                 checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
                 checkout.update_order_checkout(order.id)
             return Response(serializer.data)
@@ -165,12 +166,14 @@ class TicketList(viewsets.ModelViewSet):
                 order.total -= ticket.customer_type.price * item['placeDeleted']
             ticket.save()
             order.save()
-            if avoir:
+            try: # if variable avoir created calcul the amount refunded
                 avoir.total = ticket.customer_type.price * item['placeDeleted']
                 avoir.cancelled += item['placeDeleted']
                 avoir.save()
                 checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
                 checkout.avoir_checkout(avoir.total)
+            except:
+                pass
         serializer = OrderSerializer(order)
         return Response(serializer.data)
 

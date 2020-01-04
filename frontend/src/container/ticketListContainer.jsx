@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import TicketList from '../components/ticketListComponent'
 import '../assets/scss/ticketList.scss'
 
 class TicketListContainer extends Component {
@@ -24,7 +23,7 @@ class TicketListContainer extends Component {
                                 :
                                 null
                             }
-                            <p>{ticket.customer_type.title}: {ticket.number}</p>
+                            <p>Ticket {ticket.customer_type.title}: {ticket.number}</p>
                         </div>
                     </div>
                 )

@@ -67,7 +67,7 @@ class customerTypeComponent extends Component {
                                 return (
                                     <div className="item-center flex-container--column">
                                         <p className="item-center u-capitalize">Adulte</p>
-                                        <p className="txt-white item-center u-uppercase">pass Vouher</p>
+                                        <p className="txt-white item-center u-uppercase">pass Voucher</p>
                                     </div>
                                 )
                             default:

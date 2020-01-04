@@ -13,11 +13,7 @@ import '../assets/scss/orderDetail.scss'
 class OrderDetailContainer extends Component {
     constructor(props) {
         super(props)
-        this.total_price()
         this.ticket_sorted_by_customer()
-    }
-    componentDidUpdate(nextProps, nextState) {
-
     }
     state = {
         ticketsSorted: null,
@@ -35,12 +31,6 @@ class OrderDetailContainer extends Component {
         ],
         paymentType: null,
     }
-    total_price = () => {
-        let total = this.props.order.tickets_list.reduce((accumulator, currentValue) => {
-            return accumulator + (currentValue.customer_type.price * currentValue.number)
-        }, 0)
-        this.state.total = total
-    }
     ticket_sorted_by_customer = () => {
         let initialTicketsSorted = {}
         for (var ticket of this.props.order.tickets_list) {
@@ -55,10 +45,9 @@ class OrderDetailContainer extends Component {
         }
         this.state.ticketsSorted = initialTicketsSorted
     }
-    removed_ticket = id=> {
-        console.log('removed', id)
-        this.props.removed_ticket(id)
-    }
+
+    removed_ticket = id => this.props.removed_ticket(id) 
+
     ticket_list = () => {
         const list = this.props.deleteItems.map(ticket => {
             return (
@@ -77,9 +66,11 @@ class OrderDetailContainer extends Component {
     place_to_deleted = (action, id) => {
         let item = this.get_ticket(id)
         if(action == 'decrement') {
-            if(item.placeDeleted >= 1) {
+            if(item.placeDeleted >= 2) {
                 item.placeDeleted -= 1;
                 this.props.update_deleteItems(item);
+            }else {
+                this.props.removed_ticket(id)
             }
         }else {
             if(item.placeDeleted < item.ticket.number) {
@@ -247,7 +238,8 @@ class OrderDetailContainer extends Component {
             generated: true,
             payment: paymentType
         }
-        if(this.props.order.generate == true) { // if order has already printed just print tickets
+        console.log('generated', this.props.order.generated)
+        if(this.props.order.generated == true) { // if order has already printed just print tickets
             return this.print_ticket()
         }else {// else order is updated in BDD and tickets are printed
             this.props.order_update(data)
@@ -256,7 +248,7 @@ class OrderDetailContainer extends Component {
     }
     panel_render = () => {
             return (
-                <div className="item-fluid grid-4">
+                <div className="item-fluid grid-5 has-gutter pas">
                     {this.ticket_list()}
                 </div>
             )
@@ -298,7 +290,7 @@ class OrderDetailContainer extends Component {
                 order_id:this.props.order.id
             }
         })
-        this.props.delete_ticket(list) //MAJ BDD
+            this.props.delete_ticket(list) //MAJ BDD
         .then(()=> {
             this.props.clear_itemsDeleted() //clear deleted tickets panel
         }).then(()=> {
