@@ -65,6 +65,7 @@ class App extends Component {
     let { deleteItems } = this.state;
     if(deleteItems.length == 0) {
       deleteItems.push({
+        id: item.id,
         index: index,
         placeDeleted: item.number,
         ticket: item
@@ -97,6 +98,16 @@ class App extends Component {
   
   clear_itemsDeleted = ()=> this.setState({deleteItems:[]})
 
+  removed_ticket = id => { // remove specific ticket from list of deleted
+    console.log('app removed')
+    let { deleteItems } = this.state;
+    deleteItems = deleteItems.filter(element => {
+      return element.id !== id
+    })
+    console.log('tr',deleteItems)
+    this.setState({ deleteItems })
+    console.log('tr2',deleteItems)
+  }
   render() {
     return (
       <div className="app-container global-container flex-container--column">
@@ -117,6 +128,7 @@ class App extends Component {
               show_error_messages={this.show_error_messages.bind(this)}
             ></RideConstructorContainer> :
             <OrderDetailContainer
+              removed_ticket={id=> {this.removed_ticket(id)}}
               clear_itemsDeleted={()=>this.clear_itemsDeleted()}  
               update_deleteItems={item=>this.update_deleteItems(item)}
               deleteItems={this.state.deleteItems}

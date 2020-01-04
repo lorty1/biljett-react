@@ -1,15 +1,15 @@
-import {GET_ORDER_LIST, GET_ORDER, CREATE_ORDER,UPDATE_ORDER, UPDATE_FILTER} from '../actions/orderAction.js'
+import {GET_ORDER_LIST, UPDATE_PENDING, GET_ORDER, CREATE_ORDER,UPDATE_ORDER, UPDATE_FILTER} from '../actions/orderAction.js'
 import { CREATE_TICKET, DELETE_TICKET } from '../actions/ticketAction'
 
 const initialState = {
     searchFilter: null,
+    status: false,
     orders: [],
     orderSelected: {}
 }
 export default function(store=initialState, action) {
     switch(action.type) {
         case GET_ORDER_LIST:
-            console.log('order', initialState)
             return {
                 ...store,
                 orders: action.payload
@@ -27,7 +27,6 @@ export default function(store=initialState, action) {
                 orders: action.payload
             }
         case CREATE_TICKET:
-            console.log('ac', action.payload)
             return {
                 ...store,
                 orderSelected: action.payload.order
@@ -37,10 +36,22 @@ export default function(store=initialState, action) {
                 ...store,
                 searchFilter: action.payload || initialState.searchFilter
             }
-        case UPDATE_ORDER:
+        case UPDATE_PENDING:
             return {
                 ...store,
-                orderSelected: action.payload
+                status: true
+            }
+        case UPDATE_ORDER:
+            const index = store.orders.results.findIndex(order=> order.id == action.payload.order.id)
+            return {
+                ...store,
+                orders: {
+                    ...store.orders,
+                    results: store.orders.results.map((element, i)=> i == index ? element = action.payload.order : element = element
+                    )
+                },
+                status: false,
+                orderSelected: action.payload.order
             }
         case DELETE_TICKET:
             return {

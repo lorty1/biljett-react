@@ -4,7 +4,8 @@ export const GET_ORDER_LIST = 'GET_ORDER_LIST'
 export const UPDATE_TICKET = 'UPDATE_TICKET'
 export const UPDATE_FILTER = 'UPDATE_FILTER'
 export const UPDATE_ORDER = 'UPDATE_ORDER'
-
+export const UPDATE_PENDING = 'UPDATE_PENDING'
+import store from '../reducers'
 export const get_cookie = ()=> {
     return document.cookie.split('=')[1]
 }
@@ -26,8 +27,7 @@ export function get_order_list(index, filter) {
     if(!index) {
         index = 1
     }
-    return dispatch => {
-
+    return (dispatch) => {
         Axios({
             method: 'get',
             url: '/api/order/',
@@ -79,26 +79,32 @@ export function create_order(reference) {
     }
 }
 export const order_update = data => {
-    console.log('ok ca passe', data)
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            Axios({
-                method: 'patch',
-                url: 'api/order/',
-                headers: {
-                    "X-CSRFToken": get_cookie()
-                },
-                data: data,
-            }).then(response=> {
-                dispatch({
-                    type: UPDATE_ORDER,
-                    payload: response.data
+    return (dispatch, getState) => {
+/*             dispatch({
+                type: UPDATE_PENDING
+            }) */
+            var ordersList = getState().orderStore.orders
+            var indexOrderSelected = '';
+            return new Promise((resolve, reject) => {
+                Axios({
+                    method: 'patch',
+                    url: 'api/order/',
+                    headers: {
+                        "X-CSRFToken": get_cookie()
+                    },
+                    data: data,
+                }).then(response=> {
+                    dispatch({
+                        type: UPDATE_ORDER,
+                        payload: {
+                            order: response.data,
+                        }
+                    })
+                    resolve()
+                }).catch(error=> {
+                    console.log('update',error.response)
+                    reject(error)
                 })
-                resolve()
-            }).catch(error=> {
-                console.log('update',error.response)
-                reject(error)
             })
-        })
     }
 }

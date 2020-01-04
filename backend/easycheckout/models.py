@@ -84,6 +84,10 @@ class Checkout(models.Model):
         self.avoir += 1
         self.total_avoir += decimal.Decimal(price)
         self.save()
+    
+    def save(self, *args, **kwargs):
+        self.total = self.total_A + self.total_B - self.total_avoir
+        super(Checkout, self).save(*args, **kwargs)
 
     def ticket_checkout(self, ticket):
         '''

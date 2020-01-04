@@ -55,10 +55,15 @@ class OrderDetailContainer extends Component {
         }
         this.state.ticketsSorted = initialTicketsSorted
     }
+    removed_ticket = id=> {
+        console.log('removed', id)
+        this.props.removed_ticket(id)
+    }
     ticket_list = () => {
         const list = this.props.deleteItems.map(ticket => {
             return (
                 <OrderDetailTicketList
+                    removed_ticket={id=> this.removed_ticket(id)}
                     place_to_deleted={(action, id)=>this.place_to_deleted(action, id)}
                     index={ticket.index}
                     placeDeleted={ticket.placeDeleted}
@@ -322,7 +327,10 @@ class OrderDetailContainer extends Component {
                 {this.state.panelChoice == 'payment' ?
                     <button onClick={() => this.order_booked()} className="print-button border-top">Imprimer</button>
                     : this.state.panelChoice == 'registration' ?
-                        <button onClick={() => this.order_registered()} className="print-button border-top">Réserver</button>
+                        <button onClick={() => this.order_registered()} className={
+                            "print-button border-top"
+                            +(this.props.status ? ' selected' : '')
+                        }>Réserver</button>
                         :
                         <button onClick={() => this.ticket_deleted()} className="print-button border-top">Supprimer</button>
                 }
@@ -333,7 +341,8 @@ class OrderDetailContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        order: store.orderStore.orderSelected
+        order: store.orderStore.orderSelected,
+        status: store.orderStore.status
     }
 }
 const mapDispatchToProps = {

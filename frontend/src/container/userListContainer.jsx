@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { get_order_list, create_order, get_order } from '../actions/orderAction'
+import { get_order_list, create_order, get_order, order_update } from '../actions/orderAction'
 
 import '../assets/scss/orderList.scss'
 import PreviousArrow from '../assets/pictos/previous_arrow.png'
@@ -64,7 +64,8 @@ const mapStateToProps = store => { // data from redux store
 const mapDispatchToProps = { // function from actions
     get_order_list,
     create_order,
-    get_order
+    get_order,
+    order_update
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(userListContainer)

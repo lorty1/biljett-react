@@ -13,7 +13,7 @@ class orderResumeComponent extends Component {
             .map(element => {
                 return (
                     <tr>
-                        <td colSpan="3">{this.props.ticketsSorted[element].count} {element}</td>
+                        <td colSpan="3">{this.props.ticketsSorted[element].count} tarif {element}</td>
                         <td className="txtcenter">{this.decimal_price(this.props.ticketsSorted[element].total)} €</td>
                     </tr>
                 )
