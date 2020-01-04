@@ -34,14 +34,14 @@ class Checkout(models.Model):
     adults_tickets_voucher_A = models.IntegerField(verbose_name=_(u'Adulte Voucher Riquet'), default=0, null=True, blank=True)
     childs_tickets_A = models.IntegerField(verbose_name=_(u'Enfants 4 euros Riquet'), default=0, null=True, blank=True)
     childs_tickets_voucher_A = models.IntegerField(verbose_name=_(u'Enfants Voucher Riquet'), default=0, null=True, blank=True)
-    total_A = models.IntegerField(verbose_name=_(u'Total Riquet'), default=0, null=True, blank=True, help_text="Total en euros")
+    total_A = models.DecimalField(verbose_name=_(u'Total Riquet'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     adults_tickets_B = models.IntegerField(verbose_name=_(u'Adultes 7 euros Fonserane'), default=0, null=True, blank=True)
     adults_tickets_5_B = models.IntegerField(verbose_name=_(u'Adultes 6 euros Fonserane'), default=0, null=True, blank=True)
     adults_tickets_voucher_B = models.IntegerField(verbose_name=_(u'Adultes Voucher Fonserane'), default=0, null=True, blank=True)
     childs_tickets_B = models.IntegerField(verbose_name=_(u'Enfants 4 euros Fonserane'), default=0, null=True, blank=True)
     childs_tickets_voucher_B = models.IntegerField(verbose_name=_(u'Enfants Voucher Fonserane'), default=0, null=True, blank=True)
-    total_B = models.IntegerField(verbose_name=_(u'Total Fonserane'), default=0, null=True, blank=True, help_text="Total en euros")
-    total = models.IntegerField(verbose_name=_(u'Caisse en fin de journée'), default=0, null=True, blank=True, help_text="Total en euros")
+    total_B =models.DecimalField(verbose_name=_(u'Total Fonserane'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total = models.DecimalField(verbose_name=_(u'Caisse en fin de journée'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     cb_payment = models.IntegerField(verbose_name=_(u'Paiements par carte bancaire'), default=0, null=True, blank=True)
     total_cb = models.IntegerField(verbose_name=_(u'Total cb'), default=0, null=True, blank=True, help_text="Total en euros")
     cash_payment = models.IntegerField(verbose_name=_(u'Paiements en liquide'), default=0, null=True, blank=True)
@@ -87,7 +87,7 @@ class Checkout(models.Model):
     
     def save(self, *args, **kwargs):
         print('dec',type(self.total_cash),type(self.total_B),type(self.total_avoir))
-        self.total = self.total_A + self.total_B - decimal.Decimal(self.total_avoir)
+        self.total = self.total_A + self.total_B - self.total_avoir
         super(Checkout, self).save(*args, **kwargs)
 
     def ticket_checkout(self, ticket):
@@ -117,6 +117,7 @@ class Checkout(models.Model):
                 self.childs_tickets_voucher_B += ticket.number
             elif ticket.customer_type.slug == 'group':
                 self.adults_tickets_5_B +=ticket.number
+            print('test',ticket.number, ticket.customer_type.price)
             self.total_B += ticket.number * ticket.customer_type.price
             self.save()
 

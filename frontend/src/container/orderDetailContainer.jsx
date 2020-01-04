@@ -25,7 +25,7 @@ class OrderDetailContainer extends Component {
             { title: 'Espèce', paymentType: 'cash payment' },
             { title: 'Chèque', paymentType: 'check payment' },
             { title: 'CB', paymentType: 'CB payment' },
-            { title: 'Cheques vacance', paymentType: 'chèque vacance' },
+            { title: 'Cheques vacances', paymentType: 'chèque vacances' },
             { title: 'Pass Voucher', paymentType: 'voucher-pass tourisme' },
             { title: 'Office de tourisme', paymentType: 'office de tourisme' }
         ],
