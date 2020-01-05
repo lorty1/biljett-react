@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
 class orderResumeComponent extends Component {
-    decimal_price = value => {
+/*     decimal_price = value => {
         if (!value) {
             value = 0
         }
         return value.toFixed(2).replace('.',',')
-    }
+    } */
     item_list = () => {
         const list = Object
             .keys(this.props.ticketsSorted)
@@ -14,7 +14,7 @@ class orderResumeComponent extends Component {
                 return (
                     <tr>
                         <td colSpan="3">{this.props.ticketsSorted[element].count} tarif {element}</td>
-                        <td className="txtcenter">{this.decimal_price(this.props.ticketsSorted[element].total)} €</td>
+                        <td className="txtcenter">{this.props.ticketsSorted[element].total} €</td>
                     </tr>
                 )
             })
@@ -41,11 +41,11 @@ class orderResumeComponent extends Component {
                 <div className="mtauto total-section flex-container--column">
                     <div className="flex-container">
                         <p className="w75">Avoir</p>
-                        <p>{this.decimal_price(this.props.avoir)} €</p>
+                        <p>{this.props.avoir} €</p>
                     </div>    
                     <div className="flex-container">
                         <p className="w75">Total</p>
-                        <p>{this.decimal_price(this.props.total)} €</p>
+                        <p>{this.props.total} €</p>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ from .serializers import *
 from django.http import Http404
 from rest_framework import viewsets, status
 import datetime
+from decimal import Decimal
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
 from pagination import OrderListPagination
@@ -125,7 +126,7 @@ class TicketList(viewsets.ModelViewSet):
             'number': request.data['ticket']['customerType']['number']
         }
         serializer = self.serializer_class(data=ticket_data)
-
+        print('okkokokokok', type(request.data['ticket']['customerType']['price']))
         if serializer.is_valid():
             try:
                 trains = [ticket_data['departure_id'], ticket_data['come_back_id']]
@@ -139,7 +140,7 @@ class TicketList(viewsets.ModelViewSet):
             order = self.retrieve_order(ticket_data['order_id'])
             try: # check if order has been already print
                 order.check_is_printed() 
-                order.total += request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
+                order.total += Decimal(request.data['ticket']['customerType']['price']) * request.data['ticket']['customerType']['number']
                 order.save()
             except Exception as e:
                 return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)

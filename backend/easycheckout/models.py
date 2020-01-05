@@ -12,7 +12,7 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.core.files import File
 from train.models import *
-import decimal
+from decimal import Decimal
 from django.utils import timezone
 from datetime import datetime, timedelta, time
 import locale
@@ -34,14 +34,14 @@ class Checkout(models.Model):
     adults_tickets_voucher_A = models.IntegerField(verbose_name=_(u'Adulte Voucher Riquet'), default=0, null=True, blank=True)
     childs_tickets_A = models.IntegerField(verbose_name=_(u'Enfants 4 euros Riquet'), default=0, null=True, blank=True)
     childs_tickets_voucher_A = models.IntegerField(verbose_name=_(u'Enfants Voucher Riquet'), default=0, null=True, blank=True)
-    total_A = models.DecimalField(verbose_name=_(u'Total Riquet'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total_A = models.DecimalField(verbose_name=_(u'Total Riquet'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     adults_tickets_B = models.IntegerField(verbose_name=_(u'Adultes 7 euros Fonserane'), default=0, null=True, blank=True)
     adults_tickets_5_B = models.IntegerField(verbose_name=_(u'Adultes 6 euros Fonserane'), default=0, null=True, blank=True)
     adults_tickets_voucher_B = models.IntegerField(verbose_name=_(u'Adultes Voucher Fonserane'), default=0, null=True, blank=True)
     childs_tickets_B = models.IntegerField(verbose_name=_(u'Enfants 4 euros Fonserane'), default=0, null=True, blank=True)
     childs_tickets_voucher_B = models.IntegerField(verbose_name=_(u'Enfants Voucher Fonserane'), default=0, null=True, blank=True)
-    total_B =models.DecimalField(verbose_name=_(u'Total Fonserane'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
-    total = models.DecimalField(verbose_name=_(u'Caisse en fin de journée'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total_B =models.DecimalField(verbose_name=_(u'Total Fonserane'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total = models.DecimalField(verbose_name=_(u'Caisse en fin de journée'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     cb_payment = models.IntegerField(verbose_name=_(u'Paiements par carte bancaire'), default=0, null=True, blank=True)
     total_cb = models.IntegerField(verbose_name=_(u'Total cb'), default=0, null=True, blank=True, help_text="Total en euros")
     cash_payment = models.IntegerField(verbose_name=_(u'Paiements en liquide'), default=0, null=True, blank=True)
@@ -55,7 +55,7 @@ class Checkout(models.Model):
     office_payment = models.IntegerField(verbose_name=_(u'Paiements Office de tourisme'), default=0, null=True, blank=True)
     total_office = models.IntegerField(verbose_name=_(u'Total office'), default=0, null=True, blank=True, help_text="Total en euros")
     avoir = models.IntegerField(verbose_name=_(u'Nombre d\'avoir'), default=0, null=True, blank=True)
-    total_avoir = models.DecimalField(verbose_name=_(u'Total avoir'),default=0.00, max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total_avoir = models.DecimalField(verbose_name=_(u'Total avoir'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     is_closed = models.BooleanField(_(u'Caisse fermée'), default=False)
 
     class Meta:
@@ -80,13 +80,12 @@ class Checkout(models.Model):
             'y': self.total_avoir
         }
     def avoir_checkout(self, price):
-        print(type(self.total_avoir), type(price))
         self.avoir += 1
-        self.total_avoir += decimal.Decimal(price)
+        self.total_avoir += Decimal(price)
         self.save()
     
     def save(self, *args, **kwargs):
-        print('dec',type(self.total_cash),type(self.total_B),type(self.total_avoir))
+        print(type(self.total), type(self.total_A), type(self.total_B), type(self.total_avoir))
         self.total = self.total_A + self.total_B - self.total_avoir
         super(Checkout, self).save(*args, **kwargs)
 
@@ -105,6 +104,7 @@ class Checkout(models.Model):
                 self.childs_tickets_voucher_A += ticket.number
             elif ticket.customer_type.slug == 'group':
                 self.adults_tickets_5_A +=ticket.number
+            print('totA',type(self.total_A),'ticket hcek',type(ticket.customer_type.price))
             self.total_A += ticket.number * ticket.customer_type.price
         else:
             if ticket.customer_type.slug == 'adult':
@@ -117,7 +117,7 @@ class Checkout(models.Model):
                 self.childs_tickets_voucher_B += ticket.number
             elif ticket.customer_type.slug == 'group':
                 self.adults_tickets_5_B +=ticket.number
-            print('test',ticket.number, ticket.customer_type.price)
+            print('totB',type(self.total_B),'ticket hcek',type(ticket.customer_type.price))
             self.total_B += ticket.number * ticket.customer_type.price
             self.save()
 
@@ -168,7 +168,7 @@ class CustomerType(models.Model):
     order = models.IntegerField('Ordre', blank=True, null=True, default=0)
     information = models.CharField(verbose_name=_(u'Information'), max_length=100, null=True,blank=True)
     selected = models.BooleanField(_('is active'), default=False)
-    price = models.FloatField(verbose_name=_(u'price'), null=True, blank=True, help_text=_('Price'))
+    price = models.DecimalField(verbose_name=_(u'Price'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True)
     
     class Meta:
         verbose_name = _(u'4 - customer type')
@@ -224,7 +224,7 @@ class Order(models.Model):
     created_on = models.DateTimeField(auto_now=True)
     book_to = models.DateTimeField(verbose_name=_(u"Réservation"), null=True, blank=True, help_text=u"Remplissez ce champs si la réservation est ultérieure à la date du jour")
     payment = models.CharField(verbose_name=_(u'payment type'), choices=PAYMENT_TYPE, max_length=30, null=True, blank=True)
-    total = models.FloatField(verbose_name=_(u'total'), null=True, blank=True, default=0.0, help_text=_('Total'))
+    total = models.DecimalField(verbose_name=_(u'Total'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total")
     name = models.CharField(verbose_name=_(u"Name"), max_length=100, null=True, blank=True)
     email = models.EmailField(verbose_name=_(u"Email"), null=True, blank=True)
     phone = models.CharField(verbose_name=_(u"Phone"), max_length=100, null=True, blank=True)
@@ -273,8 +273,6 @@ class Order(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            print('new order')
         if self.pk is None:
             today = datetime.today()
             order_count = Order.objects.filter(created_on__year=today.strftime('%Y')).count() + 1
@@ -282,7 +280,6 @@ class Order(models.Model):
                 reference='{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)).exists():
                 order_count += 1
             self.reference = '{0}-{1}'.format(today.strftime('%Y%m%d'), order_count)
-        
         super(Order, self).save(*args, **kwargs)
 
 class Ticket(models.Model):
@@ -303,7 +300,7 @@ class Avoir(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)
     year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
     cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
-    total = models.DecimalField(verbose_name=_(u'total'), null=True, blank=True, default=0.00, max_digits=5, decimal_places=2, help_text=_('Total'))
+    total = models.DecimalField(verbose_name=_(u'total'), null=True, blank=True, default=Decimal(0.00), max_digits=5, decimal_places=2, help_text=_('Total'))
     class Meta:
         verbose_name = _(u'Avoir')
         verbose_name_plural = _(u'Avoirs')
