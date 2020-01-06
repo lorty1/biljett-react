@@ -122,8 +122,18 @@ class TicketList(viewsets.ModelViewSet):
         except:
             raise Http404
 
+    def check_capacity_all_train(self, trains, place):
+        print('trains===>', trains)
+        trains_copy= [Train.objects.get(pk=pk) for pk in trains if pk]
+        for train in trains_copy: #check train capacity
+            if train.actual_capacity + place > train.total_capacity :
+                raise ValidationError(
+                    'La capacité du train de {0} est dépassé !'.format(train.ride.departure_hour)
+                )
+            train.actual_capacity += place
+
     def create(self, request):
-        try:
+        try: # check if order in request.data
             self.check_order_in_data(request.data)
         except Exception as e:
             return Response({'commande': e}, status=status.HTTP_404_NOT_FOUND)
@@ -139,20 +149,20 @@ class TicketList(viewsets.ModelViewSet):
         if serializer.is_valid():
             try:
                 trains = [ticket_data['departure_id'], ticket_data['come_back_id']]
-                for pk in trains: # check train's capacity
+                self.check_capacity_all_train(trains,ticket_data['number'])
+                for pk in trains: # decrease train capacity
                     if pk:
                         train = Train.objects.get(pk=pk)
-                        train.check_remaining_place(ticket_data['number'])
                         train.decrease_capacity(ticket_data['number'])
             except Exception as e:
                 return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
             order = self.retrieve_order(ticket_data['order_id'])
             try: # check if order has been already print
-                order.check_is_printed() 
-                order.total += Decimal(request.data['ticket']['customerType']['price']) * request.data['ticket']['customerType']['number']
+                order.check_is_printed()
+                order.total += Decimal(request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number'])
                 order.save()
             except Exception as e:
-                return Response({'capacité': e}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'order': e}, status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
