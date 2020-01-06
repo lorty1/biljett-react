@@ -78,7 +78,7 @@ class HeaderContainer extends Component {
                 
                 <div className=" flex-container w70">
 
-                    <div className="flex-container white-bkg w25" >
+                    <div className="flex-container logo white-bkg w25" >
                         <img className="item-center" src={Logo} alt="biljett-logo" />
                     </div>
                     <div className="flex-container--column command-number w25 pas">
@@ -91,7 +91,7 @@ class HeaderContainer extends Component {
                         < CalendarContainer />
                     </div>
                 </div>
-                <div className="flex-container--column w15 pas">
+                <div className="hour flex-container--column w15 pas">
                     <div className="item-center">
                         <img src={Clock} width="70px" alt="timer" />
                     </div>

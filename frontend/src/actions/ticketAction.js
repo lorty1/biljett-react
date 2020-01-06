@@ -23,7 +23,6 @@ export const update_station_ticket = ride => {
                 resolve('ok')
             }
             catch(error){
-                console.log('error')
                 reject(error)
             }
         })
@@ -42,7 +41,6 @@ export const update_train_ticket = ride=> {
     }
 }
 export const update_customer_ticket = customer => {
-    console.log(customer)
     return dispatch=> {
         dispatch({
             type: UPDATE_CUSTOMER_TICKET,
@@ -61,15 +59,6 @@ export const update_place_ticket = place => {
         })
     }
 }
-// export const update_ticket = ticket => {
-//     console.log('po',ticket)
-//     return dispatch => {
-//         dispatch({
-//             type: UPDATE_TICKET,
-//             payload: 2
-//         })
-//     }
-// }
 export const delete_ticket = tickets=> {
     return dispatch => {
         return new Promise((resolve, reject)=> {

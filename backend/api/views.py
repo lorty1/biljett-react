@@ -10,6 +10,7 @@ from decimal import Decimal
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
 from pagination import OrderListPagination
+from django.core.exceptions import ValidationError 
 import json
 # Create your views here.
 
@@ -111,6 +112,10 @@ class TicketList(viewsets.ModelViewSet):
         except:
             raise Http404
 
+    def check_order_in_data(self, data):
+        if not 'order_id' in data:
+            raise ValidationError('Aucune commande n\'est sélectionné')
+
     def retrieve_order(self, pk):
         try:
             return Order.objects.get(pk=pk)
@@ -118,6 +123,11 @@ class TicketList(viewsets.ModelViewSet):
             raise Http404
 
     def create(self, request):
+        try:
+            self.check_order_in_data(request.data)
+        except Exception as e:
+            return Response({'commande': e}, status=status.HTTP_404_NOT_FOUND)
+
         ticket_data = {
             'order_id': request.data['order_id'],
             'departure_id': request.data['ticket']['departure']['train'],
@@ -126,7 +136,6 @@ class TicketList(viewsets.ModelViewSet):
             'number': request.data['ticket']['customerType']['number']
         }
         serializer = self.serializer_class(data=ticket_data)
-        print('okkokokokok', type(request.data['ticket']['customerType']['price']))
         if serializer.is_valid():
             try:
                 trains = [ticket_data['departure_id'], ticket_data['come_back_id']]

@@ -1,29 +1,15 @@
-.translate-enter {
-    opacity: 0.01;
-    transform: translateX(-100%);
-}
+
 
 .translate-enter-active {
-    opacity: 1;
-    transform: translateX(0);
-    transition: all 1000ms ease-out;
-}
-.translate-enter-done {
-    opacity: 1;
-    transform: translateX(0);
-    transition: all 1000ms ease-out;
-}
-
-.translate-exit {
-    opacity: 1;
-    transform: translateX(0);
+    animation-name: glissement;
+    animation-duration: 2s;
 }
 
 .translate-exit-active {
-    opacity: 0.01;
-    transform: translateX(-100%);
-    transition: all 1000ms ease-out;
+    animation-name: glissement-reverse;
+    animation-duration: 2s;
 }
+
 .alert-enter {
     opacity: 0;
     transform: scale(0.9);
@@ -41,3 +27,32 @@
     transform: scale(0.9);
     transition: opacity 300ms, transform 300ms;
 }
+
+.slide {
+    animation-duration: 2s;
+    animation-name: glissement-reverse;
+  }
+  @keyframes glissement-reverse {
+    0% {
+        margin-left: 0%;
+    }
+    50% {
+        margin-left: -50%;
+    }
+    100% {
+      margin-left: -100%;
+    }
+  
+  }
+  @keyframes glissement {
+    0% {
+        margin-left: -100%;
+    }
+    50% {
+        margin-left: -50%;
+    }
+    100% {
+      margin-left: 0%;
+    }
+  
+  }

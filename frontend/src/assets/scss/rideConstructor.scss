@@ -46,6 +46,12 @@
     }
     
     .departure-station, .come-back-station {
+        @media screen and 
+        (min-device-width: 768px) and
+        (max-device-width: 1024px) and
+        (orientation: 'portrait') {
+            padding: 0;
+        }
         img {
             width: max-content;
             margin: auto auto 0 auto;
@@ -63,15 +69,49 @@
         flex: 1 1;
         display: grid;
         grid-template-columns: repeat(6,1fr);
+        @media screen and 
+        (min-device-width:768px) and
+        (max-device-width:1024px) and
+        (orientation: 'portrait') {
+            grid-template-columns: repeat(4,1fr);
+        }
         button {
             padding:0
         }
     }
-    .customer-selection button img {
-        margin: auto 1rem auto auto;
-        height: 100%;
-    }
-    .customer-selection button div {
-        margin: auto auto auto 0
+    .customer-selection {
+        button {
+            img {
+                margin: auto 1rem auto auto;
+                height: 100%;
+            }
+            div {
+                margin: auto auto auto 0
+            }
+        }
+        @media screen and 
+        (min-device-width: 768px) and
+        (max-device-width: 1024px) and
+        (orientation: 'portrait') {
+            margin: 0;
+            button {
+                display: flex;
+                flex-direction: column;
+                img {
+                    height: auto;
+                    width: 60px;
+                    margin: 0 auto;
+                }
+                div {
+                    margin: auto auto 0 auto;
+                }
+            }
+        }
+        @media screen and 
+            (min-device-width: 768px) and
+            (max-device-width: 1024px) and
+            (orientation: 'landscape') {
+                margin: 0;
+            }
     }
 }

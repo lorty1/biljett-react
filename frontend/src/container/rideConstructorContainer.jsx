@@ -11,7 +11,6 @@ import Axios from 'axios';
 import equal from 'fast-deep-equal/react'
 class rideConstructorContainer extends Component {
     constructor(props) {
-        console.log('init')
         super(props)
         Axios.all([
             Axios.get('/api/departure'),
@@ -63,7 +62,6 @@ class rideConstructorContainer extends Component {
                 direction: 'departure',
                 station: departureStation
             }).then(response=> {
-                console.log('res', response)
                 this.get_trains()
             })
         } else {
@@ -81,7 +79,6 @@ class rideConstructorContainer extends Component {
     }
 
     get_trains = () => {
-        console.log('get props',this.props.ticket.departure.station)
         return new Promise((resolve, reject) => {
             let { trains } = this.state
             Axios({

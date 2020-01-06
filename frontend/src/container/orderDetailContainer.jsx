@@ -102,7 +102,6 @@ class OrderDetailContainer extends Component {
         return paymentList
     }
     payment_selection = payment => {
-        console.log(payment, this.state.paymentType)
         let { paymentType } = this.state
         if (paymentType && paymentType == payment.paymentType) {
             paymentType = null;
@@ -112,7 +111,6 @@ class OrderDetailContainer extends Component {
         this.setState({ paymentType })
     }
     select_panel = panel => {
-        console.log('panel', panel)
         let { panelChoice } = this.state;
         panelChoice = panel;
         this.setState({ panelChoice });
@@ -132,7 +130,6 @@ class OrderDetailContainer extends Component {
         for (let i = 0; i < tickets_list.length; i++) {
             let datePrint = tickets_list[i].train_departure.date_on.split('-');
             datePrint = datePrint[2] + '/' + datePrint[1] + '/' + datePrint[0]
-            console.log(datePrint)
             for (let x = 0; x < tickets_list[i].number; x++) {
                 doc.setFontSize(12);
                 if (i == 0) {
@@ -184,7 +181,6 @@ class OrderDetailContainer extends Component {
         let { email } = this.state;
         email = event;
         this.setState({ email })
-        console.log('t', this.state)
     }, 150)
 
     check_reservation_info = () => {
@@ -193,7 +189,6 @@ class OrderDetailContainer extends Component {
         let emailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return new Promise((resolve, reject) => {
             if (name && emailRegex.test(email)) {
-                console.log('conforme')
                 resolve()
             }else {
                 if (!name) {
@@ -202,7 +197,6 @@ class OrderDetailContainer extends Component {
                 if (!email || !emailRegex.test(email)) {
                     errors_message.email = ['Un email valide est requis']
                 }
-                console.log('non conforme', errors_message)
                 reject(errors_message)
             }
         })
@@ -222,7 +216,6 @@ class OrderDetailContainer extends Component {
                 this.props.order_update(data)
             })
             .catch(errors => {
-                console.log(errors)
                 this.props.show_error_messages(errors)
             })
     }
@@ -238,7 +231,6 @@ class OrderDetailContainer extends Component {
             generated: true,
             payment: paymentType
         }
-        console.log('generated', this.props.order.generated)
         if(this.props.order.generated == true) { // if order has already printed just print tickets
             return this.print_ticket()
         }else {// else order is updated in BDD and tickets are printed

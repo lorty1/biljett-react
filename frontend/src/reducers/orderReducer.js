@@ -15,7 +15,6 @@ export default function(store=initialState, action) {
                 orders: action.payload
             }
         case GET_ORDER:
-            console.log('order', initialState)
             return {
                 ...store,
                 orderSelected: action.payload

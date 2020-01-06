@@ -40,6 +40,18 @@
         height:  11.5%;
         button{
             font-family: 'Plight';
+            @media screen and 
+            (min-device-width: 768px) and
+            (max-device-width: 1024px) and
+            (orientation: 'landscape') {
+               font-size: 1.7rem;
+            }
+            @media screen and
+            (min-device-width: 768px) and
+            (max-device-width: 1024px) and
+            (orientation: 'portrait') {
+                font-size: 1.3rem
+            }
         }
     }
     .payment-resume  {

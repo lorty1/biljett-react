@@ -56,7 +56,6 @@ class App extends Component {
     this.setState({ ridePanel })
   }
   switch_ride_panel = () => {
-    console.log('ride panel')
     let { ridePanel } = this.state
     ridePanel = 'ride'
     this.setState({ ridePanel })
@@ -99,14 +98,11 @@ class App extends Component {
   clear_itemsDeleted = ()=> this.setState({deleteItems:[]})
 
   removed_ticket = id => { // remove specific ticket from list of deleted
-    console.log('app removed')
     let { deleteItems } = this.state;
     deleteItems = deleteItems.filter(element => {
       return element.id !== id
     })
-    console.log('tr',deleteItems)
     this.setState({ deleteItems })
-    console.log('tr2',deleteItems)
   }
   render() {
     return (

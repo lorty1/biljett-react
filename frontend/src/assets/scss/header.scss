@@ -3,7 +3,15 @@
     border-bottom: 3px solid black;
     display: flex;
     height: 20%;
-
+    
+    .logo {
+        @media screen and
+        (min-device-width:768px) and
+        (max-device-width:1024px) and
+        (orientation: 'portrait') {
+            width:35%
+        }
+    }
     #search-component {
         .nav-button.is-active i {
             background-color: transparent !important;
@@ -33,7 +41,44 @@
         font-size: $f20;
         font-family: 'Plight';
     }
-    .command-number p {
-        margin: auto 0;
+    .command-number {
+        @media screen and
+        (min-device-width:768px) and
+        (max-device-width:1024px) and
+        (orientation: 'portrait') {
+            order: 3;
+            width: 100%;
+            div {
+                text-align: center;
+                p {
+                    display: inline;
+                }
+                p:first-child {
+                    margin-left: auto;
+                }
+                p:last-child:before {
+                    content: '\00a0';
+                    margin-right: auto
+                }
+            }
+        }
+
+        p {
+            margin: auto 0;
+        }
+    }
+    .hour {
+        @media screen and 
+        (min-width:768px) and
+        (max-width:1024px) and
+        (orientation: 'portrait') {
+            div {
+                margin-top: 0.6rem;
+                margin-bottom: 0;
+            }
+            p {
+                margin-bottom: auto;
+            }
+        }
     }
 }

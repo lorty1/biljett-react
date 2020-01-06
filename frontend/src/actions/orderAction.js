@@ -102,7 +102,6 @@ export const order_update = data => {
                     })
                     resolve()
                 }).catch(error=> {
-                    console.log('update',error.response)
                     reject(error)
                 })
             })

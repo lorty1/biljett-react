@@ -15,6 +15,12 @@
             margin: auto 0;
             font-size: $f20;
         }
+        @media screen and
+        (min-width:768px) and
+        (max-width: 768px) and
+        (orientation: 'portrait') {
+            padding: 0;
+        }
     }
     .order-register {
         padding: 1rem 1.5rem;
@@ -29,6 +35,12 @@
             margin: auto 0;
             font-size: $f20;
             color: $green;
+        }
+        @media screen and
+        (min-width:768px) and
+        (max-width: 768px) and
+        (orientation: 'portrait') {
+            padding: 0;
         }
     }
     .users-list {

@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   var url = document.location.pathname.split('/'); // get id of checkout
   var checkout_id = url[url.length - 3];
-  console.log(checkout_id)
   const doughnut = document.getElementById('myChart').getContext('2d');
   const bar = document.getElementById('myChartBar').getContext('2d');
   //admin url for get data in easycheckout admin
@@ -47,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async() => {
     chartAdultVoucher.push({'x':new Date(data.created_on), 'y': data.adults_tickets_voucher_A + data.adults_tickets_voucher_B})
     chartChildVoucher.push({'x':new Date(data.created_on), 'y': data.childs_tickets_voucher_A + data.childs_tickets_voucher_B})
   }).then(()=> { // charge different chart
-    console.log(chartAdult, chartAdultVoucher, chartChild, chartChildVoucher)
     chart_doughnut()
     chart_bar()
   })

@@ -128,10 +128,6 @@ set_chart_options = date => {
       unit: 'month',
     }
   }
-  if(chart){
-    console.log('time', chart.options.scales.xAxes)
-    console.log('chartDataset', chart.data.datasets)
-  }
 }
 load_data()
 var handle_select = ()=> { // load data with select value for params('month_actual', 'year' or 'month')

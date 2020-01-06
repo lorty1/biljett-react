@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import '../assets/scss/modal.scss';
+import Picto from '../assets/pictos/warning.png'
 
 class ErrorModalComponent extends Component {
     
@@ -25,6 +26,7 @@ class ErrorModalComponent extends Component {
     render() {
         return (
             <div id="error-container">
+                <img src={Picto} width="100px" className="item-center" alt=""/>
                 <div className="item-center">
                     {this.get_messages()}
                 </div>
