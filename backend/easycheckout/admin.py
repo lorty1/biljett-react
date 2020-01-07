@@ -19,11 +19,10 @@ class CustomerTypeAdmin(admin.ModelAdmin):
 
 class CheckoutAdmin(admin.ModelAdmin):
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
+    def get_readonly_fields(self, request, obj=None):
+        if obj: 
+            return [item.name for item in obj._meta.fields if item.name != 'is_closed']
+        return self.readonly_fields
 
     def get_urls(self):
         urls = super().get_urls()
