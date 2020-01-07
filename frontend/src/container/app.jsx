@@ -112,7 +112,7 @@ class App extends Component {
           <CSSTransition
             in={this.state.fullScreen}
             classNames="translate"
-            timeout={1000}
+            timeout={500}
             unmountOnExit
           >
             <UserListContainer

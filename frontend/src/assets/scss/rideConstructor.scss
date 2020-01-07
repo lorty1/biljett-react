@@ -1,7 +1,8 @@
 @import 'common.scss';
 
 .ride-constructor-container {
-    flex: 1 1;
+    flex: 1 1 0%;
+
     .gridc-2 {
         grid-column: auto/span 2;
     }

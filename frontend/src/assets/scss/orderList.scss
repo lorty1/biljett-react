@@ -1,8 +1,8 @@
 @import './common.scss';
 #user-list-container {
+    flex: 0 0 15%;
     border-right: 4px solid black;
-    max-width: 15%;
-    flex-grow: 1;
+
     .new-command-button {
         display: flex;
         flex-direction: column;

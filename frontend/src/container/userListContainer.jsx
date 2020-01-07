@@ -31,7 +31,8 @@ class userListContainer extends Component {
     }
     render() {
         return (
-            <div id="user-list-container" className="flex-container--column border-right w15">
+            <div id="user-list-container" 
+                className="flex-container--column">
                     <button onClick={()=>this.add_order()} className="new-command-button Plight txt-white ">
                        <p>Nouvelle <br/>Commande</p>
                     </button>

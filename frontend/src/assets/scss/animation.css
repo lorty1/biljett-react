@@ -1,13 +1,13 @@
 
 
-.translate-enter-active {
-    animation-name: glissement;
-    animation-duration: 2s;
+.translate-enter {
+    animation-name: glissement-reverse;
+    animation-duration: 500ms;
 }
 
-.translate-exit-active {
-    animation-name: glissement-reverse;
-    animation-duration: 2s;
+.translate-exit {
+    animation-name: glissement;
+    animation-duration: 500ms;
 }
 
 .alert-enter {
@@ -28,31 +28,26 @@
     transition: opacity 300ms, transform 300ms;
 }
 
-.slide {
-    animation-duration: 2s;
+.slide-enter {
+    animation-duration: 500ms;
     animation-name: glissement-reverse;
+    transition: ease-in-out;
   }
   @keyframes glissement-reverse {
     0% {
-        margin-left: 0%;
-    }
-    50% {
-        margin-left: -50%;
+        flex: 0 0 0%
     }
     100% {
-      margin-left: -100%;
+        flex: 0 0 15%
     }
   
   }
   @keyframes glissement {
     0% {
-        margin-left: -100%;
-    }
-    50% {
-        margin-left: -50%;
+        flex: 0 0 15%;
     }
     100% {
-      margin-left: 0%;
+      flex: 0 0 0%;
     }
   
   }

@@ -9,6 +9,7 @@ import datetime
 from decimal import Decimal
 from .utils.exceptions import CapacityTrainError, TicketError
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from pagination import OrderListPagination
 from django.core.exceptions import ValidationError 
 import json
@@ -17,6 +18,8 @@ import json
 class CustomerList(viewsets.ModelViewSet):
     serializer_class = CustomerTypeSerializer
     queryset = CustomerType.objects.all()
+    permission_classes = [IsAuthenticated]
+
     def list(self, request):
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data)
@@ -24,6 +27,8 @@ class CustomerList(viewsets.ModelViewSet):
 class DepartureList(viewsets.ModelViewSet):
     serializer_class = DepartureSerializer
     queryset = Departure.objects.all()
+    permission_classes = [IsAuthenticated]
+
     def list(self, request):
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data)
@@ -31,6 +36,7 @@ class DepartureList(viewsets.ModelViewSet):
 class TrainList(viewsets.ModelViewSet):
     serializer_class = TrainSerializer
     queryset = Train.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def retrieve_or_create(self, date, station):
         trains = self.queryset.filter(date_on=date, ride__departure_id=station)
@@ -104,6 +110,7 @@ class OrderList(viewsets.ModelViewSet):
 class TicketList(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.filter(is_cancelled=False)
+    permission_classes = [IsAuthenticated]
 
     def retrieve_object(self, pk):
         try:
@@ -198,6 +205,7 @@ class TicketList(viewsets.ModelViewSet):
 class CheckoutList(viewsets.ModelViewSet):
     serializer_class = CheckoutSerializer
     queryset = Checkout.objects.all()
+    permission_classes = [IsAdminUser]
 
     def list(self, request):
         serializer = CheckoutSerializer(self.queryset,many=True)
