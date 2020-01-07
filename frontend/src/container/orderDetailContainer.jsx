@@ -19,6 +19,7 @@ class OrderDetailContainer extends Component {
         ticketsSorted: null,
         total: this.props.order.total,
         email: null,
+        phone: null,
         name: null,
         panelChoice: 'payment',
         paymentChoice: [
@@ -182,20 +183,35 @@ class OrderDetailContainer extends Component {
         email = event;
         this.setState({ email })
     }, 150)
+    handle_phone = debounce(event => {
+        let { phone } = this.state;
+        phone = event;
+        this.setState({ phone })
+    })
 
     check_reservation_info = () => {
         let errors_message = {};
-        let { name, email } = this.state;
+        let { name, email, phone } = this.state;
+        let phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
         let emailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return new Promise((resolve, reject) => {
-            if (name && emailRegex.test(email)) {
-                resolve()
+            if (name && phoneRegex.test(phone)) {
+                if(email) {
+                    if(emailRegex.test(email)) {
+                        resolve()
+                    }else {
+                        errors_message.email = ['Un email valide est requis']
+                        reject(errors_message)
+                    }
+                }else {
+                    resolve()
+                }
             }else {
                 if (!name) {
                     errors_message.name = ['Un nom est requis !']
                 }
-                if (!email || !emailRegex.test(email)) {
-                    errors_message.email = ['Un email valide est requis']
+                if (!phone || !phoneRegex.test(phone)) {
+                    errors_message.email = ['Un numéro de téléphone valide est requis']
                 }
                 reject(errors_message)
             }
@@ -205,11 +221,12 @@ class OrderDetailContainer extends Component {
     order_registered = () => {
         this.check_reservation_info()
             .then(() => {
-                let { name, email } = this.state;
+                let { name, email, phone } = this.state;
                 let data = {
                     id: this.props.order.id,
                     name: name,
                     email: email,
+                    phone: phone,
                     is_booked: true,
                     book_to: new Date(this.props.order.tickets_list[0].train_departure.date_on)
                 }
@@ -259,14 +276,18 @@ class OrderDetailContainer extends Component {
                         {this.payment_list()}
                     </div>
                     :
-                    <div className="grid-2 registration-info border-top">
+                    <div className="grid-3 registration-info border-top">
                         <div className="flex-container--column">
-                            <label htmlFor="name">Nom</label>
-                            <input onChange={event => this.handle_name(event.target.value)} name="name" type="text" />
+                            <label htmlFor="name">Nom*</label>
+                            <input id="name" placeholder={this.props.order.name} onChange={event => this.handle_name(event.target.value)} name="name" type="text" />
                         </div>
                         <div className="flex-container--column">
                             <label htmlFor="email">Email</label>
-                            <input onChange={event => this.handle_email(event.target.value)} name="email" type="email" />
+                            <input id="email" placeholder={this.props.order.email} onChange={event => this.handle_email(event.target.value)} name="email" type="email" />
+                        </div>
+                        <div className="flex-container--column">
+                            <label htmlFor="phone">Téléphone*</label>
+                            <input id="phone" placeholder={this.props.order.phone} onChange={event => this.handle_phone(event.target.value)} name="phone" type="text" />
                         </div>
                     </div>
 

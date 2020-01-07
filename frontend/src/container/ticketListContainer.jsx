@@ -16,14 +16,14 @@ class TicketListContainer extends Component {
                         null
                     }>
                         <div>
-                            <p>Ticket n° {index + 1}</p>
-                            <p>{ticket.train_departure.ride.departure.title} : {ticket.train_departure.ride.departure_hour}</p>
+                            <p className="u-bold">Ticket n° {index + 1}</p>
+                            <p>Aller - {ticket.train_departure.ride.departure.title} - {ticket.train_departure.ride.departure_hour}</p>
                             {ticket.train_arrival ?
-                                <p>{ticket.train_arrival.ride.departure.title} : {ticket.train_arrival.ride.departure_hour}</p>
+                                <p>Retour -{ticket.train_arrival.ride.departure.title} - {ticket.train_arrival.ride.departure_hour}</p>
                                 :
                                 null
                             }
-                            <p>Ticket {ticket.customer_type.title}: {ticket.number}</p>
+                            <p>{ticket.number} Tarif(s) {ticket.customer_type.title}</p>
                         </div>
                     </div>
                 )

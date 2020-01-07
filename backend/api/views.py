@@ -95,8 +95,7 @@ class OrderList(viewsets.ModelViewSet):
         serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            if 'generated' in request.data:
-                print('ok')
+            if 'generated' in request.data: # if order will be saved
                 checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
                 checkout.update_order_checkout(order.id)
             return Response(serializer.data)
@@ -123,7 +122,6 @@ class TicketList(viewsets.ModelViewSet):
             raise Http404
 
     def check_capacity_all_train(self, trains, place):
-        print('trains===>', trains)
         trains_copy= [Train.objects.get(pk=pk) for pk in trains if pk]
         for train in trains_copy: #check train capacity
             if train.actual_capacity + place > train.total_capacity :

@@ -130,6 +130,7 @@ class rideConstructorContainer extends Component {
         }
     }
     customer_selection(customer) {
+        console.log('cus',customer)
         var customerSelected = {}
         let { ticket } = this.props
         let { customerChoosen } = this.state

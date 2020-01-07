@@ -85,7 +85,6 @@ class Checkout(models.Model):
         self.save()
     
     def save(self, *args, **kwargs):
-        print(type(self.total), type(self.total_A), type(self.total_B), type(self.total_avoir))
         self.total = self.total_A + self.total_B - self.total_avoir
         super(Checkout, self).save(*args, **kwargs)
 
@@ -104,7 +103,6 @@ class Checkout(models.Model):
                 self.childs_tickets_voucher_A += ticket.number
             elif ticket.customer_type.slug == 'group':
                 self.adults_tickets_5_A +=ticket.number
-            print('totA',type(self.total_A),'ticket hcek',type(ticket.customer_type.price))
             self.total_A += ticket.number * ticket.customer_type.price
         else:
             if ticket.customer_type.slug == 'adult':
@@ -117,7 +115,6 @@ class Checkout(models.Model):
                 self.childs_tickets_voucher_B += ticket.number
             elif ticket.customer_type.slug == 'group':
                 self.adults_tickets_5_B +=ticket.number
-            print('totB',type(self.total_B),'ticket hcek',type(ticket.customer_type.price))
             self.total_B += ticket.number * ticket.customer_type.price
             self.save()
 

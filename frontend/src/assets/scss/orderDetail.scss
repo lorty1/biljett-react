@@ -65,6 +65,13 @@
     }
     .payment-list {
         height: 30%;
+        button:nth-child(2), button:nth-child(5) {
+            border-right: 2px solid black;
+            border-left: 2px solid black;
+        }
+        button:nth-child(-n+3) {
+            border-bottom: 2px solid black;
+        }
     }
     .payment-button {
         font-size: 2rem;
@@ -117,8 +124,17 @@
     .registration-info {
         height: 30%;
         background-color: $dark-green;
-        div:first-child {
+        input::placeholder {
+            color: black;
+            font-family: 'Plight';
+            opacity: 1;
+        }
+        div:nth-child(2) {
+            border-left: 2px solid black;
             border-right: 2px solid black;
+            input {
+                box-shadow: none;
+            }
         }
         label {
             margin: auto auto 0 auto;

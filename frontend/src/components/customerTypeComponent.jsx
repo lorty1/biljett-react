@@ -6,7 +6,9 @@ class customerTypeComponent extends Component {
             switch(customer.slug) {
                 case 'adult':
                     return(
-                        <button className="btn--customer flex-container adult-tarif">
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
+                        className={"btn--customer flex-container adult-tarif" +
+                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
                             <img src={require('../assets/pictos/adult_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -16,7 +18,9 @@ class customerTypeComponent extends Component {
                     )
                 case 'children':
                     return(
-                        <button className="btn--customer flex-container border-right child-tarif">
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
+                        className={"btn--customer flex-container border-right child-tarif" +
+                         (this.props.ticket.customerType.id == customer.id ? ' selected' : '') }>
                             <img src={require('../assets/pictos/children_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -26,7 +30,9 @@ class customerTypeComponent extends Component {
                     )
                 case 'free':
                     return(
-                        <button className="btn--customer flex-container free-tarif">
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
+                        className={"btn--customer flex-container free-tarif" +
+                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
                             <img src={require('../assets/pictos/star_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Tarif</p>
@@ -39,7 +45,9 @@ class customerTypeComponent extends Component {
                     )
                 case 'adult-voucher':
                     return(
-                        <button className="btn--customer flex-container adult-tarif-voucher">
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
+                        className={"btn--customer flex-container adult-tarif-voucher" +
+                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
                             <img src={require('../assets/pictos/voucher_adult.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Adulte</p>
@@ -49,7 +57,9 @@ class customerTypeComponent extends Component {
                     )
                 case 'children-voucher':
                     return(
-                        <button className="btn--customer flex-container border-right child-tarif-voucher">
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
+                        className={"btn--customer flex-container border-right child-tarif-voucher" +
+                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
                             <img src={require('../assets/pictos/voucher_children.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Enfant</p>
@@ -59,7 +69,9 @@ class customerTypeComponent extends Component {
                     )
                 case 'group':
                 return(
-                    <button className="btn--customer flex-container group-tarif">
+                    <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
+                    className={"btn--customer flex-container group-tarif" +
+                    (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
                         <img src={require('../assets/pictos/voucher_group.png')} alt=""/>
                         <div className="item-center flex-container--column">
                             <p className="item-center u-capitalize">Tarif</p>
