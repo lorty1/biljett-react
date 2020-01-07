@@ -240,7 +240,7 @@ class OrderDetailContainer extends Component {
     }
     panel_render = () => {
             return (
-                <div className="item-fluid grid-5 has-gutter pas">
+                <div className="item-fluid grid-5 has-gutter pas avoir-list">
                     {this.ticket_list()}
                 </div>
             )

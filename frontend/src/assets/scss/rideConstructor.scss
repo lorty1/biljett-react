@@ -1,7 +1,6 @@
 @import 'common.scss';
 
 .ride-constructor-container {
-    background-color: violet;
     flex: 1 1;
     .gridc-2 {
         grid-column: auto/span 2;
@@ -25,8 +24,13 @@
         display: grid;
         grid-template-columns: repeat(8,1fr);
         button {
-            @include shading($dark-grey-place, $light-grey-place);
-
+            background-color: $orange;
+            font-size: 2rem;
+            font-weight: bold;
+            border-right: 2px solid black;
+        }
+        button:last-child {
+            border: none;
         }
     }
     .add-ticket-button {

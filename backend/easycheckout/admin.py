@@ -31,9 +31,8 @@ class CheckoutAdmin(admin.ModelAdmin):
             path("chartit_data/<int:pk>/", self.admin_site.admin_view(self.chart_data_endpoint_detail)),
             path("chartit_data/", self.admin_site.admin_view(self.chart_data_endpoint))
         ]
-        # NOTE! Our custom urls have to go before the default urls, because they
-        # default ones match anything.
         return extra_urls + urls
+
     def chart_data_endpoint_detail(self, request, pk):
         chart_data = self.chart_detail_data(pk)
         return JsonResponse(chart_data, safe=False)

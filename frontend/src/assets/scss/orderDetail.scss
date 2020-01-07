@@ -60,6 +60,9 @@
     .registration-resume {
         background-color: $dark-blue
     }
+    .avoir-list {
+        background-color: $orange;
+    }
     .payment-list {
         height: 30%;
     }
@@ -73,6 +76,7 @@
         background-color: $dark-blue;
     }
     .delete-button {
+        background-color: $orange;
         border-left: 2px solid black;
         font-size: 2rem;
     }
