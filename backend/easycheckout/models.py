@@ -28,7 +28,7 @@ PAYMENT_TYPE = (
 
 class Checkout(models.Model):
     created_on = models.DateField(verbose_name=u"Date de clôture")
-    start = models.IntegerField(verbose_name=_(u'Caisse au départ'), default=0, null=True, blank=True, help_text="Total en euros")
+    start = models.DecimalField(verbose_name=_(u'Caisse au départ'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     adults_tickets_A = models.IntegerField(verbose_name=_(u'Adulte 7 euros Riquet'), default=0, null=True, blank=True)
     adults_tickets_5_A = models.IntegerField(verbose_name=_(u'Adulte 6 euros Riquet'), default=0, null=True, blank=True)
     adults_tickets_voucher_A = models.IntegerField(verbose_name=_(u'Adulte Voucher Riquet'), default=0, null=True, blank=True)
@@ -41,7 +41,7 @@ class Checkout(models.Model):
     childs_tickets_B = models.IntegerField(verbose_name=_(u'Enfants 4 euros Fonserane'), default=0, null=True, blank=True)
     childs_tickets_voucher_B = models.IntegerField(verbose_name=_(u'Enfants Voucher Fonserane'), default=0, null=True, blank=True)
     total_B =models.DecimalField(verbose_name=_(u'Total Fonserane'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
-    total = models.DecimalField(verbose_name=_(u'Caisse en fin de journée'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
+    total = models.DecimalField(verbose_name=_(u'Caisse actuelle'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True, help_text="Total en euros")
     cb_payment = models.IntegerField(verbose_name=_(u'Paiements par carte bancaire'), default=0, null=True, blank=True)
     total_cb = models.DecimalField(verbose_name=_(u'Total cb'), default=Decimal(0.00), max_digits=5, decimal_places=2, null=True, blank=True, help_text="Total en euros")
     cash_payment = models.IntegerField(verbose_name=_(u'Paiements en liquide'), default=0, null=True, blank=True)

@@ -16,8 +16,33 @@ from .models import CustomerType, Checkout, Avoir
 class CustomerTypeAdmin(admin.ModelAdmin):
     class meta:
         model = CustomerType
-
 class CheckoutAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Caisse', {
+           'fields': ('start','total', 'is_closed')
+        }),
+        ('Récapitulatif des tickets', {
+            'classes': ('wide', 'extrapretty'),
+            'fields': (
+                ('adults_tickets_A', 'adults_tickets_B'),
+                ('adults_tickets_5_A', 'adults_tickets_5_B'),
+                ('adults_tickets_voucher_A','adults_tickets_voucher_B'),
+                ('childs_tickets_A', 'childs_tickets_B'),
+                ('childs_tickets_voucher_A', 'childs_tickets_voucher_B'),
+                ('total_A', 'total_B'))
+        }),
+        ('Récapitulatif des paiements', {
+            'fields': (
+                ('cb_payment', 'total_cb'),
+                ('cash_payment', 'total_cash'),
+                ('check_payment', 'total_check'),
+                ('tourism_payment', 'total_tourism' ),
+                ('voucher_payment', 'total_voucher'),
+                ('office_payment', 'total_office'),
+                ('avoir', 'total_avoir')
+            )
+        })
+    )
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
