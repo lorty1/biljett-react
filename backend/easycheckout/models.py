@@ -69,12 +69,12 @@ class Checkout(models.Model):
     def __str__(self):
         return self.created_on.strftime('%Y-%m-%d')
 
-    def get_total(self):
+    def get_total(self): #chartjs
         return {
             'x':self.created_on,
             'y': self.total
         }
-    def get_avoir(self):
+    def get_avoir(self): #chartjs
         return {
             'x':self.created_on,
             'y': self.total_avoir
@@ -85,7 +85,7 @@ class Checkout(models.Model):
         self.save()
     
     def save(self, *args, **kwargs):
-        self.total = self.total_A + self.total_B - self.total_avoir
+        self.total = self.start + self.total_A + self.total_B - self.total_avoir
         super(Checkout, self).save(*args, **kwargs)
 
     def ticket_checkout(self, ticket):

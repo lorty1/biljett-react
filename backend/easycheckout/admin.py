@@ -20,9 +20,25 @@ class CustomerTypeAdmin(admin.ModelAdmin):
 class CheckoutAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
-        if obj: 
-            return [item.name for item in obj._meta.fields if item.name != 'is_closed']
+        if obj:
+            if getattr(obj, 'is_closed') == False:
+                return [item.name for item in obj._meta.fields if item.name not in ['start','is_closed']]
+            else:
+                return [item.name for item in obj._meta.fields]
+
         return self.readonly_fields
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        if obj:
+            if getattr(obj, 'is_closed') is True:
+                return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     def get_urls(self):
         urls = super().get_urls()
