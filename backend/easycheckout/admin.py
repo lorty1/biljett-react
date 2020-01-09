@@ -158,6 +158,8 @@ class AvoirAdmin(admin.ModelAdmin):
     class meta:
         model = Avoir
 
+        
+admin.site.login_template="login.html"
 admin.site.register(CustomerType, CustomerTypeAdmin)
 admin.site.register(Checkout, CheckoutAdmin)
 admin.site.register(Avoir, AvoirAdmin)

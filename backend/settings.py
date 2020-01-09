@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'easycheckout',
     'train',
-    'chartit'
 ]
 
 MIDDLEWARE = [
@@ -134,5 +133,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "backend/static")
+    os.path.join(BASE_DIR, "frontend/src/assets"),
 ]
