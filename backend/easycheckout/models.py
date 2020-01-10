@@ -237,8 +237,8 @@ class Order(models.Model):
     tickets = models.URLField(verbose_name=_(u'ticket(s) à imprimer'), null=True, blank=True) 
 
     class Meta:
-        verbose_name = _(u'1 - order')
-        verbose_name_plural = _(u'1 - orders')
+        verbose_name = _(u' order')
+        verbose_name_plural = _(u'orders')
     
     def __str__(self):
         return self.reference
