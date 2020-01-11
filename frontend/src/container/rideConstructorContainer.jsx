@@ -8,7 +8,6 @@ import increment from '../assets/pictos/increment_picto.png';
 import decrement from '../assets/pictos/decrement_picto.png';
 import { connect } from 'react-redux';
 import Axios from 'axios';
-import equal from 'fast-deep-equal/react'
 class rideConstructorContainer extends Component {
     constructor(props) {
         super(props)
@@ -19,7 +18,12 @@ class rideConstructorContainer extends Component {
             Axios.spread((rides, customerType) => {
                 this.setState({ rides: rides.data, customers: customerType.data })
             })
-        )
+        ).catch(err=> {
+            if(err.response.status == 403) {
+                return this.props.login_redirect()
+            }
+            this.props.show_error_messages(err.response.data)
+        })
 
     }
     state = {
@@ -185,6 +189,10 @@ class rideConstructorContainer extends Component {
                 this.get_trains()
             })
             .catch(err => {
+                if (err.response.status == 403) {
+                    return this.props.login_redirect()
+                }
+                console.log('rr',err.status)
                 this.props.show_error_messages(err.response.data)
             })
     }

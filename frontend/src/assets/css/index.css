@@ -1,0 +1,12 @@
+#header {
+    display: none;
+}
+.submit-row input, .connexion-title {
+    background-color: #3b8d5a;
+}
+.logo {
+    display: flex;
+}
+.logo img {
+    margin: 0 auto;
+}

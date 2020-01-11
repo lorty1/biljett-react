@@ -233,6 +233,10 @@ class OrderDetailContainer extends Component {
                 this.props.order_update(data)
             })
             .catch(errors => {
+                if (errors.response.status == 403 ) {
+                    return this.props.login_redirect()
+                }
+                console.log('errorre', errors)
                 this.props.show_error_messages(errors)
             })
     }

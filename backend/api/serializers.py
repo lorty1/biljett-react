@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from train.models import Departure, Ride, Train
 from easycheckout.models import Order, CustomerType, Ticket, Avoir, Checkout
+import datetime
 
 class DepartureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,12 +63,21 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_total_avoir(self, Order):
         return Order.get_avoir()
-        
 
     def get_all_tickets(self, Order):
         tickets = Order.get_tickets()
         serializer = TicketListSerializer(tickets, many=True)
         return serializer.data
+
+    def update(self, instance, validated_data):
+        for key in validated_data:
+            if key is 'generated':
+                checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
+                instance.checkout = checkout
+            value = validated_data.get(key)
+            setattr(instance, key, validated_data.get(key))
+        instance.save()
+        return instance
 
     class Meta:
         model= Order

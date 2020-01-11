@@ -23,7 +23,9 @@ class App extends Component {
     deleteTicketMode: false,
     deleteItems: []
   }
-
+  login_redirect = () => {
+    return window.location = 'http://localhost:8000/admin/login?next=/'
+  }
   switch_delete_ticket_mode = mode => {
     let { deleteTicketMode } = this.state;
     if (mode !== 'credit') {
@@ -121,7 +123,8 @@ class App extends Component {
           </CSSTransition>
           {this.state.ridePanel == 'ride' ?
             <RideConstructorContainer
-              show_error_messages={this.show_error_messages.bind(this)}
+            login_redirect = {()=> this.login_redirect()}
+              show_error_messages={message =>this.show_error_messages(message)}
             ></RideConstructorContainer> :
             <OrderDetailContainer
               removed_ticket={id=> {this.removed_ticket(id)}}

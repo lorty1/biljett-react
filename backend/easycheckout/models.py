@@ -234,6 +234,7 @@ class Order(models.Model):
     is_cancelled = models.BooleanField(_('is cancelled'), default=False)
     moderated = models.BooleanField(_('is moderated'), default=False)
     generated = models.BooleanField(_(u'Commande enregistrée'), default=False)
+    checkout = models.ForeignKey(Checkout, verbose_name=_('checkout'), blank=True, null=True, on_delete=models.CASCADE)
     tickets = models.URLField(verbose_name=_(u'ticket(s) à imprimer'), null=True, blank=True) 
 
     class Meta:

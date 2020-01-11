@@ -10,12 +10,16 @@ from django.urls import reverse
 from django.shortcuts import render_to_response, render
 from chartit import DataPool, Chart
 import datetime
-from .models import CustomerType, Checkout, Avoir
+from .models import CustomerType, Checkout, Avoir, Order
 
 # Register your models here.
 class CustomerTypeAdmin(admin.ModelAdmin):
     class meta:
         model = CustomerType
+
+class OrderAdmin(admin.ModelAdmin):
+    class meta:
+        model: Order
 class CheckoutAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Caisse', {
@@ -160,6 +164,7 @@ class AvoirAdmin(admin.ModelAdmin):
 
         
 admin.site.login_template="login.html"
+admin.site.register(Order,OrderAdmin)
 admin.site.register(CustomerType, CustomerTypeAdmin)
 admin.site.register(Checkout, CheckoutAdmin)
 admin.site.register(Avoir, AvoirAdmin)

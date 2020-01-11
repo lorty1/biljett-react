@@ -102,8 +102,7 @@ class OrderList(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             if 'generated' in request.data: # if order will be saved
-                checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
-                checkout.update_order_checkout(order.id)
+                order.checkout.update_order_checkout(order.id)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
