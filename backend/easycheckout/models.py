@@ -63,8 +63,6 @@ class Checkout(models.Model):
         verbose_name = _(u'Caisse')
         verbose_name_plural = _(u'Caisse')
 
-    def __unicode__(self):
-        return self.created_on.strftime('%Y-%m-%d')
     
     def __str__(self):
         return self.created_on.strftime('%Y-%m-%d')
@@ -145,19 +143,6 @@ class Checkout(models.Model):
         self.total += order.total
         self.save()
                 
-class TicketSettings(models.Model):
-    year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
-    tickets = models.IntegerField(verbose_name=_(u'Nombre de tickets vendus'), default=0, null=True, blank=True)
-    cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
-
-    class Meta:
-        verbose_name = _(u'6 - Tickets stats')
-        verbose_name_plural = _(u'6 - Tickets stats')
-
-    def __unicode__(self):
-        return str(self.year)
-
-
 
 class CustomerType(models.Model):
     title = models.CharField(max_length=100, blank=False, verbose_name=_('title'), help_text=_('Service title'))
@@ -172,9 +157,6 @@ class CustomerType(models.Model):
         verbose_name_plural = _(u'4 - customer types')
         ordering = ['order']
 
-    def __unicode__(self):
-        return self.title
-
     def __str__(self):
         return self.title
 
@@ -182,39 +164,6 @@ class CustomerType(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(CustomerType, self).save(*args, **kwargs)
-
-
-# class Price(models.Model):
-    # #ride = models.ForeignKey(Ride, verbose_name=_('ride'), help_text=_('Choose a ride'))
-    # customer_type = models.ForeignKey(CustomerType, verbose_name=_('price type'), help_text=_('price customer type'), on_delete=models.CASCADE)
-    # price = models.FloatField(verbose_name=_(u'price'), null=True, blank=True, help_text=_('Price'))
-    # tax = models.FloatField(verbose_name=_(u'tax'), null=True, blank=True, help_text=_('Tax'))
-    # is_active = models.BooleanField(_('is active'), default=True)
-
-    # class Meta:
-        # verbose_name = _(u'5 - price')
-        # verbose_name_plural = _(u'5 - prices')
-
-    # def __unicode__(self):
-        # return (u'Tarif %s : %s TTC') % (self.customer_type, str(self.price))
-
-    # def save(self, *args, **kwargs):
-        # self.get_tax_price()
-        # super(Price, self).save(*args, **kwargs)
-
-    # def get_tax_price(self):
-        # """
-        # Render tax from price
-        # """
-        # if self.price != 0.0:
-            # self.tax = float(self.price) - (float(self.price) / 1.1)
-        # else:
-            # self.tax = 0.0
-
-
-
-
-
 
 class Order(models.Model):
     reference = models.CharField(verbose_name=_(u'reference'), max_length=265, null=True, blank=True)
@@ -244,8 +193,6 @@ class Order(models.Model):
     def __str__(self):
         return self.reference
     
-    def __unicode__(self):
-        return self.reference
 
     def get_tickets(self):
         tickets = Ticket.objects.filter(order_id=self.pk,is_cancelled=False)
@@ -296,7 +243,7 @@ class Ticket(models.Model):
 
 class Avoir(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('order'), help_text=_('Choose your order'),on_delete=models.CASCADE)
-    year = models.IntegerField(verbose_name=_(u"Année"), null=True, blank=True)
+    created_on = models.DateTimeField(verbose_name=_(u'Date de création'), auto_now_add=True, null=True, blank=True)
     cancelled = models.IntegerField(verbose_name=_(u'Nombre de tickets annulés'), default=0, null=True, blank=True)
     total = models.DecimalField(verbose_name=_(u'total'), null=True, blank=True, default=Decimal(0.00), max_digits=5, decimal_places=2, help_text=_('Total'))
     class Meta:
@@ -305,7 +252,5 @@ class Avoir(models.Model):
 
     def __str__(self):
         return self.order.reference
-    def __unicode__(self):
-        return str(self.order)
 
 

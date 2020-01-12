@@ -164,6 +164,7 @@ class AvoirAdmin(admin.ModelAdmin):
 
         
 admin.site.login_template="login.html"
+admin.site.site_header="Biljett Administration"
 admin.site.register(Order,OrderAdmin)
 admin.site.register(CustomerType, CustomerTypeAdmin)
 admin.site.register(Checkout, CheckoutAdmin)

@@ -39,9 +39,6 @@ class Ride(models.Model):
     def __str__(self):
         return '{0}: {1}'.format(self.departure.title, self.departure_hour)
     
-    def __unicode__(self):
-        return '{0}: {1}'.format(self.departure.title, self.departure_hour)
-
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -61,9 +58,6 @@ class Train(models.Model):
         ordering = ['date_on']
         verbose_name = _(u' train')
         verbose_name_plural = _(u' trains')
-
-    def __unicode__(self):
-        return str('%s-%s') % (self.title, self.date_on)
 
     def __str__(self):
         return str('%s:%s-%s') % (self.date_on,self.ride.departure_hour,self.actual_capacity)
