@@ -1,13 +1,13 @@
 
 
-// dev-server is responsible for running your project locally
+// dev-server is responsible for running project locally
 
 const WebpackDevServer = require("webpack-dev-server");
 const webpack = require("webpack");
 const paths = require("./paths");
 const config = require("./webpack-dev-config.js");
 
-// Change port to suit your preference
+// set server's port
 const Port = 3000;
 const Host = "localhost";
 
@@ -28,10 +28,10 @@ const options = {
   // Set this is the `paths.js` file.
   contentBase: paths.appAssets,
   // If static content changes, reload the page.
-  // In other words, editing a photo within the assets
-  // directory will force the page to reload.
   watchContentBase: true,
-  proxy: { "/api/**": { target: 'http://localhost:8000', secure: false }  },
+  proxy: { 
+    "/api/**": { target: 'http://localhost:8000', secure: false },
+  },
   after() {
     process.stdout.write(`dev server is running: http://${Host}:${Port}\n`);
   }

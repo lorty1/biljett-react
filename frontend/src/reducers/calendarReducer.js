@@ -1,5 +1,5 @@
-import { UPDATE_DATE } from '../actions/calendarAction';
-import { CREATE_ORDER } from '../actions/orderAction'
+import { UPDATE_DATE } from 'Actions/calendarAction';
+import { CREATE_ORDER } from 'Actions/orderAction'
 import Moment from 'moment'
 const initialState = {
     date: Moment()

@@ -12,7 +12,6 @@ import OrderDetailContainer from './orderDetailContainer.jsx'
 import "../assets/scss/app.scss";
 import '../assets/scss/common.scss'
 import '../assets/scss/animation.css'
-import Logo from "../assets/pictos/logo_biljett.jpg"
 
 class App extends Component {
   state = {
@@ -22,9 +21,6 @@ class App extends Component {
     ridePanel: 'ride',
     deleteTicketMode: false,
     deleteItems: []
-  }
-  login_redirect = () => {
-    return window.location = 'http://localhost:8000/admin/login?next=/'
   }
   switch_delete_ticket_mode = mode => {
     let { deleteTicketMode } = this.state;
@@ -123,7 +119,6 @@ class App extends Component {
           </CSSTransition>
           {this.state.ridePanel == 'ride' ?
             <RideConstructorContainer
-            login_redirect = {()=> this.login_redirect()}
               show_error_messages={message =>this.show_error_messages(message)}
             ></RideConstructorContainer> :
             <OrderDetailContainer

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { get_order_list, create_order, get_order, order_update } from '../actions/orderAction'
+import { get_order_list, create_order, get_order, order_update } from 'Actions/orderAction'
 
 import '../assets/scss/orderList.scss'
-import PreviousArrow from '../assets/pictos/previous_arrow.png'
-import NextArrow from '../assets/pictos/next_arrow.png'
+import PreviousArrow from 'Pictos/previous_arrow.png'
+import NextArrow from 'Pictos/next_arrow.png'
 
 class userListContainer extends Component {
     constructor(props) {

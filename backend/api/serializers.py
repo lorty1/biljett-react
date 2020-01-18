@@ -8,14 +8,13 @@ class DepartureSerializer(serializers.ModelSerializer):
         model = Departure
         fields = '__all__'
 
-class CheckoutSerializer(serializers.ModelSerializer):
-    # chart_total = serializers.SerializerMethodField('get_checkout_total')
-    # chart_avoir = serializers.SerializerMethodField('get_checkout_avoir')
+class CustomerTypeSerializer(serializers.ModelSerializer):
 
-    # def get_checkout_avoir(self, Checkout):
-    #    return  Checkout.get_avoir() 
-    # def get_checkout_total(self, Checkout):
-    #    return  Checkout.get_total()
+    class Meta:
+        model = CustomerType
+        fields = '__all__'
+
+class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         fields = ['created_on','total', 'total_avoir']
@@ -42,11 +41,6 @@ class TrainSerializer(serializers.ModelSerializer):
         model = Train
         fields = ['id','title','ride','slug','is_active','date_on','remaining', 'total_capacity']
 
-class CustomerTypeSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CustomerType
-        fields = '__all__'
 
 class TicketListSerializer(serializers.ModelSerializer):
     customer_type=CustomerTypeSerializer()
@@ -91,9 +85,6 @@ class OrderSerializer(serializers.ModelSerializer):
             'name',
             'email',
             'phone',
-            'address',
-            'zipcode',
-            'city',
             'infos',
             'is_booked',
             'is_updated',
@@ -118,14 +109,14 @@ class TicketSerializer(serializers.ModelSerializer):
         source='order',
         write_only=True,
         error_messages={
-            "null": "Une commande est nécessaire avant de créer un nouveaux ticket !"
+            "null": "une commande doit être sélectionné !"
         }
     )
     departure_id = serializers.IntegerField(
         source='train_departure',
         write_only=True,
         error_messages={
-            "null": "Aucun train de départ n'est sélectionné !"
+            "null": "Un train de départ doit être sélectionné !"
         })
     come_back_id = serializers.IntegerField(
         source='train_arrival',
@@ -136,16 +127,16 @@ class TicketSerializer(serializers.ModelSerializer):
         source='customer_type',
         write_only=True,
         error_messages={
-            "null": "Veuillez sélectionner un type de client !"
+            "null": "Un type de client  doit être sélectionné !"
         })
 
     class Meta:
         model = Ticket
         fields = [
-            'id','order','order_id', 'train_departure','departure_id','train_arrival','come_back_id','customer_type','customer_id','number','ticket']
+            'id','order','order_id', 'train_departure','departure_id','train_arrival','come_back_id',
+            'customer_type','customer_id','number','ticket']
 
     def create(self, validated_data):
-        print('validated', validated_data)
         ticket= Ticket.objects.create(
             order_id=validated_data.pop('order'),
             train_departure_id=validated_data.pop('train_departure'),

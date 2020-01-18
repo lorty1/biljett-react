@@ -1,6 +1,7 @@
 export const GET_ORDER = 'GET_ORDER'
 export const CREATE_ORDER = 'CREATE_ORDER'
 export const GET_ORDER_LIST = 'GET_ORDER_LIST'
+export const ACCESS_FORBIDDEN = 'ACCESS_FORBIDDEN'
 export const UPDATE_TICKET = 'UPDATE_TICKET'
 export const UPDATE_FILTER = 'UPDATE_FILTER'
 export const UPDATE_ORDER = 'UPDATE_ORDER'
@@ -43,6 +44,12 @@ export function get_order_list(index, filter) {
                 type: GET_ORDER_LIST,
                 payload: response.data
             })
+        }).catch(error => {
+            if (error.response.status == 403) {
+                dispatch({
+                    type: ACCESS_FORBIDDEN
+                })
+            }
         })
     }
 }

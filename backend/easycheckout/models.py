@@ -59,7 +59,6 @@ class Checkout(models.Model):
     is_closed = models.BooleanField(_(u'Caisse fermée'), default=False)
 
     class Meta:
-        app_label="easycheckout"
         verbose_name = _(u'Caisse')
         verbose_name_plural = _(u'Caisse')
 
@@ -149,12 +148,11 @@ class CustomerType(models.Model):
     slug = models.CharField(max_length=100, blank=False, verbose_name=_('slug'), help_text=_('Slug'))
     order = models.IntegerField('Ordre', blank=True, null=True, default=0)
     information = models.CharField(verbose_name=_(u'Information'), max_length=100, null=True,blank=True)
-    selected = models.BooleanField(_('is active'), default=False)
     price = models.DecimalField(verbose_name=_(u'Price'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True)
     
     class Meta:
-        verbose_name = _(u'4 - customer type')
-        verbose_name_plural = _(u'4 - customer types')
+        verbose_name = _(u'customer type')
+        verbose_name_plural = _(u'customer types')
         ordering = ['order']
 
     def __str__(self):
@@ -174,9 +172,6 @@ class Order(models.Model):
     name = models.CharField(verbose_name=_(u"Name"), max_length=100, null=True, blank=True)
     email = models.EmailField(verbose_name=_(u"Email"), null=True, blank=True)
     phone = models.CharField(verbose_name=_(u"Phone"), max_length=100, null=True, blank=True)
-    address = models.CharField(verbose_name=_(u"Address"), max_length=250, null=True, blank=True)
-    zipcode = models.CharField(verbose_name=_(u"Zipcode"), max_length=100, null=True, blank=True)
-    city = models.CharField(verbose_name=_(u"City"), max_length=100, null=True, blank=True)
     infos = models.CharField(verbose_name=_(u"Notes"), max_length=500, blank=True, null=True)
     is_booked = models.BooleanField(_('is booked'), default=False)
     is_updated = models.BooleanField(_('is_updated'), default=False)
@@ -184,7 +179,6 @@ class Order(models.Model):
     moderated = models.BooleanField(_('is moderated'), default=False)
     generated = models.BooleanField(_(u'Commande enregistrée'), default=False)
     checkout = models.ForeignKey(Checkout, verbose_name=_('checkout'), blank=True, null=True, on_delete=models.CASCADE)
-    tickets = models.URLField(verbose_name=_(u'ticket(s) à imprimer'), null=True, blank=True) 
 
     class Meta:
         verbose_name = _(u' order')
@@ -199,7 +193,7 @@ class Order(models.Model):
         if tickets:
             return tickets
         else:
-            return ''
+            return None
             
     def get_avoir(self):
         avoir = Avoir.objects.filter(order_id=self.pk)
@@ -214,7 +208,7 @@ class Order(models.Model):
     def check_is_printed(self):
         if self.generated is True:
             raise ValidationError(
-            'Cette commande a déjà été enregistrée, veuillez créer une nouvelle commande'
+            'Cette commande a déjà été enregistrée, veuillez créer une nouvelle commande !'
         )
 
     def save(self, *args, **kwargs):
@@ -237,8 +231,8 @@ class Ticket(models.Model):
     is_cancelled = models.BooleanField(u'is_cancelled', default=False)
     
     class Meta:
-        verbose_name = _(u'6 - ticket')
-        verbose_name_plural = _(u'6 - tickets')
+        verbose_name = _(u'ticket')
+        verbose_name_plural = _(u'tickets')
 
 
 class Avoir(models.Model):

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { update_search_filter, get_order_list } from '../actions/orderAction'
+import { update_search_filter, get_order_list } from 'Actions/orderAction'
 import { debounce } from '../utils/index'
 import CalendarContainer from '../container/calendarContainer'
-import Logo from "../assets/pictos/logo_biljett.jpg"
-import Clock from "../assets/pictos/timer.png"
-import MagnifingGlass from "../assets/pictos/loupe_picto.png"
+import Logo from "Pictos/logo_biljett.jpg"
+import Clock from "Pictos/timer.png"
+import MagnifingGlass from "Pictos/loupe_picto.png"
 
 import '../assets/scss/header.scss'
 

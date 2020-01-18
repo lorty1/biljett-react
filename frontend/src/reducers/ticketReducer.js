@@ -3,8 +3,8 @@ import {
     UPDATE_STATION_TICKET,
     UPDATE_CUSTOMER_TICKET,
     UPDATE_PLACE_TICKET
-} from '../actions/ticketAction';
-import { CREATE_ORDER } from '../actions/orderAction'
+} from 'Actions/ticketAction';
+import { CREATE_ORDER } from 'Actions/orderAction'
 
 const initialState = {
     ticket: {

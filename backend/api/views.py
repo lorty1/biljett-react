@@ -69,6 +69,7 @@ class OrderList(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all().order_by('-id')
     pagination_class = OrderListPagination
+    permission_classes = [IsAuthenticated]
     
     def retrieve_object(self, id):
         try:
@@ -117,10 +118,6 @@ class TicketList(viewsets.ModelViewSet):
         except:
             raise Http404
 
-    def check_order_in_data(self, data):
-        if not 'order_id' in data:
-            raise ValidationError('Aucune commande n\'est sélectionné')
-
     def retrieve_order(self, pk):
         try:
             return Order.objects.get(pk=pk)
@@ -137,13 +134,9 @@ class TicketList(viewsets.ModelViewSet):
             train.actual_capacity += place
 
     def create(self, request):
-        try: # check if order in request.data
-            self.check_order_in_data(request.data)
-        except Exception as e:
-            return Response({'commande': e}, status=status.HTTP_404_NOT_FOUND)
 
         ticket_data = {
-            'order_id': request.data['order_id'],
+            'order_id': request.data['order_id'] if 'order_id' in request.data else None,
             'departure_id': request.data['ticket']['departure']['train'],
             'come_back_id': request.data['ticket']['comeBack']['train'],
             'customer_id': request.data['ticket']['customerType']['id'],
@@ -163,7 +156,9 @@ class TicketList(viewsets.ModelViewSet):
             order = self.retrieve_order(ticket_data['order_id'])
             try: # check if order has been already print
                 order.check_is_printed()
-                order.total += Decimal(request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number'])
+                order.total += Decimal(
+                    request.data['ticket']['customerType']['price'] * request.data['ticket']['customerType']['number']
+                    )
                 order.save()
             except Exception as e:
                 return Response({'order': e}, status=status.HTTP_400_BAD_REQUEST)
@@ -174,11 +169,10 @@ class TicketList(viewsets.ModelViewSet):
     def delete(self, request, pk=None):
         data = request.data
         order = self.retrieve_order(data[0]['order_id'])
-        if order.generated == True: # if payment done, avoir created
+        if order.generated == True: # if payment has done, avoir will be created
             avoir, created = Avoir.objects.get_or_create(
                 order_id=order.pk,
             )
-        #supression total ou partiel du ticket
         for item in data:
             ticket = self.retrieve_object(item['id'])
             #ticket deleted if placeDeleted == ticket.number:
@@ -190,7 +184,7 @@ class TicketList(viewsets.ModelViewSet):
                 order.total -= ticket.customer_type.price * item['placeDeleted']
             ticket.save()
             order.save()
-            try: # if variable avoir created calcul the amount refunded
+            try: # if variable avoir has been create we compute the amount refunded
                 avoir.total = ticket.customer_type.price * item['placeDeleted']
                 avoir.cancelled += item['placeDeleted']
                 avoir.save()

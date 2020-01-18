@@ -20,7 +20,7 @@ export const update_station_ticket = ride => {
                         station: ride.station
                     }
                 })
-                resolve('ok')
+                resolve()
             }
             catch(error){
                 reject(error)

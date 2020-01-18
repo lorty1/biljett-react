@@ -10,7 +10,19 @@ import App from "./container/app";
 import reducers from "./reducers";
 
 const invariant = require('redux-immutable-state-invariant').default()
-const createStoreWithMiddleware = applyMiddleware(thunk, invariant)(createStore);
+
+const AuthMiddleWare = store => next => action => {
+  if (action.type == 'ACCESS_FORBIDDEN') {
+    if(!process.env.NODE_ENV || process.env.NODE_ENV == 'development') {
+      return window.location = 'http://localhost:8000/admin/login?next=/'
+    }else {
+      return window.location = '/admin/login?next=/'
+    }
+  }
+  next(action);
+}
+const createStoreWithMiddleware = applyMiddleware(thunk, invariant, AuthMiddleWare)(createStore);
+
 
 ReactDOM.render(
   <Provider

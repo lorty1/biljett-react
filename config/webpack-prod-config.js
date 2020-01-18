@@ -32,6 +32,11 @@ module.exports = merge(common, {
         NODE_ENV: JSON.stringify("production")
       }
     }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+      Axios: 'axios',
+      ReactDom: 'react-dom'
+    }),
     // Extract text/(s)css from a bundle, or bundles, into a separate file.
     new ExtractTextPlugin("styles.css")
   ],
@@ -54,8 +59,8 @@ module.exports = merge(common, {
       {
         // look for .css or .scss files.
         test: /\.(css|scss)$/,
-        // in the `src` directory
-        include: [path.resolve(paths.appSrc)],
+        // in the `assets` directory
+        include: [path.resolve(paths.appAssets)],
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [

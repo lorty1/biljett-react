@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import Calendar from '../components/calendarComponent';
-import { update_date } from '../actions/calendarAction';
+import Calendar from 'Components/calendarComponent';
+import { update_date } from 'Actions/calendarAction';
 import { display_date_formatted, display_date_formatted_calendar } from '../selectors/index'
 
 class CalendarContainer extends Component {
@@ -42,8 +42,8 @@ class CalendarContainer extends Component {
 const mapStateToProps = store => { // data from redux store
     return {
         date: store.dateStore.date,
-        dateFormatted: display_date_formatted(store),
-        dateFormattedCalendar: display_date_formatted_calendar(store)
+        dateFormatted: display_date_formatted(store.dateStore.date),
+        dateFormattedCalendar: display_date_formatted_calendar(store.dateStore.date)
     }
 }
 const mapDispatchToProps = {

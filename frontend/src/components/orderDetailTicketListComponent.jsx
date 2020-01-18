@@ -1,6 +1,6 @@
 import React from 'react'
-import decrementArrow from '../assets/pictos/previous_arrow.png';
-import incrementArrow from '../assets/pictos/next_arrow.png';
+import decrementArrow from 'Pictos/previous_arrow.png';
+import incrementArrow from 'Pictos/next_arrow.png';
 
 export default function orderDetailTicketListComponent({ ticket,placeDeleted,removed_ticket, index, place_to_deleted}) {
     return (

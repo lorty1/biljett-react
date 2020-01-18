@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import jsPDF from 'jspdf'
-import { order_update } from '../actions/orderAction'
-import { delete_ticket } from '../actions/ticketAction'
+import { order_update } from 'Actions/orderAction'
+import { delete_ticket } from 'Actions/ticketAction'
 import { debounce } from '../utils/index'
 import { backData } from '../utils/ticketB64.js';
-import OrderDetailTicketList from '../components/orderDetailTicketListComponent.jsx';
-import OrderResumeComponent from '../components/orderResumeComponent'
+import OrderDetailTicketList from 'Components/orderDetailTicketListComponent.jsx';
+import OrderResumeComponent from 'Components/orderResumeComponent'
 
 import '../assets/scss/orderDetail.scss'
 

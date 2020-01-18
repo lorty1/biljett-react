@@ -10,11 +10,10 @@ class Departure(models.Model):
     title = models.CharField(max_length=150, verbose_name=_('title'))
     slug = models.CharField(max_length=100, blank=False, verbose_name=_('slug'), help_text=_('Slug'))
     is_active = models.BooleanField(_('is active'), default=True)
-    selected = models.BooleanField(_('is selected'), default= False)
 
     class Meta:
-        verbose_name = _(u'3 - lieu de départ')
-        verbose_name_plural = _(u'3 - lieux de départs')
+        verbose_name = _(u'Station de départ')
+        verbose_name_plural = _(u'Stations de départs')
 
     def __str__(self):
         return self.title
@@ -30,7 +29,6 @@ class Ride(models.Model):
     title = models.CharField(max_length=100, blank=False, verbose_name=_('title'), help_text=_('Service title'))
     slug = models.CharField(max_length=100, blank=False, verbose_name=_('slug'), help_text=_('Slug'))
     is_active = models.BooleanField(_('is active'), default=True)
-    is_selected = models.BooleanField(_('is_selected'), default=False)
 
     class Meta:
         verbose_name =_(u'Heure de départ')
@@ -66,12 +64,6 @@ class Train(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Train, self).save(*args, **kwargs)
-    
-    def check_remaining_place(self, place):
-        if self.actual_capacity + place > self.total_capacity:
-            raise ValidationError(
-                'La capacité du train de {0} est dépassé !'.format(self.ride.departure_hour)
-            )
 
     def get_remaining_place(self):
         return self.total_capacity - self.actual_capacity

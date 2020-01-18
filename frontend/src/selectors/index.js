@@ -1,11 +1,10 @@
-import Moment from 'moment'
 
-export const display_date_formatted = (store) => {
-    return store.dateStore.date.format('dddd DD MMMM YYYY')
+export const display_date_formatted = date => {
+    return date.format('dddd DD MMMM YYYY')
 }
-export const ticket_date = store => {
-    return store.dateStore.date.format('YYYY-MM-DD')
+export const ticket_date = date => {
+    return date.format('YYYY-MM-DD')
 }
-export const display_date_formatted_calendar = store => {
-    return store.dateStore.date.format('dddd DD MMMM')
+export const display_date_formatted_calendar = date => {
+    return date.format('dddd DD MMMM')
 }

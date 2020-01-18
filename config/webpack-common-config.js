@@ -18,13 +18,15 @@ module.exports = {
     // 'Components/button' === '../../../components/button'
     alias: {
       Components: path.resolve(paths.appSrc, "components"),
+      Actions: path.resolve(paths.appSrc, "actions/"),
       Containers: path.resolve(paths.appSrc, "containers"),
       Reducers: path.resolve(paths.appSrc, "reducers"),
-      Pictures: path.resolve(paths.appSrc,'pictos'),
+      Pictos: path.resolve(paths.appAssets,'pictos/'),
       Fonts: path.resolve(paths.appSrc,'fonts'),
       Utils: path.resolve(paths.appSrc, "utils")
     }
   },
+  
   module: {
     rules: [
       {

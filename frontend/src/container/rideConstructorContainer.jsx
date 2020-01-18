@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import '../assets/scss/rideConstructor.scss';
-import RideComponent from '../components/rideComponent';
-import CustomerType from '../components/customerTypeComponent';
-import { update_place_ticket, update_customer_ticket, update_train_ticket, update_station_ticket, create_ticket } from '../actions/ticketAction';
+import RideComponent from 'Components/rideComponent';
+import  CustomerType from 'Components/customerTypeComponent';
+import { update_place_ticket, update_customer_ticket, update_train_ticket, update_station_ticket, create_ticket } from 'Actions/ticketAction';
 import { display_date_formatted, ticket_date } from '../selectors/index';
-import increment from '../assets/pictos/increment_picto.png';
-import decrement from '../assets/pictos/decrement_picto.png';
+import increment from 'Pictos/increment_picto.png';
+import decrement from 'Pictos/decrement_picto.png';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 class rideConstructorContainer extends Component {
@@ -19,9 +19,6 @@ class rideConstructorContainer extends Component {
                 this.setState({ rides: rides.data, customers: customerType.data })
             })
         ).catch(err=> {
-            if(err.response.status == 403) {
-                return this.props.login_redirect()
-            }
             this.props.show_error_messages(err.response.data)
         })
 
@@ -47,7 +44,6 @@ class rideConstructorContainer extends Component {
             trainComeBackSelected = null;
             this.setState({ trainDepartureSelected, trainComeBackSelected })
             this.get_trains().then(r => {
-                const { ticket } = this.props;
                 let { trainDepartureSelected, trainComeBackSelected } = this.state;
                 trainDepartureSelected = null;
                 trainComeBackSelected = null
@@ -97,7 +93,7 @@ class rideConstructorContainer extends Component {
                 trains.departure = response.data.departure
                 trains.comeBack = response.data.comeBack
                 this.setState({ trains })
-                resolve('ok')
+                resolve()
             }).catch(error => {
                 reject(error.response.data[0])
             })
@@ -134,9 +130,7 @@ class rideConstructorContainer extends Component {
         }
     }
     customer_selection(customer) {
-        console.log('cus',customer)
         var customerSelected = {}
-        let { ticket } = this.props
         let { customerChoosen } = this.state
         if(ticket.customerType.id !== customer.id) {
             customerSelected.id = customerChoosen = customer.id
@@ -188,12 +182,8 @@ class rideConstructorContainer extends Component {
             .then(response => {
                 this.get_trains()
             })
-            .catch(err => {
-                if (err.response.status == 403) {
-                    return this.props.login_redirect()
-                }
-                console.log('rr',err.status)
-                this.props.show_error_messages(err.response.data)
+            .catch(errpr => {
+                this.props.show_error_messages(error.response.data)
             })
     }
     render() {
@@ -233,8 +223,7 @@ const mapStateToProps = store => {
     return {
         order: store.orderStore.orderSelected,
         ticket: store.ticketStore.ticket,
-        showDate: display_date_formatted(store),
-        ticketDate: ticket_date(store)
+        ticketDate: ticket_date(store.dateStore.date)
     }
 }
 

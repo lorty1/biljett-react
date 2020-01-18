@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../assets/scss/modal.scss';
-import Picto from '../assets/pictos/warning.png'
+import Picto from 'Pictos/warning.png'
 
 class ErrorModalComponent extends Component {
     
