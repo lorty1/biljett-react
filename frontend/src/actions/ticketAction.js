@@ -1,5 +1,5 @@
 import Axios from "axios"
-
+import { ACCESS_FORBIDDEN } from './orderAction'
 export const UPDATE_TRAIN_TICKET = 'UPDATE_TRAIN_TICKET'
 export const UPDATE_STATION_TICKET = 'UPDATE_STATION_TICKET'
 export const CREATE_TICKET = 'CREATE_TICKET'
@@ -75,8 +75,13 @@ export const delete_ticket = tickets=> {
                     payload: response.data
                 })
                 resolve()
-            }).catch(err=> {
-                reject(err)
+            }).catch(error => {
+                if( error.response.status == 403 ) {
+                    dispatch({
+                        type: ACCESS_FORBIDDEN
+                    })
+                }
+                reject(error)
             })
         })
     }
@@ -101,6 +106,11 @@ export const create_ticket = (order_id,ticket) => {
                 })
                 resolve(response)
             }).catch(error=> {
+                if( error.response.status == 403 ) {
+                    dispatch({
+                        type: ACCESS_FORBIDDEN
+                    })
+                }
                 reject(error)
             })
         })

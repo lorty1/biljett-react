@@ -14,7 +14,7 @@ const invariant = require('redux-immutable-state-invariant').default()
 const AuthMiddleWare = store => next => action => {
   if (action.type == 'ACCESS_FORBIDDEN') {
     if(!process.env.NODE_ENV || process.env.NODE_ENV == 'development') {
-      return window.location = 'http://localhost:8000/admin/login?next=/'
+      return window.location = 'http://localhost:8000/admin/login'
     }else {
       return window.location = '/admin/login?next=/'
     }

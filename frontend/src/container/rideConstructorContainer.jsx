@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../assets/scss/rideConstructor.scss';
 import RideComponent from 'Components/rideComponent';
+import PlaceComponent from 'Components/placeComponent';
 import  CustomerType from 'Components/customerTypeComponent';
 import { update_place_ticket, update_customer_ticket, update_train_ticket, update_station_ticket, create_ticket } from 'Actions/ticketAction';
 import { display_date_formatted, ticket_date } from '../selectors/index';
-import increment from 'Pictos/increment_picto.png';
-import decrement from 'Pictos/decrement_picto.png';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 class rideConstructorContainer extends Component {
@@ -131,8 +130,9 @@ class rideConstructorContainer extends Component {
     }
     customer_selection(customer) {
         var customerSelected = {}
-        let { customerChoosen } = this.state
-        if(ticket.customerType.id !== customer.id) {
+        let { customerChoosen } = this.state;
+        let { ticket } = this.props;
+        if(customerChoosen !== customer.id) {
             customerSelected.id = customerChoosen = customer.id
             customerSelected.price = customer.price
         }else {
@@ -141,18 +141,6 @@ class rideConstructorContainer extends Component {
         }
         this.setState({ customerChoosen })
         return this.props.update_customer_ticket(customerSelected)
-    }
-    list_place = () => {
-        let { placeArray, placeSelected } = this.state
-        const list = placeArray.map(element => {
-
-            return (
-                <button
-                    className={this.props.ticket.customerType.number == element ? ' selected' : ''}
-                    onClick={() => { this.place_selected(element) }} key={element}>{element}</button>
-            )
-        })
-        return list
     }
     update_index = indexAction => {
         let { placeArray } = this.state
@@ -182,7 +170,7 @@ class rideConstructorContainer extends Component {
             .then(response => {
                 this.get_trains()
             })
-            .catch(errpr => {
+            .catch(error => {
                 this.props.show_error_messages(error.response.data)
             })
     }
@@ -191,30 +179,29 @@ class rideConstructorContainer extends Component {
             <div className="ride-constructor-container flex-container--column">
                 <RideComponent
                     rides={this.state.rides}
-                    ticket={this.props.ticket}
                     station_selection={(direction,station)=>this.station_selection(direction, station)}
                     trainDepartureSelected={this.state.trainDepartureSelected}
                     trainComeBackSelected={this.state.trainComeBackSelected}
+                    ticket={this.props.ticket}
                     trains={this.state.trains}
                     train_selection={(train, direction)=>this.train_selection(train, direction)}
                 ></RideComponent>
                 <CustomerType
                     customerChoosen={this.state.customerChoosen}
                     customers={this.state.customers}
-                    ticket={this.props.ticket}
                     customer_selection={ customer => this.customer_selection(customer) }
                 ></CustomerType>
-                <section className="place-selection" >
-                    <button disabled={this.state.placeArray[0] < 2} onClick={() => { this.update_index('decrement') }}>
-                        <img src={decrement} width="48px" alt="decrement picto"/>
-                    </button>
-                    {this.list_place()}
-                    <button disabled={this.state.placeArray[this.state.placeArray.length - 1] >= 60} onClick={() => { this.update_index('increment') }}>
-                        <img src={increment} width="48px" alt="increment_logo"/>
-                    </button>
-                </section>
-                <button onClick={() => this.new_ticket()} className="border-top violet-bkg add-ticket-button"> Ajouter un ticket</button>
-
+                <PlaceComponent
+                    placeArray={this.state.placeArray}
+                    placeSelected={this.state.placeSelected}
+                    update_index={direction => this.update_index(direction)}
+                    place_selected={place=> this.place_selected(place)}>
+                </PlaceComponent>
+                <button 
+                    onClick={() => this.new_ticket()} 
+                    className="border-top violet-bkg add-ticket-button"> 
+                    Ajouter un ticket
+                </button>
             </div>
         )
     }

@@ -63,6 +63,12 @@ export function get_order(id) {
                 type: GET_ORDER,
                 payload: response.data
             })
+        }).catch(error => {
+            if(error.response.status == 403) {
+                dispatch({
+                    type: ACCESS_FORBIDDEN
+                })
+            }
         })
     }
 }
@@ -82,6 +88,12 @@ export function create_order(reference) {
                 type: CREATE_ORDER,
                 payload: response.data
             })
+        }).catch(error => {
+            if(error.response.status == 403) {
+                dispatch({
+                    type: ACCESS_FORBIDDEN
+                })
+            }
         })
     }
 }
@@ -109,6 +121,11 @@ export const order_update = data => {
                     })
                     resolve()
                 }).catch(error=> {
+                    if(error.response.status == 403) {
+                        dispatch({
+                            type: ACCESS_FORBIDDEN
+                        })
+                    }
                     reject(error)
                 })
             })

@@ -8,7 +8,7 @@ class customerTypeComponent extends Component {
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
                         className={"btn--customer flex-container adult-tarif" +
-                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
+                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/adult_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -20,7 +20,7 @@ class customerTypeComponent extends Component {
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
                         className={"btn--customer flex-container border-right child-tarif" +
-                         (this.props.ticket.customerType.id == customer.id ? ' selected' : '') }>
+                         (this.props.customerChoosen == customer.id ? ' selected' : '') }>
                             <img src={require('Pictos/children_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -32,7 +32,7 @@ class customerTypeComponent extends Component {
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
                         className={"btn--customer flex-container free-tarif" +
-                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
+                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/star_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Tarif</p>
@@ -47,7 +47,7 @@ class customerTypeComponent extends Component {
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
                         className={"btn--customer flex-container adult-tarif-voucher" +
-                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
+                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/voucher_adult.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Adulte</p>
@@ -59,7 +59,7 @@ class customerTypeComponent extends Component {
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
                         className={"btn--customer flex-container border-right child-tarif-voucher" +
-                        (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
+                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/voucher_children.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Enfant</p>
@@ -71,7 +71,7 @@ class customerTypeComponent extends Component {
                 return(
                     <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
                     className={"btn--customer flex-container group-tarif" +
-                    (this.props.ticket.customerType.id == customer.id ? ' selected' : '')}>
+                    (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                         <img src={require('Pictos/voucher_group.png')} alt=""/>
                         <div className="item-center flex-container--column">
                             <p className="item-center u-capitalize">Tarif</p>
