@@ -7,7 +7,8 @@ class rideComponent extends Component {
             return (
                 <button onClick={() => { this.props.station_selection('one-way', ride) }}
                     key={ride.id}
-                    className={'w25 flex-container--column departure-station'+
+                    className={
+                        'w25 flex-container--column departure-station'+
                         (this.props.ticket.departure.station == ride.id ? ' selected' : '')
                     }>
                     <img src={require('../assets/pictos/departure_picto.png')} alt="" />
@@ -37,30 +38,40 @@ class rideComponent extends Component {
         return comeBackList
     }
     train_departure_list = () => {
-        
         const trains = this.props.trains.departure
-        if(!trains || !this.props.ticket.departure.station) return ''
+        if(!trains || !this.props.ticket.departure.station) return []
         for (var i = trains.length;i < 12; i++) {
             trains.push({title: '-'})
         }
         const trainList = trains.map(train => {
-            return (
-                train.title !== '-' ?
-                    <button key={train.id }
-                    className={"flex-container--column train-item" + 
-                    (this.props.ticket.departure.train == train.id ? ' selected' : '') +
-                    (train.remaining < 1 ? ' completed' : '')}
-                    onClick={() => {this.props.train_selection(train.id,'one-way')}}>
+            if(train.title !== '-') {
+                return (
+                    <button 
+                        key={train.id}
+                        onClick={
+                            train.remaining > 0 ?
+                            () => {this.props.train_selection(train.id,'one-way')} :
+                            null
+                        }
+                        className={
+                            "flex-container--column train-item" +
+                            (this.props.ticket.departure.train == train.id ? ' selected' : '') +
+                            (train.remaining === 0 ? ' completed' : '')
+                        }>
                         <p className="item-center">{train.ride.departure_hour}</p>
                         {train.remaining > 0 ?
-                        <p className="item-center">{train.remaining}</p> :
-                        <p>Complet</p>}
+                            <p className="item-center">{train.remaining}</p> :
+                            <p>Complet</p>
+                        }
                     </button>
-                :<button key={Date.now()}className="flex-container train-item">
-                    <p className="item-center">{train.title}</p>
-                </button>
-
-            )
+                )
+            }else {
+                return (
+                    <button key={Date.now()} className="flex-container train-item">
+                        <p className="item-center">{train.title}</p>
+                    </button>
+                )
+            }
         })
         return trainList
     }

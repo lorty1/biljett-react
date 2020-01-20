@@ -5,6 +5,7 @@ import {
     UPDATE_PLACE_TICKET
 } from 'Actions/ticketAction';
 import { CREATE_ORDER } from 'Actions/orderAction'
+import { UPDATE_DATE } from 'Actions/calendarAction'
 
 const initialState = {
     ticket: {
@@ -67,6 +68,21 @@ export default function(store=initialState, action) {
                     customerType: {
                         ...store.ticket.customerType,
                         number: action.payload
+                    }
+                }
+            }
+        case UPDATE_DATE :
+            return {
+                ...store,
+                ticket:{
+                    ...store.ticket,
+                    departure: {
+                        ...store.ticket.departure,
+                        train: null
+                    },
+                    comeBack: {
+                        ...store.ticket.comeBack,
+                        train: null
                     }
                 }
             }

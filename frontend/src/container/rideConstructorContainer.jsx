@@ -37,17 +37,12 @@ class rideConstructorContainer extends Component {
         placesIndex: 1
     }
     componentDidUpdate(prevProps, prevState) {
+        // if date has changed, train's list reloaded
         if (prevProps.ticketDate !== this.props.ticketDate && this.props.ticket.departure.station) {
             let { trainDepartureSelected, trainComeBackSelected } = this.state
-            trainDepartureSelected = null;
-            trainComeBackSelected = null;
+            trainDepartureSelected = trainComeBackSelected = null;
             this.setState({ trainDepartureSelected, trainComeBackSelected })
-            this.get_trains().then(r => {
-                let { trainDepartureSelected, trainComeBackSelected } = this.state;
-                trainDepartureSelected = null;
-                trainComeBackSelected = null
-                this.setState({ trainDepartureSelected, trainComeBackSelected })
-            })
+            this.get_trains()
         }
     }
     station_selection(direction, station) {
@@ -60,7 +55,7 @@ class rideConstructorContainer extends Component {
             this.props.update_station_ticket({
                 direction: 'departure',
                 station: departureStation
-            }).then(response=> {
+            }).then( ()=> {
                 this.get_trains()
             })
         } else {
@@ -78,7 +73,6 @@ class rideConstructorContainer extends Component {
     }
 
     get_trains = () => {
-        return new Promise((resolve, reject) => {
             let { trains } = this.state
             Axios({
                 method: 'get',
@@ -92,11 +86,9 @@ class rideConstructorContainer extends Component {
                 trains.departure = response.data.departure
                 trains.comeBack = response.data.comeBack
                 this.setState({ trains })
-                resolve()
             }).catch(error => {
-                reject(error.response.data[0])
+                this.props.show_error_messages(error.response.data)
             })
-        })
     }
     train_selection = (train, direction) => {
         const { ticket } = this.props;

@@ -1,4 +1,8 @@
-import {GET_ORDER_LIST, UPDATE_PENDING, GET_ORDER, CREATE_ORDER,UPDATE_ORDER, UPDATE_FILTER} from 'Actions/orderAction.js'
+import {
+    GET_ORDER_LIST, UPDATE_PENDING,
+    GET_ORDER, CREATE_ORDER,
+    UPDATE_ORDER, UPDATE_FILTER
+} from 'Actions/orderAction.js'
 import { CREATE_TICKET, DELETE_TICKET } from 'Actions/ticketAction'
 
 const initialState = {

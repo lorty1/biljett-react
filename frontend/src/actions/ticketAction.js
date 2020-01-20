@@ -104,7 +104,7 @@ export const create_ticket = (order_id,ticket) => {
                     type: CREATE_TICKET,
                     payload: response.data
                 })
-                resolve(response)
+                resolve()
             }).catch(error=> {
                 if( error.response.status == 403 ) {
                     dispatch({

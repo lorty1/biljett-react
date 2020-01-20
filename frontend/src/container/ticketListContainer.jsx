@@ -6,7 +6,8 @@ class TicketListContainer extends Component {
     list = () => {
         const ticketIteration = this.props.order.tickets_list.map((ticket, index) => {
                 return (
-                    <div 
+                    <div
+                    key={ticket.id}
                     className={
                         this.props.deleteTicketMode == false ? 'item' : 'item-deleted'    
                     }

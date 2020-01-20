@@ -7,8 +7,8 @@ class customerTypeComponent extends Component {
                 case 'adult':
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
-                        className={"btn--customer flex-container adult-tarif" +
-                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
+                            className={"btn--customer flex-container adult-tarif" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/adult_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -19,8 +19,8 @@ class customerTypeComponent extends Component {
                 case 'children':
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
-                        className={"btn--customer flex-container border-right child-tarif" +
-                         (this.props.customerChoosen == customer.id ? ' selected' : '') }>
+                            className={"btn--customer flex-container border-right child-tarif" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '') }>
                             <img src={require('Pictos/children_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize"> {customer.title}</p>
@@ -31,8 +31,8 @@ class customerTypeComponent extends Component {
                 case 'free':
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)} 
-                        className={"btn--customer flex-container free-tarif" +
-                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
+                            className={"btn--customer flex-container free-tarif" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/star_picto.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Tarif</p>
@@ -46,8 +46,8 @@ class customerTypeComponent extends Component {
                 case 'adult-voucher':
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
-                        className={"btn--customer flex-container adult-tarif-voucher" +
-                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
+                            className={"btn--customer flex-container adult-tarif-voucher" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/voucher_adult.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Adulte</p>
@@ -58,8 +58,8 @@ class customerTypeComponent extends Component {
                 case 'children-voucher':
                     return(
                         <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
-                        className={"btn--customer flex-container border-right child-tarif-voucher" +
-                        (this.props.customerChoosen == customer.id ? ' selected' : '')}>
+                            className={"btn--customer flex-container border-right child-tarif-voucher" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '')}>
                             <img src={require('Pictos/voucher_children.png')} alt=""/>
                             <div className="item-center flex-container--column">
                                 <p className="item-center u-capitalize">Enfant</p>
@@ -68,21 +68,20 @@ class customerTypeComponent extends Component {
                         </button>
                     )
                 case 'group':
-                return(
-                    <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
-                    className={"btn--customer flex-container group-tarif" +
-                    (this.props.customerChoosen == customer.id ? ' selected' : '')}>
-                        <img src={require('Pictos/voucher_group.png')} alt=""/>
-                        <div className="item-center flex-container--column">
-                            <p className="item-center u-capitalize">Tarif</p>
-                            <p className={
-                                "item-center u-uppercase"
-                                + (customer.slug == 'free' ? ' txt-violet' : ' txt-white')}> {customer.title}
-                            </p>
-                        </div>
-                    </button>
-                )
-
+                    return(
+                        <button key={customer.id} onClick={()=>this.props.customer_selection(customer)}
+                            className={"btn--customer flex-container group-tarif" +
+                                (this.props.customerChoosen == customer.id ? ' selected' : '')}>
+                            <img src={require('Pictos/voucher_group.png')} alt=""/>
+                            <div className="item-center flex-container--column">
+                                <p className="item-center u-capitalize">Tarif</p>
+                                <p className={
+                                    "item-center u-uppercase"
+                                    + (customer.slug == 'free' ? ' txt-violet' : ' txt-white')}> {customer.title}
+                                </p>
+                            </div>
+                        </button>
+                    )
             }
         })
         return customers

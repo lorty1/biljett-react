@@ -98,12 +98,7 @@ export function create_order(reference) {
     }
 }
 export const order_update = data => {
-    return (dispatch, getState) => {
-/*             dispatch({
-                type: UPDATE_PENDING
-            }) */
-            var ordersList = getState().orderStore.orders
-            var indexOrderSelected = '';
+    return dispatch => {
             return new Promise((resolve, reject) => {
                 Axios({
                     method: 'patch',
