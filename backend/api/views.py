@@ -169,15 +169,13 @@ class TicketList(viewsets.ModelViewSet):
     def delete(self, request, pk=None):
         data = request.data
         order = self.retrieve_order(data[0]['order_id'])
-        if order.generated == True: # if payment has done, avoir will be created
-            avoir, created = Avoir.objects.get_or_create(
-                order_id=order.pk,
-            )
+        # if payment has done, avoir will be created
+        avoir = Avoir.objects.create(order_id=order.pk) if order.generated == True else None
+        print('avoir', avoir)
         for item in data:
             ticket = self.retrieve_object(item['id'])
             #ticket deleted if placeDeleted == ticket.number:
             if ticket.number == item['placeDeleted']:
-                order.total -= ticket.customer_type.price * ticket.number
                 ticket.is_cancelled = True
             else:
                 ticket.number -= item['placeDeleted']
