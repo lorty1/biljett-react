@@ -17,9 +17,15 @@ class CustomerTypeAdmin(admin.ModelAdmin):
     class meta:
         model = CustomerType
 
+class AvoirInline(admin.TabularInline):
+    extra= 1
+    model = Avoir
+
 class OrderAdmin(admin.ModelAdmin):
     class meta:
         model: Order
+    inlines = [AvoirInline]
+
 class CheckoutAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Caisse', {
