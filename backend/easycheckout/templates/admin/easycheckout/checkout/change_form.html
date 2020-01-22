@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async() => {
   var chartAdult = [];
   var chartAdultVoucher = [];
   var chartChild = [];
-  var chartChildVoucher = []
+  var chartChildVoucher = [];
   var chartGroup = []
   var chartAvoir = [];
 
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     chartDataPie = [data.total_A, data.total_B]
     chartAdult.push({'x':new Date(data.created_on), 'y': data.adults_tickets_A + data.adults_tickets_B})
     chartChild.push({'x':new Date(data.created_on), 'y':  data.childs_tickets_A + data.childs_tickets_B})
+    chartGroup.push({'x': new Date(data.created_on), 'y': data.adults_tickets_5_A + data.adults_tickets_5_B})
     chartAdultVoucher.push({'x':new Date(data.created_on), 'y': data.adults_tickets_voucher_A + data.adults_tickets_voucher_B})
     chartChildVoucher.push({'x':new Date(data.created_on), 'y': data.childs_tickets_voucher_A + data.childs_tickets_voucher_B})
   }).then(()=> { // charge different chart
@@ -100,6 +101,11 @@ document.addEventListener('DOMContentLoaded', async() => {
           backgroundColor: '#feca0a',
         },
         {
+          label: 'Groupe',
+          data: chartGroup,
+          backgroundColor: '#FF3300'
+        },
+        {
           label: 'Voucher adulte',
           data: chartAdultVoucher,
           backgroundColor: '#1393b9',
@@ -109,6 +115,7 @@ document.addEventListener('DOMContentLoaded', async() => {
           data: chartChildVoucher,
           backgroundColor: '#feca0a',
         },
+
       ]
     },
     options: {

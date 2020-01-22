@@ -54,7 +54,6 @@ class CheckoutAdmin(admin.ModelAdmin):
                 return [item.name for item in obj._meta.fields if item.name not in ['start','is_closed']]
             else:
                 return [item.name for item in obj._meta.fields]
-
         return self.readonly_fields
 
     def has_add_permission(self, request, obj=None):
@@ -146,7 +145,7 @@ class CheckoutAdmin(admin.ModelAdmin):
                                 F('childs_tickets_voucher_A') + F('childs_tickets_voucher_B') +
                                 F('adults_tickets_voucher_A') + F('adults_tickets_voucher_B') +
                                 F('adults_tickets_5_A') + ('adults_tickets_5_B')
-                                )
+                    )
                 )
             )
 

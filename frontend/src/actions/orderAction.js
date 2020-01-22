@@ -8,6 +8,7 @@ export const UPDATE_ORDER = 'UPDATE_ORDER'
 export const UPDATE_PENDING = 'UPDATE_PENDING'
 import store from '../reducers'
 export const get_cookie = ()=> {
+    console.log('sdfdffff456',document.cookie.split('=')[1])
     return document.cookie.split('=')[1]
 }
 
