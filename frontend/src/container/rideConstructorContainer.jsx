@@ -44,6 +44,12 @@ class rideConstructorContainer extends Component {
             this.setState({ trainDepartureSelected, trainComeBackSelected })
             this.get_trains()
         }
+        // reset customer and place if order has changed !
+        if(prevProps.order.id && prevProps.order.id !== this.props.order.id) {
+            let { customerChoosen, placeSelected } = this.state
+            customerChoosen = placeSelected = null
+            this.setState({ customerChoosen, placeSelected })
+        } 
     }
     station_selection(direction, station) {
         const { ticket } = this.props
@@ -156,6 +162,7 @@ class rideConstructorContainer extends Component {
         this.props.update_place_ticket(numberPlace)
     }
     new_ticket = () => {
+        let { customerChoosen, placeSelected } = this.state;
         const { ticket } = this.props
         const { id } = this.props.order
         this.props.create_ticket(id, ticket)
