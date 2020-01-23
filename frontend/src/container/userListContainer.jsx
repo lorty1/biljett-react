@@ -15,7 +15,12 @@ class userListContainer extends Component {
         const orders = this.props.orderList.results
         const list = orders.map(order => {
             return (
-                <div key={order.reference} onClick={()=> this.props.get_order(order.id) } className="pointer users-list-item">
+                <div 
+                    key={order.reference}
+                    onClick={()=> this.props.get_order(order.id) }
+                    className={"pointer users-list-item" + 
+                    (order.id == this.props.orderSelected.id ? ' selected' : '')
+                    }>
                     <p >{order.reference}</p>
                     <Fragment>
                         <p>{order.name}</p>
@@ -59,6 +64,7 @@ class userListContainer extends Component {
 const mapStateToProps = store => { // data from redux store
     return {
         orderList: store.orderStore.orders,
+        orderSelected: store.orderStore.orderSelected,
         search: store.orderStore.searchFilter
     }
 }

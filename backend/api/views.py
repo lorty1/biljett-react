@@ -171,7 +171,6 @@ class TicketList(viewsets.ModelViewSet):
         order = self.retrieve_order(data[0]['order_id'])
         # if payment has done, avoir will be created
         avoir = Avoir.objects.create(order_id=order.pk) if order.generated == True else None
-        print('avoir', avoir)
         for item in data:
             ticket = self.retrieve_object(item['id'])
             #ticket deleted if placeDeleted == ticket.number:
