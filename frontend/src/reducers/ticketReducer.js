@@ -2,7 +2,8 @@ import {
     UPDATE_TRAIN_TICKET,
     UPDATE_STATION_TICKET,
     UPDATE_CUSTOMER_TICKET,
-    UPDATE_PLACE_TICKET
+    UPDATE_PLACE_TICKET,
+    CREATE_TICKET
 } from 'Actions/ticketAction';
 import { CREATE_ORDER } from 'Actions/orderAction'
 import { UPDATE_DATE } from 'Actions/calendarAction'
@@ -83,6 +84,18 @@ export default function(store=initialState, action) {
                     comeBack: {
                         ...store.ticket.comeBack,
                         train: null
+                    }
+                }
+            }
+        case CREATE_TICKET:
+            return {
+                ...store, 
+                ticket: {
+                    ...store.ticket,
+                    customerType: {
+                        id: null,
+                        price: null,
+                        number:null
                     }
                 }
             }

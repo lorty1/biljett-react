@@ -13,7 +13,7 @@ class Departure(models.Model):
 
     class Meta:
         verbose_name = _(u'Station de départ')
-        verbose_name_plural = _(u'Stations de départs')
+        verbose_name_plural = _(u'Stations de départ')
 
     def __str__(self):
         return self.title
@@ -32,7 +32,7 @@ class Ride(models.Model):
 
     class Meta:
         verbose_name =_(u'Heure de départ')
-        verbose_name_plural =_(u'Heure de départ')
+        verbose_name_plural =_(u'Heures de départ')
     
     def __str__(self):
         return '{0}: {1}'.format(self.departure.title, self.departure_hour)
@@ -54,8 +54,8 @@ class Train(models.Model):
 
     class Meta:
         ordering = ['date_on']
-        verbose_name = _(u' train')
-        verbose_name_plural = _(u' trains')
+        verbose_name = _(u' Train')
+        verbose_name_plural = _(u' Trains')
 
     def __str__(self):
         return str('%s:%s-%s') % (self.date_on,self.ride.departure_hour,self.actual_capacity)

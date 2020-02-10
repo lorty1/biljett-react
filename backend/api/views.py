@@ -67,7 +67,7 @@ class RideList(viewsets.ModelViewSet):
 
 class OrderList(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
-    queryset = Order.objects.all().order_by('-id')
+    queryset = Order.objects.all().order_by('-created_on')
     pagination_class = OrderListPagination
     permission_classes = [IsAuthenticated]
     

@@ -167,6 +167,9 @@ class rideConstructorContainer extends Component {
         const { id } = this.props.order
         this.props.create_ticket(id, ticket)
             .then(response => {
+                customerChoosen = null
+                placeSelected = null
+                this.setState({customerChoosen, placeSelected})
                 this.get_trains()
             })
             .catch(error => {
