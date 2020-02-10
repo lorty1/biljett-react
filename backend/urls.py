@@ -28,6 +28,7 @@ router.register(r'order', views.OrderList, 'order-list')
 router.register(r'customer-type', views.CustomerList, 'customer-type')
 router.register(r'ticket', views.TicketList, 'ticket-list')
 router.register(r'checkout', views.CheckoutList, 'checkout-list')
+router.register(r'test',views.AuthTest, 'auth-test')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

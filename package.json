@@ -23,7 +23,6 @@
   "homepage": "https://github.com/lorty1/biljett-react#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "fast-deep-equal": "^3.1.1",
     "jspdf": "^1.3.5",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",

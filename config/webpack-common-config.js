@@ -11,7 +11,6 @@ module.exports = {
     })
   ],
   resolve: {
-    // File extensions. Add others and needed (e.g. scss, json)
     extensions: [".js", ".jsx"],
     modules: ["node_modules"],
     // Aliases help with shortening relative paths

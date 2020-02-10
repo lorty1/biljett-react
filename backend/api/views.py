@@ -200,3 +200,8 @@ class CheckoutList(viewsets.ModelViewSet):
     def list(self, request):
         serializer = CheckoutSerializer(self.queryset,many=True)
         return Response(serializer.data)
+
+class AuthTest(viewsets.ModelViewSet):
+    def list(self, request):
+        t = 'ok'
+        return Response(t)

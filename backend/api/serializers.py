@@ -66,7 +66,9 @@ class OrderSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         for key in validated_data:
             if key is 'generated':
-                checkout, created = Checkout.objects.get_or_create(created_on=datetime.datetime.today())
+                checkout, created = Checkout.objects.get_or_create(
+                    created_on=datetime.datetime.today()
+                )
                 instance.checkout = checkout
             value = validated_data.get(key)
             setattr(instance, key, validated_data.get(key))
@@ -74,25 +76,11 @@ class OrderSerializer(serializers.ModelSerializer):
         return instance
 
     class Meta:
-        model= Order
-        fields= [
-            'reference',
-            'id',
-            'created_on',
-            'book_to',
-            'payment',
-            'total',
-            'name',
-            'email',
-            'phone',
-            'infos',
-            'is_booked',
-            'is_updated',
-            'is_cancelled',
-            'moderated',
-            'generated',
-            'tickets_list',
-            'avoir'
+        model = Order
+        fields = [
+            'reference','id','created_on','book_to','payment','total','name','email',
+            'phone','infos','is_booked','is_updated','is_cancelled','moderated','generated',
+            'tickets_list','avoir'
         ]
         
 class TicketSerializer(serializers.ModelSerializer):

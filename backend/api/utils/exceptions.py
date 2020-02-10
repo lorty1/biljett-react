@@ -4,7 +4,6 @@ def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
     # to get the standard error response.
     response = exception_handler(exc, context)
-    print('yeah error')
     # Update the structure of the response data.
     if response is not None:
         customized_response = {}
@@ -25,7 +24,6 @@ class CapacityTrainError(Exception):
     pass
 
 class TicketError(Exception):
-    print('yeah')
     def __init___(self,dErrorArguments):
         Exception.__init__(self,"my exception was raised with arguments {0}".format(dErrArguments))
         self.dErrorArguments = dErrorArguements

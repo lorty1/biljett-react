@@ -151,8 +151,8 @@ class CustomerType(models.Model):
     price = models.DecimalField(verbose_name=_(u'Price'),default=Decimal(0.00), max_digits=5, decimal_places=2, blank=True, null=True)
     
     class Meta:
-        verbose_name = _(u'customer type')
-        verbose_name_plural = _(u'customer types')
+        verbose_name = _(u'Type de client')
+        verbose_name_plural = _(u'Type de clients')
         ordering = ['order']
 
     def __str__(self):
@@ -181,12 +181,14 @@ class Order(models.Model):
     checkout = models.ForeignKey(Checkout, verbose_name=_('checkout'), blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = _(u' order')
-        verbose_name_plural = _(u'orders')
+        verbose_name = _(u' Commande')
+        verbose_name_plural = _(u'Commandes')
     
     def __str__(self):
         return self.reference
     
+    def get_reference(self):
+        return self.reference
 
     def get_tickets(self):
         tickets = Ticket.objects.filter(order_id=self.pk,is_cancelled=False)
@@ -231,8 +233,8 @@ class Ticket(models.Model):
     is_cancelled = models.BooleanField(u'is_cancelled', default=False)
     
     class Meta:
-        verbose_name = _(u'ticket')
-        verbose_name_plural = _(u'tickets')
+        verbose_name = _(u'Ticket')
+        verbose_name_plural = _(u'Tickets')
 
 
 class Avoir(models.Model):

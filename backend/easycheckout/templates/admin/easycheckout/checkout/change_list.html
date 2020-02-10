@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     }).then(response=> {
       return response.json() //transform response to Json format
     }).then(data=> {
+      console.log(data)
       chartitData = data
       let date_min = chartitData[0].date
       chartitData.forEach((d) => {

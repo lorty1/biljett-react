@@ -19,12 +19,26 @@ class CustomerTypeAdmin(admin.ModelAdmin):
 
 class AvoirInline(admin.TabularInline):
     extra= 1
+    fields = ('total','created_on')
+    readonly_fields = ['total','created_on']
     model = Avoir
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 class OrderAdmin(admin.ModelAdmin):
     class meta:
         model: Order
     inlines = [AvoirInline]
+
+    def has_delete_permission(self, request,obj=None):
+        return False
+
+    def has_change_permission(self, request,obj=None):
+        return False
 
 class CheckoutAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -99,10 +113,8 @@ class CheckoutAdmin(admin.ModelAdmin):
         return JsonResponse(list(chart_data), safe=False)
 
     def chart_data(self, period):
-        print('period', period)
         today = datetime.datetime.today()
         if period == 'month_actual':
-            print('today', today, today.year, today.month)
             return (
                 Checkout.objects
                 .filter(created_on__year = today.year,created_on__month=today.month)
@@ -159,9 +171,11 @@ class CheckoutAdmin(admin.ModelAdmin):
         model = Checkout
 
 class AvoirAdmin(admin.ModelAdmin):
-    
 
     def has_delete_permission(self, request, obj=None):
+        return False
+    
+    def has_change_permission(self, request, obj=None):
         return False
 
     class meta:

@@ -13,7 +13,7 @@ class orderResumeComponent extends Component {
             .map(element => {
                 return (
                     <tr>
-                        <td colSpan="3">{this.props.ticketsSorted[element].count} tarif {element}</td>
+                        <td colSpan="3">{this.props.ticketsSorted[element].count} tarif(s) {element}</td>
                         <td className="txtcenter">{this.props.ticketsSorted[element].total} €</td>
                     </tr>
                 )
@@ -22,7 +22,7 @@ class orderResumeComponent extends Component {
     }
     render() {
         return (
-            <div className= {"item-fluid flex-container--column" + (
+            <div className= {"item-fluid flex-container--column pas" + (
                 this.props.panelChoice == 'payment' ? ' payment-resume' :
                 this.props.panelChoice == 'registration' ? ' registration-resume':
                  ''

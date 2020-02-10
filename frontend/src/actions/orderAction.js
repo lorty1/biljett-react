@@ -6,10 +6,24 @@ export const UPDATE_TICKET = 'UPDATE_TICKET'
 export const UPDATE_FILTER = 'UPDATE_FILTER'
 export const UPDATE_ORDER = 'UPDATE_ORDER'
 export const UPDATE_PENDING = 'UPDATE_PENDING'
-import store from '../reducers'
+
 export const get_cookie = ()=> {
-    console.log('sdfdffff456',document.cookie.split('=')[1])
-    return document.cookie.split('=')[1]
+        var name = 'csrftoken';
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        console.log('cookie', cookieValue)
+    return cookieValue;
+    //return document.cookie.split('=')[1]
 }
 
 export function update_search_filter(str) {
